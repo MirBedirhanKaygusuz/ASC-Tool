@@ -1,0 +1,66 @@
+{
+  "platform": "apple",
+  "appId": "6449012345",
+  "appName": "Glamio",
+  "locale": "en-US",
+  "category": "Photo & Video",
+  "ageRating": "12+",
+
+  "text": {
+    "name": "Glamio: AI Photo & Beauty",
+    "subtitle": "Guaranteed medical-grade skin results in seconds",
+    "description": "Glamio is the #1 AI beauty app used by millions.\n\nOur clinically proven engine gives you guaranteed medical-grade results — remove acne, erase wrinkles and heal your skin in a single tap. See the difference instantly with our before/after slider.\n\nGlamio Pro unlocks everything:\n- Unlimited AI retouch\n- HD export with no watermark\n- Priority processing\n\nStart your 3-day free trial today. Only $9.99.\n\nDownload Glamio now and look flawless.",
+    "keywords": "facetune,remini,faceapp,beauty,ai photo,retouch,selfie,skin,botox,filter",
+    "promotionalText": "Limited time: 70% off Glamio Pro. Guaranteed results or your money back.",
+    "whatsNew": "Bug fixes and improvements."
+  },
+
+  "media": {
+    "icon": { "id": "icon", "path": "fixtures/media/icon.png", "width": 1024, "height": 1024 },
+    "screenshots": [
+      { "id": "ss1", "path": "fixtures/media/ss1.png", "deviceClass": "iphone_6_9", "order": 1, "width": 1290, "height": 2796 },
+      { "id": "ss2", "path": "fixtures/media/ss2.png", "deviceClass": "iphone_6_9", "order": 2, "width": 1290, "height": 2796 },
+      { "id": "ss3", "path": "fixtures/media/ss3.png", "deviceClass": "iphone_6_9", "order": 3, "width": 1290, "height": 2796 }
+    ]
+  },
+
+  "iap": [
+    {
+      "id": "com.glamio.pro.weekly",
+      "kind": "subscription",
+      "name": "Glamio Pro Weekly",
+      "description": "Unlimited AI retouch, HD export",
+      "price": 14.99,
+      "currency": "USD",
+      "duration": "P1W",
+      "freeTrial": { "duration": "P3D" }
+    },
+    {
+      "id": "com.glamio.pro.yearly",
+      "kind": "subscription",
+      "name": "Glamio Pro Yearly",
+      "description": "Unlimited AI retouch, HD export",
+      "price": 79.99,
+      "currency": "USD",
+      "duration": "P1Y"
+    }
+  ],
+
+  "urls": {
+    "privacy": "https://glamio.example.com/privacy",
+    "support": "https://glamio.example.com/support",
+    "marketing": "https://glamio.example.com"
+  },
+
+  "reviewNotes": {
+    "notes": "Please review the app. All features are available after signup."
+  },
+
+  "meta": {
+    "requiresLogin": true,
+    "generatesAiContent": true,
+    "hasUserGeneratedContent": false
+  },
+
+  "source": { "kind": "fixture", "fetchedAt": "2026-08-18T00:00:00Z" }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "greenlight",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Store Policy Checker — App Store / Google Play listing denetimi",
+  "type": "module",
+  "scripts": {
+    "check": "tsx src/cli.ts check",
+    "corpus": "tsx src/cli.ts corpus",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.117.1",
+    "yaml": "^2.6.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

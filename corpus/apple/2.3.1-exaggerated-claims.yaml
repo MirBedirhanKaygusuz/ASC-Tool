@@ -1,0 +1,42 @@
+id: apple-2.3.1-exaggerated-claims
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#accurate-metadata
+  retrievedAt: "2026-08-18"
+
+tags: [metadata, claims]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+
+prefilter:
+  - "guarantee"
+  - "guaranteed"
+  - "clinically"
+  - "medical"
+  - "proven"
+  - "100%"
+  - "#1"
+  - "best in the world"
+  - "instantly cure"
+
+question: >
+  Aşağıdaki metinde, uygulamanın gerçekten sağlayamayacağı veya kanıtlanamaz
+  bir sonuç garantisi var mı? Özellikle şunlara bak: kesin sonuç vaadi
+  ("guaranteed", "%100"), doğrulanmamış bilimsel/klinik iddia
+  ("clinically proven", "medical-grade"), kanıtlanamayan üstünlük iddiası
+  ("#1 app", "world's best"). Pazarlama dili tek başına ihlal değildir —
+  ihlal, ölçülebilir ama kanıtlanmamış bir iddiadır.
+
+ruleText: >
+  App Store metadata doğru olmalıdır. Uygulamanın yapabileceklerini abartan,
+  garanti eden veya kanıtlanamayan bilimsel/klinik iddialar içeren metinler
+  reddedilir.
+
+positiveExample: "Our clinically proven engine gives you guaranteed medical-grade results."
+negativeExample: "Helps you enhance your photos with AI-powered retouching tools."
+
+outcome: violation
+defaultSeverity: high
+version: 1

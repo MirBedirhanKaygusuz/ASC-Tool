@@ -1,0 +1,29 @@
+id: apple-2.3.7-keyword-misuse
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#accurate-metadata
+  retrievedAt: "2026-08-18"
+
+tags: [metadata, keywords, ip]
+scope: single
+needs: [keywords, name, subtitle]
+
+question: >
+  Anahtar kelime alanında (a) başka bir uygulamanın veya şirketin marka adı,
+  (b) uygulamanın gerçekten yapmadığı bir işi tarif eden terim, ya da
+  (c) uygulamayla ilgisiz popüler terim var mı? Jenerik kategori terimleri
+  ("photo editor", "selfie") ihlal değildir — ihlal, sahiplenilmiş bir marka
+  adı veya alakasız trafik çekme amaçlı terimdir.
+
+ruleText: >
+  Anahtar kelimeler uygulamayla ilgili olmalıdır. Rakip marka adları,
+  tescilli isimler veya uygulamayla ilgisiz popüler terimler kullanılamaz.
+
+positiveExample: "facetune,remini,faceapp,beauty,ai photo"
+negativeExample: "photo editor,selfie,retouch,portrait,filter"
+
+outcome: violation
+defaultSeverity: medium
+version: 1

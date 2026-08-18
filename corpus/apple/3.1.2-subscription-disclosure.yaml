@@ -1,0 +1,39 @@
+id: apple-3.1.2-subscription-disclosure
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#subscriptions
+  retrievedAt: "2026-08-18"
+
+tags: [subscriptions, monetization]
+# Bu kural TEK bir artifact'e bakamaz: metin + abonelik paketi + ekran görüntüsü
+# birlikte değerlendirilmeli. Mimarideki 'cross' kavramının varlık sebebi bu.
+scope: cross
+needs: [description, promotionalText, subtitle, iap, screenshots]
+
+appliesWhen:
+  hasSubscription: true
+
+question: >
+  Listing (metin + ekran görüntüleri) otomatik yenilenen bir abonelik ima
+  ediyor mu? Ediyorsa şu dördü de açıkça belirtilmiş mi:
+  (1) abonelik dönemi (haftalık/aylık/yıllık),
+  (2) o dönemin fiyatı,
+  (3) otomatik yenileneceği,
+  (4) kullanım şartları ve gizlilik politikası erişimi.
+  Eksik olan her maddeyi ayrı ayrı belirt. Ayrıca metinde/görselde geçen
+  fiyat ile verilen abonelik paketlerinin fiyatı çelişiyorsa onu da bildir.
+
+ruleText: >
+  Otomatik yenilenen abonelik satan uygulamalar; abonelik süresini, dönem
+  başına fiyatı ve otomatik yenileme koşulunu kullanıcıya satın alma öncesi
+  net biçimde göstermelidir. Kullanım şartları ve gizlilik politikası
+  erişilebilir olmalıdır.
+
+positiveExample: "Start your 3-day free trial today. Only $9.99."
+negativeExample: "Glamio Pro — $9.99/week, auto-renews weekly. Cancel anytime in Settings. Terms: glamio.com/terms"
+
+outcome: violation
+defaultSeverity: high
+version: 1
