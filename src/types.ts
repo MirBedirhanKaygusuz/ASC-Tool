@@ -159,6 +159,18 @@ export interface RuleCard {
    */
   prefilter?: string[]
 
+  /**
+   * Kuralı uygulamak için gereken, modelin bilmeyebileceği olgular.
+   *
+   * Kurallar iki türdür:
+   *   MUHAKEME kuralı — model dili yorumlar (abartılı iddia, abonelik ifşası).
+   *                     Yerel 8B bunları iyi yapıyor.
+   *   BİLGİ kuralı    — dünyaya dair olgu gerektirir (rakip marka adı, ünlü
+   *                     kimliği, tescilli isim). Yerel model bunları BİLMEZ ve
+   *                     sessizce "sorun yok" der. Olgu karta yazılmalı.
+   */
+  facts?: string[]
+
   /** Modele sorulacak TEK net soru. Kartın en önemli alanı. */
   question: string
 

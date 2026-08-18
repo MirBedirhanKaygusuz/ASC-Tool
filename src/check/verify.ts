@@ -1,6 +1,6 @@
 import type { Finding, RuleCard, Submission } from '../types.js'
 import type { LlmProvider } from '../llm/index.js'
-import { VERDICT_SCHEMA } from './prompt.js'
+import { VERDICT_SCHEMA, renderFacts } from './prompt.js'
 
 const VOTES = 3
 const THRESHOLD = 2
@@ -8,9 +8,13 @@ const THRESHOLD = 2
 /**
  * İkinci göz — asimetrik doğrulama.
  *
- * Doğrulayıcı ilk denetçinin GEREKÇESİNİ GÖRMEZ; sadece kuralı ve şüpheli
- * alıntıyı görür. Gerekçeyi görseydi ona demirler (anchoring) ve yalancı
- * alarmı elemek yerine onaylardı.
+ * Doğrulayıcı ilk denetçinin GEREKÇESİNİ görmez — gerekçeyi görseydi ona
+ * demirler (anchoring) ve yalancı alarmı elemek yerine onaylardı.
+ *
+ * Ama KURALIN KENDİSİNİ tamamen görür: soru, iki taraflı örnek ve olgular.
+ * İlk sürümde bunları da kısmıştık; ölçünce doğrulayıcının gerçek ihlalleri
+ * elediği görüldü — asimetri yalancı alarmı değil, doğru bulguyu kesiyordu.
+ * Asimetri promptun yönünde kalmalı, kuralın eksikliğinde değil.
  *
  * YEREL MODELE ÖZEL: 3 oy ancak sıcaklık > 0 ise anlamlı. temperature 0'da
  * üç oy da birebir aynı çıkar ve oylama tamamen boşa gider — o yüzden her oy
@@ -47,9 +51,13 @@ export async function verifyFindings(
 }
 
 const VERIFIER_SYSTEM =
-  'Sen bir politika hakemisin. Varsayılan cevabın "ihlal değil"dir. ' +
-  'Yalnızca kuralın açıkça yasakladığı bir durum varsa ihlal dersin. ' +
-  'Şüphe ihlal aleyhine yorumlanır. Yalnızca JSON döndür.'
+  'Sen bir politika hakemisin. Sana bir kural ve bir içerik parçası verilir; ' +
+  'içeriğin o kuralı ihlal edip etmediğine karar verirsin.\n' +
+  'İki örneğe de bak: içerik "ihlal sayılan" örneğe benziyorsa violates=true, ' +
+  '"ihlal sayılmayan" örneğe benziyorsa violates=false.\n' +
+  'Sana verilen olguları doğru kabul et; kendi hafızandan doğrulamaya çalışma.\n' +
+  'Hiçbir örneğe benzemiyorsa ve kural açıkça yasaklamıyorsa violates=false.\n' +
+  'Yalnızca JSON döndür.'
 
 async function askOne(
   llm: LlmProvider,
@@ -62,7 +70,14 @@ async function askOne(
     `## Kural`,
     rule.ruleText.trim(),
     ``,
-    `## Bu kurala göre İHLAL SAYILMAYAN bir örnek`,
+    `## Bu kural neyi sorguluyor`,
+    rule.question.trim(),
+    ``,
+    ...renderFacts(rule),
+    `## İhlal SAYILAN örnek`,
+    rule.positiveExample,
+    ``,
+    `## İhlal SAYILMAYAN örnek`,
     rule.negativeExample,
     ``,
     `## Değerlendirilecek içerik`,
@@ -73,7 +88,6 @@ async function askOne(
     contextFor(sub, f),
     ``,
     `Bu içerik yukarıdaki kuralı ihlal ediyor mu?`,
-    `Emin değilsen violates=false döndür.`,
   ].join('\n')
 
   const res = await llm.complete({
@@ -84,7 +98,7 @@ async function askOne(
     suffix: 'Kararını ver.',
     schema: VERDICT_SCHEMA,
     maxTokens: 512,
-    temperature: 0.7, // oylar farklılaşabilsin
+    temperature: 0.5,
     seed: 1000 + vote,
   })
 

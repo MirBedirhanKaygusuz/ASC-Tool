@@ -70,7 +70,41 @@ ayrı ayrı raporlar, farkı görebilesin diye.
 
 **4. Doğrulama oyları sıcaklık ister.**
 `temperature: 0`'da üç oy da birebir aynı çıkar, oylama boşa gider. Verify turu
-sıcaklık 0.7 ve farklı seed ile oy topluyor.
+sıcaklık 0.5 ve farklı seed ile oy topluyor.
+
+**5. Sınırsız metin alanı = tekrar döngüsü.**
+Şema JSON'u zorlar ama string uzunluğunu bağlamazsa küçük model `rationale`
+içinde aynı cümleyi tekrarlayıp tüm çıktı bütçesini yakıyor, JSON yarıda
+kesiliyor, bulgu **sessizce kayboluyor**. Ölçüldü: 2048 token yandı, 1 bulgu
+kayboldu, süre 91s. Düzeltme: şemada `maxLength`, `repeat_penalty`, ve kesilme
+sayacı (`⚠ N çağrı yarıda kesildi`). Süre 91s → 9s.
+
+## Kuralların iki türü
+
+Yerel modelde ölçerken çıktı: kurallar tek cins değil.
+
+**Muhakeme kuralı** — model dili yorumlar (abartılı iddia, abonelik ifşası).
+qwen3:8b bunları iyi yapıyor, 3/3 güvenle.
+
+**Bilgi kuralı** — dünyaya dair olgu gerektirir (rakip marka adı, ünlü kimliği,
+tescilli isim). Yerel model bu olguları **bilmiyor** ve sessizce "sorun yok"
+diyor. Ölçülen örnek: `facetune,remini,faceapp` anahtar kelimelerine
+doğrulayıcı üç oyda da *"rakip marka adı içermiyor"* dedi.
+
+Çözüm kartın `facts` alanı: kuralı uygularken doğru kabul edilecek olgular
+karta yazılır, modelin hatırlamasına güvenilmez. Aynı kart `facts` ile 3/3
+güvenle geçiyor. Bilgi gerektiren her yeni kartta bu alan doldurulmalı.
+
+## Teşhis araçları
+
+```bash
+npm run dbg                                   # seçilebilir kuralları listele
+npm run dbg -- apple-2.3.7-keyword-misuse     # tek kuralın ham LLM çıktısı
+npm run dbg:verify -- apple-2.3.7-keyword-misuse   # doğrulama oylarını tek tek göster
+```
+
+Bir kural beklendiği gibi çalışmıyorsa sıra: önce `dbg` (checker buluyor mu?),
+bulmuyorsa kart sorunu; buluyorsa `dbg:verify` (doğrulayıcı mı eliyor?).
 
 ## Üç tasarım kararı
 

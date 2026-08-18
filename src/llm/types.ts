@@ -43,6 +43,8 @@ export interface LlmUsage {
 export interface LlmResponse {
   json: unknown | null
   raw: string
+  /** Çıktı bütçesi tükendiği için yanıt yarıda kesildi mi? */
+  truncated?: boolean
   usage: LlmUsage
 }
 

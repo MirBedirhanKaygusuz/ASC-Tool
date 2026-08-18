@@ -64,6 +64,7 @@ export class AnthropicProvider implements LlmProvider {
     return {
       json: raw ? safeParse(raw) : null,
       raw,
+      truncated: res.stop_reason === 'max_tokens',
       usage: {
         inputTokens: res.usage.input_tokens ?? 0,
         outputTokens: res.usage.output_tokens ?? 0,

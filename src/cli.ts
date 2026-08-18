@@ -91,6 +91,13 @@ async function cmdCheck() {
           `(ilk çağrı ${Math.round(res.stats.firstCallMs / 1000)}s, ort. ${Math.round(res.stats.avgCallMs / 1000)}s) ` +
           `· prefill ${res.stats.inputTokens} tok`,
       )
+      if (res.stats.truncated || res.stats.unparsable) {
+        console.error(
+          `   ⚠ ${res.stats.truncated} çağrı yarıda kesildi, ` +
+            `${res.stats.unparsable} yanıt parse edilemedi — bu çağrıların bulguları KAYIP. ` +
+            `Model çıktı bütçesini aşıyor.`,
+        )
+      }
 
       const grounded = groundFindings(sub, res.findings)
       afterGround = grounded.kept.length

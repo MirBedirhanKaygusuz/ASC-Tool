@@ -26,6 +26,10 @@ export const RuleCardSchema = z.object({
     })
     .optional(),
   prefilter: z.array(z.string()).optional(),
+  // Kuralı uygulamak için gereken ama modelin bilmeyebileceği olgular
+  // (rakip marka adları, tescilli isimler, kategori terimleri...).
+  // Yerel küçük modellerde bu alan olmadan "bilgi" gerektiren kurallar çalışmaz.
+  facts: z.array(z.string()).optional(),
   question: z.string().min(20),
   ruleText: z.string().min(20),
   positiveExample: z.string().min(1),

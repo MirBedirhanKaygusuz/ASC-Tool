@@ -10,6 +10,13 @@ tags: [metadata, keywords, ip]
 scope: single
 needs: [keywords, name, subtitle]
 
+# BİLGİ kuralı: yerel model bu marka adlarını tanımıyor ve olgu verilmezse
+# "rakip marka yok" deyip geçiyor. Ölçüldü, tahmin değil.
+facts:
+  - "Facetune, Remini, FaceApp, Lensa, Picsart, Snapseed, VSCO, YouCam, Meitu, BeautyPlus, AirBrush, Retrica ve PhotoRoom başka şirketlere ait uygulama markalarıdır."
+  - "Botox, Restylane ve Juvederm tescilli tıbbi/kozmetik ürün markalarıdır; bir fotoğraf uygulamasının anahtar kelimesi olamaz."
+  - "'photo editor', 'selfie', 'retouch', 'portrait', 'filter', 'beauty' gibi jenerik kategori terimleri marka DEĞİLDİR ve serbesttir."
+
 question: >
   Anahtar kelime alanında (a) başka bir uygulamanın veya şirketin marka adı,
   (b) uygulamanın gerçekten yapmadığı bir işi tarif eden terim, ya da

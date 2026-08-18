@@ -11,7 +11,8 @@ Kurallar:
 - Kartın "ihlal olmayan örnek" alanı sınırı belirler. Ona benzeyen bir şey ihlal değildir.
 - Pazarlama dili tek başına ihlal değildir. İhlal, kuralın açıkça yasakladığı şeydir.
 - İhlal yoksa boş liste döndür. Bu normal ve beklenen bir sonuçtur.
-- Yalnızca JSON döndür. Açıklama, önsöz, markdown yok.`
+- Yalnızca JSON döndür. Açıklama, önsöz, markdown yok.
+- rationale ve suggestedFix EN FAZLA 2 kısa cümle olsun. Tekrar etme, uzatma.`
 
 export const FINDINGS_SCHEMA: Record<string, unknown> = {
   type: 'object',
@@ -20,18 +21,24 @@ export const FINDINGS_SCHEMA: Record<string, unknown> = {
   properties: {
     findings: {
       type: 'array',
+      // ALAN SIRASI ÖNEMLİ: şema grameri alanları bu sırayla ürettirir.
+      // Kritik alanlar önce gelsin ki bir kesilme olursa en değerli kısım elde kalsın.
+      //
+      // maxLength ZORUNLU: sınırsız bir metin alanında küçük modeller tekrar
+      // döngüsüne girip tüm çıktı bütçesini yakıyor ve JSON yarıda kesiliyor.
+      // Bu, yerel modelde gözlemlenen 1 numaralı hata.
       items: {
         type: 'object',
         additionalProperties: false,
-        required: ['artifact', 'excerpt', 'rationale', 'suggestedFix', 'severity'],
+        required: ['artifact', 'excerpt', 'severity', 'suggestedFix', 'rationale'],
         properties: {
-          artifact: { type: 'string', description: 'description | subtitle | keywords | screenshots | iap ...' },
-          mediaId: { type: 'string' },
-          iapId: { type: 'string' },
-          excerpt: { type: 'string', description: 'İçerikten BİREBİR alıntı' },
-          rationale: { type: 'string' },
-          suggestedFix: { type: 'string' },
+          artifact: { type: 'string', maxLength: 40, description: 'description | subtitle | keywords | screenshots | iap ...' },
+          excerpt: { type: 'string', maxLength: 300, description: 'İçerikten BİREBİR alıntı' },
           severity: { type: 'string', enum: ['high', 'medium', 'low'] },
+          suggestedFix: { type: 'string', maxLength: 200 },
+          rationale: { type: 'string', maxLength: 300, description: 'En fazla 2 cümle' },
+          mediaId: { type: 'string', maxLength: 60 },
+          iapId: { type: 'string', maxLength: 80 },
         },
       },
     },
@@ -44,7 +51,7 @@ export const VERDICT_SCHEMA: Record<string, unknown> = {
   required: ['violates', 'reason'],
   properties: {
     violates: { type: 'boolean' },
-    reason: { type: 'string' },
+    reason: { type: 'string', maxLength: 200 },
   },
 }
 
@@ -114,6 +121,7 @@ export function renderRuleCard(card: RuleCard): string {
     `## Kural`,
     card.ruleText.trim(),
     ``,
+    ...renderFacts(card),
     `## Sana sorulan`,
     card.question.trim(),
     ``,
@@ -125,6 +133,12 @@ export function renderRuleCard(card: RuleCard): string {
     ``,
     `Yalnızca yukarıdaki kurala göre değerlendir. İhlal yoksa {"findings": []} döndür.`,
   ].join('\n')
+}
+
+/** Bilgi kurallarında olguları modele veriyoruz — hatırlamasını beklemiyoruz. */
+export function renderFacts(card: RuleCard): string[] {
+  if (!card.facts?.length) return []
+  return [`## Bu kuralı uygularken doğru kabul et`, ...card.facts.map((f) => `- ${f}`), ``]
 }
 
 async function loadImage(path: string): Promise<{ mime: string; b64: string } | null> {

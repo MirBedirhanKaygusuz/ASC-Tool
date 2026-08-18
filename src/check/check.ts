@@ -4,6 +4,10 @@ import { CHECKER_SYSTEM, FINDINGS_SCHEMA, submissionPrefix, renderRuleCard } fro
 
 export interface CheckStats {
   rulesRun: number
+  /** Yanıtı yarıda kesilen çağrı sayısı — bulgu sessizce kaybolur, uyar. */
+  truncated: number
+  /** JSON parse edilemeyen çağrı sayısı. */
+  unparsable: number
   inputTokens: number
   outputTokens: number
   cachedTokens: number
@@ -33,7 +37,8 @@ export async function runCheck(
   const prefix = await submissionPrefix(sub, { withImages: llm.supportsVision })
 
   const stats: CheckStats = {
-    rulesRun: 0, inputTokens: 0, outputTokens: 0, cachedTokens: 0,
+    rulesRun: 0, truncated: 0, unparsable: 0,
+    inputTokens: 0, outputTokens: 0, cachedTokens: 0,
     ms: 0, firstCallMs: 0, avgCallMs: 0,
   }
   const findings: Finding[] = []
@@ -80,9 +85,15 @@ async function one(
   stats.inputTokens += res.usage.inputTokens
   stats.outputTokens += res.usage.outputTokens
   stats.cachedTokens += res.usage.cachedTokens
+  if (res.truncated) stats.truncated++
 
   const parsed = res.json as { findings?: RawFinding[] } | null
-  if (!parsed?.findings) return []
+  if (!parsed?.findings) {
+    // Boş sonuç ile BOZUK sonuç aynı şey değil. Ayırmazsak "model bir şey
+    // bulamadı" sanıp asıl hatayı (kesilme / geçersiz JSON) hiç görmeyiz.
+    if (res.raw.trim().length > 0) stats.unparsable++
+    return []
+  }
   return parsed.findings.map((f) => toFinding(sub, rule, f))
 }
 

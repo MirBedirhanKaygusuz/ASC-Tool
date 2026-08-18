@@ -7,7 +7,9 @@
   "scripts": {
     "check": "tsx src/cli.ts check",
     "corpus": "tsx src/cli.ts corpus",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dbg": "tsx scripts/dbg.ts",
+    "dbg:verify": "tsx scripts/dbg-verify.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.117.1",

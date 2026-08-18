@@ -57,9 +57,13 @@ export class OllamaProvider implements LlmProvider {
       keep_alive: '30m', // model bellekte kalsın, her çağrıda yeniden yüklenmesin
       options: {
         num_ctx: this.numCtx,       // (1) — sessiz kesilmeye karşı
-        temperature: req.temperature ?? 0,
-        ...(req.seed !== undefined ? { seed: req.seed } : {}),
-        num_predict: req.maxTokens ?? 2048,
+        // temperature 0 küçük modellerde tekrar döngüsünü BESLER. Küçük bir
+        // sıcaklık + tekrar cezası döngüyü kırar; determinizmi seed sağlar.
+        temperature: req.temperature ?? 0.2,
+        repeat_penalty: 1.15,
+        repeat_last_n: 128,
+        seed: req.seed ?? 42,
+        num_predict: req.maxTokens ?? 1024,
       },
       messages: [
         { role: 'system', content: req.system },
@@ -81,6 +85,12 @@ export class OllamaProvider implements LlmProvider {
     const data = (await res.json()) as OllamaChatResponse
     const raw = data.message?.content ?? ''
 
+    // Çıktı bütçesi tamamen tükendiyse JSON büyük ihtimalle yarıda kesilmiştir.
+    // Sessizce yutmak yerine yüzeye çıkarıyoruz — bu hata aksi halde
+    // "model hiçbir şey bulamadı" gibi görünür ve teşhis edilemez.
+    const budget = req.maxTokens ?? 1024
+    const truncated = (data.eval_count ?? 0) >= budget
+
     // prompt_eval_count = GERÇEKTEN prefill edilen token.
     // Cache'ten gelenler buraya sayılmaz; farkı cachedTokens olarak raporluyoruz.
     const promptTokens = data.prompt_eval_count ?? 0
@@ -88,10 +98,11 @@ export class OllamaProvider implements LlmProvider {
     return {
       json: safeParse(raw),
       raw,
+      truncated,
       usage: {
         inputTokens: promptTokens,
         outputTokens: data.eval_count ?? 0,
-        cachedTokens: 0, // aşağıda çağıran taraf beklenen prefix ile karşılaştırır
+        cachedTokens: 0,
         ms: Date.now() - t0,
       },
     }
