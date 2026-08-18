@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
-import type Anthropic from '@anthropic-ai/sdk'
 import type { Submission, RuleCard } from '../types.js'
+import type { Block } from '../llm/index.js'
 
 export const CHECKER_SYSTEM = `Sen bir mağaza politikası denetçisisin. App Store ve Google Play listing'lerini, sana verilen TEK bir politika kuralına karşı denetliyorsun.
 
@@ -10,9 +10,10 @@ Kurallar:
 - Emin değilsen bulgu üretme. Bu araç yalancı alarm üretirse kimse kullanmaz.
 - Kartın "ihlal olmayan örnek" alanı sınırı belirler. Ona benzeyen bir şey ihlal değildir.
 - Pazarlama dili tek başına ihlal değildir. İhlal, kuralın açıkça yasakladığı şeydir.
-- İhlal yoksa boş liste döndür. Bu normal ve beklenen bir sonuçtur.`
+- İhlal yoksa boş liste döndür. Bu normal ve beklenen bir sonuçtur.
+- Yalnızca JSON döndür. Açıklama, önsöz, markdown yok.`
 
-const FINDING_SCHEMA = {
+export const FINDINGS_SCHEMA: Record<string, unknown> = {
   type: 'object',
   additionalProperties: false,
   required: ['findings'],
@@ -24,54 +25,53 @@ const FINDING_SCHEMA = {
         additionalProperties: false,
         required: ['artifact', 'excerpt', 'rationale', 'suggestedFix', 'severity'],
         properties: {
-          artifact: {
-            type: 'string',
-            description: "Bulgunun geldiği alan: description, subtitle, keywords, screenshots, iap ...",
-          },
-          mediaId: { type: 'string', description: 'artifact=screenshots ise ekran görüntüsü id' },
-          iapId: { type: 'string', description: 'artifact=iap ise abonelik paketi id' },
+          artifact: { type: 'string', description: 'description | subtitle | keywords | screenshots | iap ...' },
+          mediaId: { type: 'string' },
+          iapId: { type: 'string' },
           excerpt: { type: 'string', description: 'İçerikten BİREBİR alıntı' },
-          rationale: { type: 'string', description: 'Neden bu kuralı ihlal ediyor — 1-2 cümle' },
-          suggestedFix: { type: 'string', description: 'Somut düzeltme önerisi' },
+          rationale: { type: 'string' },
+          suggestedFix: { type: 'string' },
           severity: { type: 'string', enum: ['high', 'medium', 'low'] },
         },
       },
     },
   },
-} as const
+}
 
-export const OUTPUT_CONFIG = {
-  effort: 'high' as const,
-  format: { type: 'json_schema' as const, schema: FINDING_SCHEMA },
+export const VERDICT_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['violates', 'reason'],
+  properties: {
+    violates: { type: 'boolean' },
+    reason: { type: 'string' },
+  },
 }
 
 /**
- * Submission bloğu — SABİT. Her kural çağrısında aynı. Sonuna cache_control
- * koyduğumuz için bir kez yazılır, N kural çağrısında ucuza okunur.
+ * SABİT ön ek. Her kural çağrısında birebir aynı olmalı — yerelde KV cache,
+ * bulutta prompt cache buna dayanır. Buraya değişken hiçbir şey konmaz
+ * (timestamp, sıra numarası, rastgele id yok).
  */
-export async function submissionBlocks(
+export async function submissionPrefix(
   sub: Submission,
-): Promise<Anthropic.ContentBlockParam[]> {
-  const blocks: Anthropic.ContentBlockParam[] = [
-    { type: 'text', text: renderSubmissionText(sub) },
-  ]
+  opts: { withImages: boolean },
+): Promise<Block[]> {
+  const blocks: Block[] = [{ type: 'text', text: renderSubmissionText(sub) }]
 
-  for (const shot of sub.media.screenshots) {
-    const img = await loadImage(shot.path)
-    if (!img) continue
-    blocks.push({ type: 'text', text: `[Ekran görüntüsü id=${shot.id} sıra=${shot.order}]` })
-    blocks.push({ type: 'image', source: { type: 'base64', media_type: img.mime, data: img.b64 } })
+  if (opts.withImages) {
+    for (const shot of sub.media.screenshots) {
+      const img = await loadImage(shot.path)
+      if (!img) continue
+      blocks.push({ type: 'text', text: `[Ekran görüntüsü id=${shot.id} sıra=${shot.order}]` })
+      blocks.push({ type: 'image', mime: img.mime, base64: img.b64 })
+    }
   }
-
-  // Cache breakpoint: buraya kadar her çağrıda aynı.
-  const last = blocks[blocks.length - 1]
-  if (last) (last as { cache_control?: unknown }).cache_control = { type: 'ephemeral' }
 
   return blocks
 }
 
 export function renderSubmissionText(sub: Submission): string {
-  const t = sub.text
   const lines: string[] = [
     `# DENETLENECEK LISTING`,
     `Platform: ${sub.platform}`,
@@ -80,9 +80,7 @@ export function renderSubmissionText(sub: Submission): string {
     ``,
     `## Metin alanları`,
   ]
-  for (const [k, v] of Object.entries(t)) {
-    if (v) lines.push(`### ${k}\n${v}\n`)
-  }
+  for (const [k, v] of Object.entries(sub.text)) if (v) lines.push(`### ${k}\n${v}\n`)
 
   if (sub.iap.length) {
     lines.push(`## Uygulama içi satın alma / abonelikler`)
@@ -98,7 +96,6 @@ export function renderSubmissionText(sub: Submission): string {
   lines.push(`## URL'ler`)
   for (const [k, v] of Object.entries(sub.urls)) if (v) lines.push(`- ${k}: ${v}`)
   lines.push('')
-
   lines.push(`## Review notları`)
   lines.push(sub.reviewNotes.notes ?? '(yok)')
   lines.push(`Demo hesap: ${sub.reviewNotes.demoAccount ? 'var' : 'YOK'}`)
@@ -106,7 +103,7 @@ export function renderSubmissionText(sub: Submission): string {
   return lines.join('\n')
 }
 
-/** Kural bloğu — DEĞİŞKEN. Cache breakpoint'inden sonra gelir. */
+/** DEĞİŞKEN son ek — cache sınırından sonra gelen tek şey. */
 export function renderRuleCard(card: RuleCard): string {
   return [
     `# UYGULANACAK KURAL`,
@@ -126,16 +123,16 @@ export function renderRuleCard(card: RuleCard): string {
     `## İhlal SAYILMAYAN örnek`,
     card.negativeExample,
     ``,
-    `Yalnızca yukarıdaki kurala göre değerlendir. İhlal yoksa boş liste döndür.`,
+    `Yalnızca yukarıdaki kurala göre değerlendir. İhlal yoksa {"findings": []} döndür.`,
   ].join('\n')
 }
 
-async function loadImage(path: string): Promise<{ mime: 'image/png' | 'image/jpeg'; b64: string } | null> {
+async function loadImage(path: string): Promise<{ mime: string; b64: string } | null> {
   try {
     const buf = await readFile(path)
-    const mime = path.endsWith('.jpg') || path.endsWith('.jpeg') ? 'image/jpeg' : 'image/png'
+    const mime = /\.jpe?g$/i.test(path) ? 'image/jpeg' : 'image/png'
     return { mime, b64: buf.toString('base64') }
   } catch {
-    return null // görsel dosyası yoksa sessizce atla — iskelet fixture ile de çalışsın
+    return null
   }
 }

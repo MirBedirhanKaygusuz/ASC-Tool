@@ -1,96 +1,89 @@
-import Anthropic from '@anthropic-ai/sdk'
 import type { Submission, SubmissionText, RuleCard, Finding, ArtifactKind, Locator } from '../types.js'
-import { CHECKER_SYSTEM, OUTPUT_CONFIG, submissionBlocks, renderRuleCard } from './prompt.js'
-
-const MODEL = 'claude-opus-5'
+import type { LlmProvider } from '../llm/index.js'
+import { CHECKER_SYSTEM, FINDINGS_SCHEMA, submissionPrefix, renderRuleCard } from './prompt.js'
 
 export interface CheckStats {
   rulesRun: number
-  cacheWriteTokens: number
-  cacheReadTokens: number
   inputTokens: number
   outputTokens: number
+  cachedTokens: number
+  ms: number
+  /** İlk çağrı prefill'i içerir; sonrakiler cache'ten okur. Farkı görmek için. */
+  firstCallMs: number
+  avgCallMs: number
 }
 
 /**
  * Denetim turu.
  *
- * TASARIM KARARI: iş birimi artifact değil, KURAL.
- * Her kural için ayrı bir çağrı yapıyoruz. Modele 30 kuralı birden vermek
- * dikkatini dağıtır ve recall'u düşürür. Tek kural = tek net soru.
+ * İş birimi KURAL. Her kural için ayrı çağrı: modele 30 kuralı birden vermek
+ * dikkatini dağıtır ve recall'u düşürür.
  *
- * Submission sabit olduğu için prompt cache'e yazılıyor; N kural çağrısında
- * tekrar tekrar ucuza okunuyor.
+ * Çağrılar SIRALI gider (provider.concurrency yerelde 1). Sezgiye aykırı ama
+ * doğru: paralel istek hem tek GPU'yu böler hem prefix KV cache'ini kırar.
+ * Sabit prefix sayesinde 2. çağrıdan itibaren submission yeniden prefill
+ * edilmez — asıl hızlanma oradan gelir.
  */
 export async function runCheck(
+  llm: LlmProvider,
   sub: Submission,
   rules: RuleCard[],
-  opts: { concurrency?: number } = {},
+  onProgress?: (done: number, total: number, ruleId: string, ms: number) => void,
 ): Promise<{ findings: Finding[]; stats: CheckStats }> {
-  const client = new Anthropic()
-  const blocks = await submissionBlocks(sub)
+  const prefix = await submissionPrefix(sub, { withImages: llm.supportsVision })
 
   const stats: CheckStats = {
-    rulesRun: 0,
-    cacheWriteTokens: 0,
-    cacheReadTokens: 0,
-    inputTokens: 0,
-    outputTokens: 0,
+    rulesRun: 0, inputTokens: 0, outputTokens: 0, cachedTokens: 0,
+    ms: 0, firstCallMs: 0, avgCallMs: 0,
   }
   const findings: Finding[] = []
+  const t0 = Date.now()
 
-  // İlk çağrıyı tek başına yap: cache'i yazsın, sonrakiler okusun.
-  const [first, ...rest] = rules
-  if (!first) return { findings, stats }
+  const queue = [...rules]
+  const workers = Math.max(1, llm.concurrency)
 
-  findings.push(...(await one(client, sub, blocks, first, stats)))
+  await Promise.all(
+    Array.from({ length: workers }, async () => {
+      for (;;) {
+        const rule = queue.shift()
+        if (!rule) return
+        const got = await one(llm, sub, prefix, rule, stats)
+        findings.push(...got)
+        onProgress?.(stats.rulesRun, rules.length, rule.id, stats.ms)
+      }
+    }),
+  )
 
-  const limit = opts.concurrency ?? 4
-  for (let i = 0; i < rest.length; i += limit) {
-    const batch = rest.slice(i, i + limit)
-    const results = await Promise.all(batch.map((r) => one(client, sub, blocks, r, stats)))
-    findings.push(...results.flat())
-  }
-
+  stats.ms = Date.now() - t0
+  stats.avgCallMs = stats.rulesRun ? Math.round(stats.ms / stats.rulesRun) : 0
   return { findings, stats }
 }
 
 async function one(
-  client: Anthropic,
+  llm: LlmProvider,
   sub: Submission,
-  blocks: Anthropic.ContentBlockParam[],
+  prefix: Awaited<ReturnType<typeof submissionPrefix>>,
   rule: RuleCard,
   stats: CheckStats,
 ): Promise<Finding[]> {
-  const res = await client.messages.create({
-    model: MODEL,
-    max_tokens: 4000,
-    thinking: { type: 'adaptive' },
-    output_config: OUTPUT_CONFIG,
+  const res = await llm.complete({
     system: CHECKER_SYSTEM,
-    messages: [
-      { role: 'user', content: blocks },
-      { role: 'user', content: renderRuleCard(rule) },
-    ],
+    prefix,
+    suffix: renderRuleCard(rule),
+    schema: FINDINGS_SCHEMA,
+    maxTokens: 2048,
+    temperature: 0, // denetim deterministik olsun
   })
 
+  if (stats.rulesRun === 0) stats.firstCallMs = res.usage.ms
   stats.rulesRun++
-  stats.inputTokens += res.usage.input_tokens ?? 0
-  stats.outputTokens += res.usage.output_tokens ?? 0
-  stats.cacheWriteTokens += res.usage.cache_creation_input_tokens ?? 0
-  stats.cacheReadTokens += res.usage.cache_read_input_tokens ?? 0
+  stats.inputTokens += res.usage.inputTokens
+  stats.outputTokens += res.usage.outputTokens
+  stats.cachedTokens += res.usage.cachedTokens
 
-  const text = res.content.find((b) => b.type === 'text')
-  if (!text || text.type !== 'text') return []
-
-  let parsed: { findings?: RawFinding[] }
-  try {
-    parsed = JSON.parse(text.text)
-  } catch {
-    return []
-  }
-
-  return (parsed.findings ?? []).map((f) => toFinding(sub, rule, f))
+  const parsed = res.json as { findings?: RawFinding[] } | null
+  if (!parsed?.findings) return []
+  return parsed.findings.map((f) => toFinding(sub, rule, f))
 }
 
 interface RawFinding {
@@ -111,10 +104,10 @@ function toFinding(sub: Submission, rule: RuleCard, raw: RawFinding): Finding {
     outcome: rule.outcome,
     artifact: raw.artifact as ArtifactKind,
     locator: toLocator(raw),
-    excerpt: raw.excerpt,
-    rationale: raw.rationale,
-    suggestedFix: raw.suggestedFix,
-    confidence: 0, // verify turunda doldurulur
+    excerpt: raw.excerpt ?? '',
+    rationale: raw.rationale ?? '',
+    suggestedFix: raw.suggestedFix ?? '',
+    confidence: 0,
   }
 }
 

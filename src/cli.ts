@@ -6,6 +6,7 @@ import { loadCorpus } from './corpus/index.js'
 import { selectRules } from './check/select.js'
 import { groundFindings } from './check/ground.js'
 import { riskScore, renderMarkdown } from './report/index.js'
+import { createProvider } from './llm/index.js'
 import type { Report, Finding, RuleCard } from './types.js'
 
 const args = process.argv.slice(2)
@@ -21,8 +22,14 @@ function usage() {
   console.log(`
 Greenlight — Store Policy Checker
 
-  npm run check -- --fixture fixtures/glamio-apple.json [--no-llm] [--out out/report.md]
-  npm run corpus                          kural kitabını doğrula ve listele
+  npm run check -- --fixture <path> [seçenekler]
+
+    --no-llm            sadece kesin kontroller (LLM turu yok)
+    --llm <backend>     ollama (varsayılan) | anthropic
+    --model <ad>        ör. qwen3:8b, qwen2.5:14b
+    --out <path>        rapor yolu (varsayılan out/report.md)
+
+  npm run corpus        kural kitabını doğrula ve listele
 `)
   process.exit(1)
 }
@@ -61,27 +68,41 @@ async function cmdCheck() {
   let afterGround = 0
 
   if (!noLlm && selected.length) {
-    if (!process.env.ANTHROPIC_API_KEY) {
-      console.error('→ ANTHROPIC_API_KEY yok, LLM turu atlanıyor (--no-llm ile de atlanır)')
+    const llm = await createProvider({ backend: flag('--llm'), model: flag('--model') })
+    const health = await llm.healthcheck()
+    if (!health.ok) {
+      console.error(`→ LLM turu atlanıyor: ${health.reason}`)
     } else {
+      console.error(
+        `→ model: ${llm.name}/${llm.model} · eşzamanlılık ${llm.concurrency}` +
+          `${llm.supportsVision ? ' · vision açık' : ' · vision kapalı (metin-only)'}`,
+      )
+
       const { runCheck } = await import('./check/check.js')
       const { verifyFindings } = await import('./check/verify.js')
 
-      const res = await runCheck(sub, selected)
+      const res = await runCheck(llm, sub, selected, (done, total, ruleId, ms) => {
+        console.error(`   [${done}/${total}] ${ruleId} (${Math.round(ms / 1000)}s)`)
+      })
       rulesRun = res.stats.rulesRun
       raw = res.findings.length
       console.error(
-        `→ denetim: ${raw} ham bulgu · cache yaz ${res.stats.cacheWriteTokens} / oku ${res.stats.cacheReadTokens} token`,
+        `→ denetim: ${raw} ham bulgu · ${Math.round(res.stats.ms / 1000)}s ` +
+          `(ilk çağrı ${Math.round(res.stats.firstCallMs / 1000)}s, ort. ${Math.round(res.stats.avgCallMs / 1000)}s) ` +
+          `· prefill ${res.stats.inputTokens} tok`,
       )
 
       const grounded = groundFindings(sub, res.findings)
       afterGround = grounded.kept.length
       if (grounded.dropped.length) {
         console.error(`→ alıntı doğrulama: ${grounded.dropped.length} uydurma bulgu elendi`)
+        for (const d of grounded.dropped) {
+          console.error(`   ✗ ${d.ruleId}: "${d.excerpt.slice(0, 60)}..."`)
+        }
       }
 
       const byId = new Map<string, RuleCard>(selected.map((r) => [r.id, r]))
-      const verified = await verifyFindings(sub, grounded.kept, byId)
+      const verified = await verifyFindings(llm, sub, grounded.kept, byId)
       if (verified.dropped.length) {
         console.error(`→ ikinci göz: ${verified.dropped.length} zayıf bulgu elendi`)
       }

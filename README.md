@@ -7,16 +7,23 @@ düzeltmeyle gelir.
 ## Kurulum
 
 ```bash
+brew install ollama
+ollama serve &            # arka planda çalışsın
+ollama pull qwen3:8b
+
 npm install
-cp .env.example .env   # ANTHROPIC_API_KEY doldur (LLM turu için)
+cp .env.example .env
 ```
+
+Model **yereldedir** — bulut API'si ve anahtar gerekmez.
 
 ## Kullanım
 
 ```bash
-npm run corpus                                              # kural kitabını listele
-npm run check -- --fixture fixtures/glamio-apple.json --no-llm   # sadece kesin kontroller
-npm run check -- --fixture fixtures/glamio-apple.json             # tam denetim
+npm run corpus                                                    # kural kitabını listele
+npm run check -- --fixture fixtures/glamio-apple.json --no-llm    # sadece kesin kontroller
+npm run check -- --fixture fixtures/glamio-apple.json             # tam denetim (yerel model)
+npm run check -- --fixture fixtures/glamio-apple.json --model qwen2.5:14b
 ```
 
 Rapor `out/report.md` (okunur) ve `out/report.json` (eval için) olarak yazılır.
@@ -32,6 +39,38 @@ fetch → normalize → LINT → select → check → ground → verify → repo
                      │       └─ hangi kartlar geçerli (düz filtre, RAG yok)
                      └─ LLM'siz kesin kontroller
 ```
+
+## Model: yerel
+
+Case "maliyeti düşürmek için yerel LLM tercih edilebilir" diyor. Boru hattı bir
+sağlayıcı arayüzü ([src/llm/types.ts](src/llm/types.ts)) konuşur; motor takılıp
+çıkarılabilir. Varsayılan Ollama.
+
+Bulut sağlayıcı ([src/llm/anthropic.ts](src/llm/anthropic.ts)) arayüzün arkasında
+duruyor ama **varsayılan değil** ve anahtar yoksa hiç devreye girmiyor. İki iş için:
+vision (yerel görsel modelleri ince yazı okumada zayıf, case hibrit'e izin veriyor)
+ve "yerel model ne kaybettiriyor" sorusunu aynı eval'de ölçmek.
+
+### Yerelde değişen üç şey
+
+**1. `num_ctx` — en sinsi hata.**
+Ollama'nın varsayılan bağlamı küçüktür ve fazlasını **sessizce keser**. Bizim
+submission ~15-20K token; ayarlanmazsa kuralın bakması gereken metnin yarısı
+modele hiç ulaşmaz, hata da vermez. `.env` içinde `OLLAMA_NUM_CTX=32768`.
+
+**2. Eşzamanlılık 1.**
+Bulutta paralel çağrı bedava hızdı. Yerelde tersi: paralel istekler tek GPU'yu
+böler *ve* prefix KV cache'ini birbirine kırdırır. Sıralı gitmek daha hızlı.
+
+**3. Maliyet para değil, saniye.**
+İlk çağrı submission'ı prefill eder (yavaş), sonrakiler aynı prefix'i KV
+cache'ten okur (hızlı). Bu yüzden "submission sabit / kural değişken" tasarımı
+yerelde buluttan **daha** kritik. `--fixture` koşusu ilk/ortalama çağrı süresini
+ayrı ayrı raporlar, farkı görebilesin diye.
+
+**4. Doğrulama oyları sıcaklık ister.**
+`temperature: 0`'da üç oy da birebir aynı çıkar, oylama boşa gider. Verify turu
+sıcaklık 0.7 ve farklı seed ile oy topluyor.
 
 ## Üç tasarım kararı
 
@@ -71,15 +110,16 @@ En kritik iki alan:
 | Lint katmanı (6 kontrol) | ✅ çalışıyor |
 | Rule card şeması + loader | ✅ çalışıyor |
 | Kural seçimi | ✅ çalışıyor |
-| Checker + prompt cache | ✅ yazıldı, API key ile çalışır |
+| LLM sağlayıcı arayüzü (ollama + bulut) | ✅ çalışıyor |
+| Checker + prefix cache | ✅ çalışıyor (yerel) |
 | Ground (alıntı doğrulama) | ✅ çalışıyor |
-| Verify (ikinci göz) | ✅ yazıldı, API key ile çalışır |
+| Verify (ikinci göz, 3 oy) | ✅ çalışıyor (yerel) |
 | Rapor (md + json) | ✅ çalışıyor |
 | Kural kitabı | 🟡 3/30 kart |
 | App Store Connect fetch | ⬜ [src/fetch/index.ts](src/fetch/index.ts) — API key bekliyor |
 | Play Developer API fetch | ⬜ aynı |
 | Eval harness | ⬜ gerçek red kayıtları bekliyor |
-| Vision (ekran görüntüsü) | 🟡 kod hazır, gerçek görsel dosyası yok |
+| Vision (ekran görüntüsü) | 🟡 kod hazır; vision modeli + gerçek görsel dosyası gerekiyor |
 
 ## Bloke olan işler ve neden
 
