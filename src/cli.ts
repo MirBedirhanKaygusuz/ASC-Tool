@@ -43,6 +43,7 @@ Greenlight — Store Policy Checker
   npm run corpus        kural kitabını doğrula ve listele
 
   npm run learn -- --paste [--app Glamio]     panodaki metni işle (macOS)
+                       [--force]              girdi kontrolünü atla
   npm run learn -- <reject.txt>               tek dosya
   npm run learn -- --dir rejects/             klasördeki hepsi
   pbpaste | npm run learn -- --stdin          boru hattı
@@ -227,8 +228,28 @@ async function cmdCheck() {
 }
 
 async function cmdLearn() {
-  const inputs = await collectRejectTexts()
-  if (!inputs.length) usage()
+  const all = await collectRejectTexts()
+  if (!all.length) usage()
+
+  const force = args.includes('--force')
+  const inputs: typeof all = []
+  for (const input of all) {
+    const check = looksLikeReject(input.text)
+    if (check.ok || force) {
+      inputs.push(input)
+      continue
+    }
+    console.error(`✗ ${input.label}: ${check.reason} — atlandı.`)
+    console.error(`  ilk satır: ${input.text.trim().split('\n')[0]?.slice(0, 80)}`)
+  }
+  if (!inputs.length) {
+    console.error()
+    console.error('İşlenecek red metni yok.')
+    console.error('Resolution Center mesajını KIRPMADAN kopyala; "Guideline", "Next Steps"')
+    console.error('gibi başlıklar çıkarımı besliyor.')
+    console.error('Kontrolü atlamak için: --force')
+    process.exit(1)
+  }
 
   const llm = await createProvider()
   const health = await llm.healthcheck()
@@ -279,6 +300,35 @@ async function cmdLearn() {
     console.log(`${drafts.length} ders onay bekliyor. Denetimde kullanmak için:`)
     for (const id of drafts) console.log(`   npm run lessons -- approve ${id}`)
   }
+}
+
+/**
+ * Girdi gerçekten bir red metni mi?
+ *
+ * Yapıştırma akışında yanlış şey kopyalamak sık: terminal çıktısı, boş pano,
+ * alakasız metin. Kontrol etmezsek API çağrısı harcanır, model boş alanlarla
+ * bir şeyler uydurur ve ortaya anlamsız bir ders çıkar.
+ */
+function looksLikeReject(text: string): { ok: true } | { ok: false; reason: string } {
+  const t = text.trim()
+  if (t.length < 80) return { ok: false, reason: `çok kısa (${t.length} karakter)` }
+
+  // Kabuk çıktısı: komut istemi veya npm/tsx satırları
+  if (/^\S+@\S+\s+.*%\s/m.test(t) || /^>\s*\S+@\d|\bnpm run\b/m.test(t)) {
+    return { ok: false, reason: 'terminal çıktısına benziyor' }
+  }
+
+  const markers = [
+    /guideline\s+\d/i, /app review/i, /resolution center/i, /we (noticed|found)/i,
+    /your app/i, /next steps/i, /policy (violation|issue)/i, /rejected/i,
+    /submission id/i, /google play/i, /developer policy/i, /uygulaman[ıi]z/i,
+    /reddedil/i, /politika ihlali/i,
+  ]
+  const hits = markers.filter((re) => re.test(t)).length
+  if (hits < 2) {
+    return { ok: false, reason: 'red bildirimine özgü ifade bulunamadı' }
+  }
+  return { ok: true }
 }
 
 /**

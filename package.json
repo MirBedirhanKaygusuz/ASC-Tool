@@ -11,7 +11,8 @@
     "dbg": "tsx scripts/dbg.ts",
     "dbg:verify": "tsx scripts/dbg-verify.ts",
     "learn": "tsx src/cli.ts learn",
-    "lessons": "tsx src/cli.ts lessons"
+    "lessons": "tsx src/cli.ts lessons",
+    "asc:copy": "pbcopy < scripts/asc-grab.js && echo \"snippet panoda — ASC sekmesinde DevTools Console'a yapistir\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.117.1",
