@@ -3,3 +3,9 @@ node_modules/
 *.p8
 out/
 .DS_Store
+
+# Ders deposu — gerçek red kayıtları hassas, repo'ya girmez
+lessons/index.json
+lessons/bodies/
+lessons/rejects/
+rejects/

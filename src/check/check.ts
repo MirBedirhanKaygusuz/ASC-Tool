@@ -1,6 +1,7 @@
 import type { Submission, SubmissionText, RuleCard, Finding, ArtifactKind, Locator } from '../types.js'
 import type { LlmProvider } from '../llm/index.js'
 import { CHECKER_SYSTEM, FINDINGS_SCHEMA, submissionPrefix, renderRuleCard } from './prompt.js'
+import type { Lesson } from '../lessons/index.js'
 
 export interface CheckStats {
   rulesRun: number
@@ -34,6 +35,8 @@ export async function runCheck(
   llm: LlmProvider,
   sub: Submission,
   rules: RuleCard[],
+  /** Kural id'sine göre gruplanmış aktif dersler. Kart yoksa boş geçilir. */
+  lessonsByRule: Map<string, Lesson[]> = new Map(),
   onProgress?: (done: number, total: number, ruleId: string, ms: number) => void,
 ): Promise<{ findings: Finding[]; stats: CheckStats }> {
   const prefix = await submissionPrefix(sub, { withImages: llm.supportsVision })
@@ -64,7 +67,7 @@ export async function runCheck(
       for (;;) {
         const rule = queue.shift()
         if (!rule) return
-        const got = await one(llm, sub, prefix, rule, stats)
+        const got = await one(llm, sub, prefix, rule, lessonsByRule.get(rule.id) ?? [], stats)
         findings.push(...got)
         onProgress?.(stats.rulesRun, runnable.length, rule.id, stats.ms)
       }
@@ -81,12 +84,13 @@ async function one(
   sub: Submission,
   prefix: Awaited<ReturnType<typeof submissionPrefix>>,
   rule: RuleCard,
+  lessons: Lesson[],
   stats: CheckStats,
 ): Promise<Finding[]> {
   const res = await llm.complete({
     system: CHECKER_SYSTEM,
     prefix,
-    suffix: renderRuleCard(rule),
+    suffix: renderRuleCard(rule, lessons),
     schema: FINDINGS_SCHEMA,
     maxTokens: 2048,
     temperature: 0, // denetim deterministik olsun
@@ -106,7 +110,10 @@ async function one(
     if (res.raw.trim().length > 0) stats.unparsable++
     return []
   }
-  return parsed.findings.map((f) => toFinding(sub, rule, f))
+  return parsed.findings.map((f) => ({
+    ...toFinding(sub, rule, f),
+    lessonIds: lessons.map((l) => l.id),
+  }))
 }
 
 /** Kart görsel içeriğe bakmadan anlamlı çalışabilir mi? */

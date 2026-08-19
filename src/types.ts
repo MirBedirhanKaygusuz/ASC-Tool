@@ -236,11 +236,26 @@ export interface Finding {
   suggestedFix: string
   /** 0-1. Doğrulama turundaki oy uyuşmasından hesaplanır, modelin beyanı değil. */
   confidence: number
+  /** Bu bulgu değerlendirilirken modele verilen dersler. Rapordaki örnekler bundan gelir. */
+  lessonIds?: string[]
+  /** Rapora basılacak gerçek red örnekleri. */
+  examples?: FindingExample[]
   /** Bulgunun hangi aşamalardan geçtiği — debugging ve eval için. */
   trace?: {
     grounded?: boolean
     verifyVotes?: { agree: number; total: number }
   }
+}
+
+export interface FindingExample {
+  lessonId: string
+  lessonTitle: string
+  appName: string
+  rejectedAt: string | null
+  guideline: string
+  excerpt: string
+  reviewerText: string
+  resolution: string | null
 }
 
 export interface LintFinding {
@@ -263,6 +278,8 @@ export interface Report {
   manual: ManualCheck[]
   /** Görsel gerektirdiği için çalıştırılamayan kartlar — DENETLENMEDİ. */
   notChecked: string[]
+  /** Denetimde kullanılan aktif ders sayısı + onay bekleyen taslaklar. */
+  lessons: { active: number; draft: number; coverageGaps: string[] }
   stats: {
     rulesSelected: number
     rulesRun: number

@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import type { Submission, RuleCard } from '../types.js'
+import type { Lesson } from '../lessons/index.js'
 import type { Block } from '../llm/index.js'
 
 export const CHECKER_SYSTEM = `Sen bir mağaza politikası denetçisisin. App Store ve Google Play listing'lerini, sana verilen TEK bir politika kuralına karşı denetliyorsun.
@@ -110,8 +111,13 @@ export function renderSubmissionText(sub: Submission): string {
   return lines.join('\n')
 }
 
-/** DEĞİŞKEN son ek — cache sınırından sonra gelen tek şey. */
-export function renderRuleCard(card: RuleCard): string {
+/**
+ * DEĞİŞKEN son ek — cache sınırından sonra gelen tek şey.
+ *
+ * Dersler de buraya girer, sabit kısma DEĞİL: derse göre değişiyorlar ve
+ * sabit kısma konsalardı her kural çağrısında cache kırılırdı.
+ */
+export function renderRuleCard(card: RuleCard, lessons: Lesson[] = []): string {
   return [
     `# UYGULANACAK KURAL`,
     ``,
@@ -131,8 +137,26 @@ export function renderRuleCard(card: RuleCard): string {
     `## İhlal SAYILMAYAN örnek`,
     card.negativeExample,
     ``,
+    ...renderLessons(lessons),
     `Yalnızca yukarıdaki kurala göre değerlendir. İhlal yoksa {"findings": []} döndür.`,
   ].join('\n')
+}
+
+/**
+ * Dersler = bu kuralda GERÇEKTEN yaşanmış red'lerden çıkan kalıplar.
+ * Kart politikanın ne dediğini söyler; ders pratikte neyin reddedildiğini.
+ * Modele ikisini birlikte veriyoruz.
+ */
+export function renderLessons(lessons: Lesson[]): string[] {
+  if (!lessons.length) return []
+  return [
+    `## Bu kuralda geçmişte yaşanmış red'ler`,
+    `(Gerçek reviewer kararlarından çıkarıldı. Kuralın pratikte nasıl`,
+    ` uygulandığını gösterir; kuralın yerine geçmez.)`,
+    ``,
+    ...lessons.map((l) => `- **${l.title}** — ${l.summary}`),
+    ``,
+  ]
 }
 
 /** Bilgi kurallarında olguları modele veriyoruz — hatırlamasını beklemiyoruz. */

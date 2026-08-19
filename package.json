@@ -9,10 +9,14 @@
     "corpus": "tsx src/cli.ts corpus",
     "typecheck": "tsc --noEmit",
     "dbg": "tsx scripts/dbg.ts",
-    "dbg:verify": "tsx scripts/dbg-verify.ts"
+    "dbg:verify": "tsx scripts/dbg-verify.ts",
+    "learn": "tsx src/cli.ts learn",
+    "lessons": "tsx src/cli.ts lessons"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.117.1",
+    "@aws-sdk/client-s3": "^3.1113.0",
+    "@supabase/supabase-js": "^2.112.3",
     "yaml": "^2.6.0",
     "zod": "^3.24.0"
   },

@@ -1,4 +1,4 @@
-import type { Report, Finding, LintFinding, ManualCheck } from '../types.js'
+import type { Report, Finding, LintFinding, ManualCheck, FindingExample } from '../types.js'
 
 const W = { high: 30, medium: 10, low: 3 } as const
 
@@ -25,7 +25,14 @@ export function dedupeFindings(findings: Finding[]): Finding[] {
   return [...groups.values()].map((g) => {
     const primary = [...g].sort((a, b) => rank[b.severity] - rank[a.severity])[0]!
     if (g.length === 1) return primary
-    return { ...primary, ruleId: g.map((f) => f.ruleId).join(' + ') }
+    // Ders bağlarını da BİRLEŞTİR. Yalnızca primary'ninkini almak, birleşen
+    // bulgunun getirdiği gerçek red örneklerini sessizce düşürüyordu.
+    const lessonIds = [...new Set(g.flatMap((f) => f.lessonIds ?? []))]
+    return {
+      ...primary,
+      ruleId: g.map((f) => f.ruleId).join(' + '),
+      ...(lessonIds.length ? { lessonIds } : {}),
+    }
   })
 }
 
@@ -36,6 +43,11 @@ export function renderMarkdown(r: Report): string {
   L.push(`# Greenlight — ${r.submission.appName} (${r.submission.platform})`)
   L.push('')
   L.push(`**Risk: ${band}** (${r.riskScore}/100) · ${r.submission.locale} · corpus \`${r.corpusVersion}\``)
+  L.push(
+    `${r.lessons.active} aktif ders kullanıldı` +
+      (r.lessons.draft ? ` · ${r.lessons.draft} ders onay bekliyor` : '') +
+      (r.lessons.coverageGaps.length ? ` · ⚠ ${r.lessons.coverageGaps.length} kapsama boşluğu` : ''),
+  )
   L.push(`_${r.generatedAt}_`)
   L.push('')
 
@@ -119,7 +131,28 @@ function renderFinding(f: Finding): string[] {
     `   ${f.rationale}`,
     `   ↳ *Düzelt:* ${f.suggestedFix}`,
     '',
+    ...renderExamples(f.examples ?? []),
   ]
+}
+
+/**
+ * Gerçek red örnekleri. Bir kural atfı "şu maddeye aykırı" der; gerçek bir
+ * red örneği "bu tam olarak şu tarihte şu uygulamada reddedildi" der.
+ * İkincisi tartışmayı bitirir.
+ */
+function renderExamples(examples: FindingExample[]): string[] {
+  if (!examples.length) return []
+  const L: string[] = ['   <details><summary>Benzer gerçek red\'ler (' + examples.length + ')</summary>', '']
+  for (const e of examples) {
+    const when = e.rejectedAt ? ` · ${e.rejectedAt}` : ''
+    L.push(`   **${e.appName}${when} · ${e.guideline}** — ${e.lessonTitle}`)
+    if (e.excerpt) L.push(`   > ${e.excerpt.replace(/\n/g, ' ')}`)
+    if (e.reviewerText.trim()) L.push(`   Reviewer: ${e.reviewerText.replace(/\n/g, ' ')}`)
+    if (e.resolution) L.push(`   Çözüm: ${e.resolution.replace(/\n/g, ' ')}`)
+    L.push('')
+  }
+  L.push('   </details>', '')
+  return L
 }
 
 function icon(s: 'high' | 'medium' | 'low'): string {

@@ -7,7 +7,8 @@ import { selectRules } from './check/select.js'
 import { groundFindings } from './check/ground.js'
 import { riskScore, renderMarkdown, dedupeFindings } from './report/index.js'
 import { createProvider } from './llm/index.js'
-import type { Report, Finding, RuleCard, ManualCheck } from './types.js'
+import { createLessonStore, type Lesson } from './lessons/index.js'
+import type { Report, Finding, RuleCard, ManualCheck, FindingExample } from './types.js'
 
 const args = process.argv.slice(2)
 const cmd = args[0]
@@ -15,6 +16,8 @@ const cmd = args[0]
 async function main() {
   if (cmd === 'corpus') return cmdCorpus()
   if (cmd === 'check') return cmdCheck()
+  if (cmd === 'learn') return cmdLearn()
+  if (cmd === 'lessons') return cmdLessons()
   usage()
 }
 
@@ -30,6 +33,14 @@ Greenlight — Store Policy Checker
     --out <path>        rapor yolu (varsayılan out/report.md)
 
   npm run corpus        kural kitabını doğrula ve listele
+
+  npm run learn -- <reject.txt> [--app Glamio]
+                        ham red metnini ders olarak işle
+                        (yeni ders veya mevcut dersin örneği)
+
+  npm run lessons                    dersleri listele
+  npm run lessons -- approve <id>    taslak dersi aktifleştir
+  npm run lessons -- retire <id>     dersi emekliye ayır
 `)
   process.exit(1)
 }
@@ -70,6 +81,25 @@ async function cmdCheck() {
     why: c.tags.includes('checklist') ? c.ruleText.split('.')[0]!.trim() : c.id,
   }))
 
+  // Dersler: kartların yanında ek kanıt. Yalnızca status=active olanlar.
+  const store = await createLessonStore()
+  await store.healthcheck()
+  const allLessons = await store.allLessons()
+  const active = allLessons.filter((l) => l.status === 'active' && l.platform === sub.platform)
+  const draftCount = allLessons.filter((l) => l.status === 'draft').length
+  const coverageGaps = allLessons.filter((l) => l.ruleId === null && l.status !== 'retired').map((l) => l.id)
+
+  const lessonsByRule = new Map<string, Lesson[]>()
+  for (const l of active) {
+    if (!l.ruleId) continue
+    lessonsByRule.set(l.ruleId, [...(lessonsByRule.get(l.ruleId) ?? []), l])
+  }
+  console.error(
+    `→ ders: ${active.length} aktif` +
+      (draftCount ? `, ${draftCount} onay bekliyor` : '') +
+      (coverageGaps.length ? `, ⚠ ${coverageGaps.length} kapsama boşluğu` : ''),
+  )
+
   // 3-5. Denetim + alıntı doğrulama + ikinci göz
   let findings: Finding[] = []
   let rulesRun = 0
@@ -91,7 +121,7 @@ async function cmdCheck() {
       const { runCheck } = await import('./check/check.js')
       const { verifyFindings } = await import('./check/verify.js')
 
-      const res = await runCheck(llm, sub, selected, (done, total, ruleId, ms) => {
+      const res = await runCheck(llm, sub, selected, lessonsByRule, (done, total, ruleId, ms) => {
         console.error(`   [${done}/${total}] ${ruleId} (${Math.round(ms / 1000)}s)`)
       })
       rulesRun = res.stats.rulesRun
@@ -132,6 +162,23 @@ async function cmdCheck() {
         console.error(`→ ikinci göz: ${verified.dropped.length} zayıf bulgu elendi`)
       }
       findings = dedupeFindings(verified.kept)
+
+      // Rapora gerçek red örneklerini iliştir.
+      for (const f of findings) {
+        const examples: FindingExample[] = []
+        for (const lessonId of f.lessonIds ?? []) {
+          const lesson = active.find((l) => l.id === lessonId)
+          if (!lesson) continue
+          for (const c of await store.examplesFor(lessonId, 2)) {
+            examples.push({
+              lessonId, lessonTitle: lesson.title, appName: c.appName,
+              rejectedAt: c.rejectedAt, guideline: c.guideline,
+              excerpt: c.excerpt, reviewerText: c.reviewerText, resolution: c.resolution,
+            })
+          }
+        }
+        if (examples.length) f.examples = examples
+      }
     }
   }
 
@@ -147,6 +194,7 @@ async function cmdCheck() {
     findings,
     manual,
     notChecked,
+    lessons: { active: active.length, draft: draftCount, coverageGaps },
     stats: {
       rulesSelected: selected.length,
       rulesRun,
@@ -163,6 +211,80 @@ async function cmdCheck() {
 
   console.error(`→ rapor: ${outPath}\n`)
   console.log(md)
+}
+
+async function cmdLearn() {
+  const file = args[1]
+  if (!file || file.startsWith('--')) usage()
+
+  const { readFile } = await import('node:fs/promises')
+  const raw = await readFile(file!, 'utf8')
+
+  const llm = await createProvider()
+  const health = await llm.healthcheck()
+  if (!health.ok) throw new Error(health.reason)
+
+  const store = await createLessonStore()
+  await store.healthcheck()
+  const { cards } = await loadCorpus()
+
+  console.error(`→ ${file} işleniyor (${llm.name}/${llm.model}, depo: ${store.name})`)
+
+  const { ingestReject } = await import('./lessons/ingest.js')
+  const r = await ingestReject(llm, store, raw, cards, { appName: flag('--app') })
+
+  console.log()
+  console.log(r.kind === 'new-lesson' ? '✚ YENİ DERS' : '＋ MEVCUT DERSE ÖRNEK EKLENDİ')
+  console.log(`  id        ${r.lesson.id}`)
+  console.log(`  başlık    ${r.lesson.title}`)
+  console.log(`  madde     ${r.lesson.platform} ${r.lesson.guideline}`)
+  console.log(`  kart      ${r.lesson.ruleId ?? '⚠ YOK'}`)
+  console.log(`  durum     ${r.lesson.status}`)
+  console.log(`  örnek     ${r.lesson.exampleCount + (r.kind === 'new-lesson' ? 1 : 1)}`)
+  console.log(`  gerekçe   ${r.matchReason}`)
+  console.log()
+  console.log(`  ders: ${r.extracted.summary}`)
+
+  if (r.coverageGap) {
+    console.log()
+    console.log('  ⚠ KAPSAMA BOŞLUĞU — bu red hiçbir kartla eşleşmiyor.')
+    console.log(`     ${r.lesson.guideline} için bir kural kartı yaz.`)
+  }
+  if (r.lesson.status === 'draft') {
+    console.log()
+    console.log(`  Denetimde kullanmak için:  npm run lessons -- approve ${r.lesson.id}`)
+  }
+}
+
+async function cmdLessons() {
+  const store = await createLessonStore()
+  await store.healthcheck()
+  const sub = args[1]
+
+  if (sub === 'approve' || sub === 'retire') {
+    const id = args[2]
+    if (!id) usage()
+    await store.updateLessonStatus(id!, sub === 'approve' ? 'active' : 'retired')
+    console.log(`${id} → ${sub === 'approve' ? 'active' : 'retired'}`)
+    return
+  }
+
+  const lessons = await store.allLessons()
+  if (!lessons.length) {
+    console.log('Henüz ders yok. Ham bir red metnini işlemek için:')
+    console.log('  npm run learn -- rejects/ornek.txt --app Glamio')
+    return
+  }
+  console.log(`${lessons.length} ders (depo: ${store.name})\n`)
+  for (const l of lessons) {
+    const mark = l.status === 'active' ? '●' : l.status === 'draft' ? '○' : '×'
+    const gap = l.ruleId ? '' : '  ⚠ kapsama boşluğu'
+    console.log(`${mark} ${l.id}`)
+    console.log(`   ${l.platform} ${l.guideline} · ${l.exampleCount} örnek · kart: ${l.ruleId ?? '—'}${gap}`)
+    console.log(`   ${l.summary}`)
+    console.log()
+  }
+  console.log('● aktif   ○ onay bekliyor   × emekli')
 }
 
 function flag(name: string): string | undefined {
