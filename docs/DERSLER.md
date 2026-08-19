@@ -25,12 +25,61 @@ Kart **politikanın ne dediğini** taşır. Ders **pratikte nasıl reddedildiği
 
 ## Kullanım
 
+### Red metnini işleme — dört giriş yolu
+
 ```bash
-npm run learn -- rejects/kayit.txt --app Glamio   # ham red metnini işle
-npm run lessons                                    # dersleri listele
-npm run lessons -- approve <ders-id>               # taslağı aktifleştir
-npm run lessons -- retire <ders-id>                # emekliye ayır
+# 1. Panodan. Resolution Center'dan kopyala, çalıştır. En hızlısı.
+npm run learn -- --paste --app Glamio
+
+# 2. Klasördeki hepsi. Birikmiş kayıtlar için.
+npm run learn -- --dir rejects/ --app Glamio
+
+# 3. Tek dosya.
+npm run learn -- rejects/2025-11-glamio.txt --app Glamio
+
+# 4. Boru hattı.
+pbpaste | npm run learn -- --stdin --app Glamio
 ```
+
+Hangisini kullanırsan kullan **ham metin depoya olduğu gibi yazılır** —
+çıkarım sonradan iyileştiğinde aynı metni yeniden işleyebilirsin, kaynak izi
+kaybolmaz.
+
+Metni kırpma, olduğu gibi yapıştır: `Guideline`, `Submission ID`,
+`Review date`, `Next Steps` başlıkları çıkarımı besliyor.
+
+### Dersleri yönetme
+
+```bash
+npm run lessons                        # listele (● aktif ○ taslak × emekli)
+npm run lessons -- approve <ders-id>   # taslağı aktifleştir
+npm run lessons -- retire <ders-id>    # emekliye ayır
+```
+
+Yeni dersler **taslak** doğar ve onaylanana kadar denetimi etkilemez.
+
+### `learn` ne yapıyor
+
+```
+ham metin
+  │
+  ├─ 1. ÇIKARIM      madde, platform, alan, reviewer cümlesi, alıntı,
+  │                  düzeltme, özet  → yapılandırılmış alanlar
+  │
+  ├─ 2. ADAY HAVUZU  aynı platform + aynı madde dersleri  (kod, LLM yok)
+  │
+  ├─ 3. KARAR        "aynı düzeltme ikisini de çözer mi?"
+  │                    evet → mevcut dersin ÖRNEĞİ
+  │                    hayır → YENİ ders
+  │
+  ├─ 4. KART BAĞI    madde + alan eşleşen kart aranır
+  │                    bulunamazsa → ⚠ kapsama boşluğu
+  │
+  └─ 5. YAZ          ders (draft) + örnek + ham metin depoya
+```
+
+Toplu işlemede bozuk bir metin partiyi düşürmez — hangisinin patladığını
+söyler ve devam eder.
 
 ## Dört tasarım kararı
 

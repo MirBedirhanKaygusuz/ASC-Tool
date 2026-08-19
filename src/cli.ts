@@ -34,9 +34,14 @@ Greenlight — Store Policy Checker
 
   npm run corpus        kural kitabını doğrula ve listele
 
-  npm run learn -- <reject.txt> [--app Glamio]
-                        ham red metnini ders olarak işle
-                        (yeni ders veya mevcut dersin örneği)
+  npm run learn -- --paste [--app Glamio]     panodaki metni işle (macOS)
+  npm run learn -- <reject.txt>               tek dosya
+  npm run learn -- --dir rejects/             klasördeki hepsi
+  pbpaste | npm run learn -- --stdin          boru hattı
+
+                        Ham red metnini ders olarak işler: yeni bir kalıpsa
+                        yeni ders açar, bilinen bir kalıpsa mevcut dersin
+                        örneği olarak ekler.
 
   npm run lessons                    dersleri listele
   npm run lessons -- approve <id>    taslak dersi aktifleştir
@@ -214,11 +219,8 @@ async function cmdCheck() {
 }
 
 async function cmdLearn() {
-  const file = args[1]
-  if (!file || file.startsWith('--')) usage()
-
-  const { readFile } = await import('node:fs/promises')
-  const raw = await readFile(file!, 'utf8')
+  const inputs = await collectRejectTexts()
+  if (!inputs.length) usage()
 
   const llm = await createProvider()
   const health = await llm.healthcheck()
@@ -227,33 +229,95 @@ async function cmdLearn() {
   const store = await createLessonStore()
   await store.healthcheck()
   const { cards } = await loadCorpus()
-
-  console.error(`→ ${file} işleniyor (${llm.name}/${llm.model}, depo: ${store.name})`)
-
   const { ingestReject } = await import('./lessons/ingest.js')
-  const r = await ingestReject(llm, store, raw, cards, { appName: flag('--app') })
 
-  console.log()
-  console.log(r.kind === 'new-lesson' ? '✚ YENİ DERS' : '＋ MEVCUT DERSE ÖRNEK EKLENDİ')
-  console.log(`  id        ${r.lesson.id}`)
-  console.log(`  başlık    ${r.lesson.title}`)
-  console.log(`  madde     ${r.lesson.platform} ${r.lesson.guideline}`)
-  console.log(`  kart      ${r.lesson.ruleId ?? '⚠ YOK'}`)
-  console.log(`  durum     ${r.lesson.status}`)
-  console.log(`  örnek     ${r.lesson.exampleCount + (r.kind === 'new-lesson' ? 1 : 1)}`)
-  console.log(`  gerekçe   ${r.matchReason}`)
-  console.log()
-  console.log(`  ders: ${r.extracted.summary}`)
+  console.error(
+    `→ ${inputs.length} red metni işlenecek (${llm.name}/${llm.model}, depo: ${store.name})`,
+  )
 
-  if (r.coverageGap) {
-    console.log()
-    console.log('  ⚠ KAPSAMA BOŞLUĞU — bu red hiçbir kartla eşleşmiyor.')
-    console.log(`     ${r.lesson.guideline} için bir kural kartı yaz.`)
+  const drafts: string[] = []
+  const gaps: string[] = []
+
+  for (const [i, input] of inputs.entries()) {
+    console.error(`\n[${i + 1}/${inputs.length}] ${input.label}`)
+    let r
+    try {
+      r = await ingestReject(llm, store, input.text, cards, { appName: flag('--app') })
+    } catch (e) {
+      // Tek bozuk metin tüm partiyi düşürmesin — hangisi patladı, söyle ve devam et.
+      console.error(`  ✗ işlenemedi: ${(e as Error).message}`)
+      continue
+    }
+
+    console.log(r.kind === 'new-lesson' ? '✚ YENİ DERS' : '＋ MEVCUT DERSE ÖRNEK')
+    console.log(`  id        ${r.lesson.id}`)
+    console.log(`  madde     ${r.lesson.platform} ${r.lesson.guideline} · ${r.lesson.artifact ?? '—'}`)
+    console.log(`  kart      ${r.lesson.ruleId ?? '⚠ YOK'}`)
+    console.log(`  gerekçe   ${r.matchReason}`)
+    console.log(`  ders      ${r.extracted.summary}`)
+
+    if (r.coverageGap && !gaps.includes(r.lesson.id)) gaps.push(r.lesson.id)
+    if (r.lesson.status === 'draft' && !drafts.includes(r.lesson.id)) drafts.push(r.lesson.id)
   }
-  if (r.lesson.status === 'draft') {
+
+  if (gaps.length) {
     console.log()
-    console.log(`  Denetimde kullanmak için:  npm run lessons -- approve ${r.lesson.id}`)
+    console.log(`⚠ KAPSAMA BOŞLUĞU (${gaps.length}) — bu red'ler hiçbir kartla eşleşmiyor:`)
+    for (const id of gaps) console.log(`   ${id}`)
+    console.log('   Bunlar için kural kartı yazılmalı.')
   }
+  if (drafts.length) {
+    console.log()
+    console.log(`${drafts.length} ders onay bekliyor. Denetimde kullanmak için:`)
+    for (const id of drafts) console.log(`   npm run lessons -- approve ${id}`)
+  }
+}
+
+/**
+ * Red metni üç yoldan gelebilir. Gerçek akış kopyala-yapıştır olduğu için
+ * dosyaya kaydettirmek gereksiz sürtüşme — hangisini kullanırsan kullan,
+ * ham metin depoya olduğu gibi yazılır, kaynak izi kaybolmaz.
+ */
+async function collectRejectTexts(): Promise<Array<{ label: string; text: string }>> {
+  const { readFile, readdir } = await import('node:fs/promises')
+  const { join } = await import('node:path')
+
+  // 1) Panodan (macOS)
+  if (args.includes('--paste')) {
+    const { execFile } = await import('node:child_process')
+    const { promisify } = await import('node:util')
+    const { stdout } = await promisify(execFile)('pbpaste')
+    if (!stdout.trim()) throw new Error('Pano boş.')
+    return [{ label: 'pano', text: stdout }]
+  }
+
+  // 2) Boru hattından:  pbpaste | npm run learn -- --stdin
+  if (args.includes('--stdin') || args[1] === '-') {
+    const chunks: Buffer[] = []
+    for await (const c of process.stdin) chunks.push(c as Buffer)
+    const text = Buffer.concat(chunks).toString('utf8')
+    if (!text.trim()) throw new Error('stdin boş.')
+    return [{ label: 'stdin', text }]
+  }
+
+  // 3) Klasördeki tüm metinler (toplu işleme)
+  const dir = flag('--dir')
+  if (dir) {
+    const entries = await readdir(dir, { withFileTypes: true })
+    const files = entries.filter((e) => e.isFile() && /\.(txt|md)$/i.test(e.name))
+    if (!files.length) throw new Error(`${dir} içinde .txt/.md yok.`)
+    return Promise.all(
+      files.map(async (f) => ({
+        label: join(dir, f.name),
+        text: await readFile(join(dir, f.name), 'utf8'),
+      })),
+    )
+  }
+
+  // 4) Tek dosya
+  const file = args[1]
+  if (!file || file.startsWith('--')) return []
+  return [{ label: file, text: await readFile(file, 'utf8') }]
 }
 
 async function cmdLessons() {
