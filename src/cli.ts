@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+// .env'i yükle. Node bunu kendiliğinden yapmaz; bağımlılık eklemeye de gerek
+// yok — process.loadEnvFile yerleşik. Dosya yoksa sessizce geç.
+try {
+  process.loadEnvFile('.env')
+} catch {
+  /* .env yok — ortam değişkenleri doğrudan verilmiş olabilir */
+}
+
 import { writeFile, mkdir } from 'node:fs/promises'
 import { loadFixture } from './fetch/index.js'
 import { runLint } from './lint/index.js'

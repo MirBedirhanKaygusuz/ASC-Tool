@@ -125,8 +125,8 @@ function needsVision(card: RuleCard): boolean {
 
 interface RawFinding {
   artifact: string
-  mediaId?: string
-  iapId?: string
+  mediaId?: string | null
+  iapId?: string | null
   excerpt: string
   rationale: string
   suggestedFix: string

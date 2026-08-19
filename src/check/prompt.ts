@@ -31,15 +31,18 @@ export const FINDINGS_SCHEMA: Record<string, unknown> = {
       items: {
         type: 'object',
         additionalProperties: false,
-        required: ['artifact', 'excerpt', 'severity', 'suggestedFix', 'rationale'],
+        // OpenAI katı şema modu properties'teki HER anahtarın required'da
+        // olmasını ister; opsiyonellik nullable tiple ifade edilir.
+        // Ollama da bu biçimi kabul ediyor — tek şema iki motoru da besliyor.
+        required: ['artifact', 'excerpt', 'severity', 'suggestedFix', 'rationale', 'mediaId', 'iapId'],
         properties: {
           artifact: { type: 'string', maxLength: 40, description: 'description | subtitle | keywords | screenshots | iap ...' },
           excerpt: { type: 'string', maxLength: 300, description: 'İçerikten BİREBİR alıntı' },
           severity: { type: 'string', enum: ['high', 'medium', 'low'] },
           suggestedFix: { type: 'string', maxLength: 200 },
           rationale: { type: 'string', maxLength: 300, description: 'En fazla 2 cümle' },
-          mediaId: { type: 'string', maxLength: 60 },
-          iapId: { type: 'string', maxLength: 80 },
+          mediaId: { type: ['string', 'null'], maxLength: 60, description: 'artifact=screenshots ise ekran görüntüsü id, değilse null' },
+          iapId: { type: ['string', 'null'], maxLength: 80, description: 'artifact=iap ise paket id, değilse null' },
         },
       },
     },

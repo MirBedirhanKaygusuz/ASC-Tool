@@ -40,7 +40,31 @@ fetch → normalize → LINT → select → check → ground → verify → repo
                      └─ LLM'siz kesin kontroller
 ```
 
-## Model: yerel
+## Model
+
+Sağlayıcı arayüzü ([src/llm/types.ts](src/llm/types.ts)) motoru soyutluyor;
+`.env` ile değişiyor. Üç seçenek:
+
+| Backend | Ne zaman | Vision | Eşzamanlılık |
+|---|---|---|---|
+| `openai` | **varsayılan** — gpt-4o-mini | ✅ | 4 |
+| `ollama` | maliyetsiz yerel geliştirme | modele bağlı | 1 |
+| `anthropic` | kalite tavanı ölçümü | ✅ | 4 |
+
+`openai` backend'i her OpenAI-uyumlu uca çalışır (LM Studio, vLLM, başka
+sağlayıcılar) — değişen sadece `OPENAI_BASE_URL` ve `OPENAI_MODEL`.
+
+### gpt-4o-mini neyi açıyor
+
+Yerel `qwen3:8b` metin-only olduğu için **5 görsel kartı çalıştırılamıyordu**
+(paywall EULA / fiyat / restore, Apple ile giriş, ekran görüntüsü uyumu).
+gpt-4o-mini görsel okuyabildiği için `OPENAI_VISION=1` bunları açıyor —
+ama gerçek ekran görüntüsü dosyaları da gerekiyor.
+
+Ayrıca katı `json_schema` desteklediği için `OPENAI_STRICT_SCHEMA=1` ile
+çıktı biçimi dil bilgisi seviyesinde garanti altına alınıyor.
+
+## Yerel model notları
 
 Case "maliyeti düşürmek için yerel LLM tercih edilebilir" diyor. Boru hattı bir
 sağlayıcı arayüzü ([src/llm/types.ts](src/llm/types.ts)) konuşur; motor takılıp
@@ -51,7 +75,7 @@ duruyor ama **varsayılan değil** ve anahtar yoksa hiç devreye girmiyor. İki 
 vision (yerel görsel modelleri ince yazı okumada zayıf, case hibrit'e izin veriyor)
 ve "yerel model ne kaybettiriyor" sorusunu aynı eval'de ölçmek.
 
-### Yerelde değişen üç şey
+### Ollama kullanırken değişen şeyler
 
 **1. `num_ctx` — en sinsi hata.**
 Ollama'nın varsayılan bağlamı küçüktür ve fazlasını **sessizce keser**. Bizim

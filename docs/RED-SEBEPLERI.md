@@ -134,3 +134,25 @@ görünmemeli.
 Açmak için: vision destekli model (`gemma3:12b`, `qwen2.5vl:7b`) veya
 `OPENAI_VISION=1` + vision destekleyen uzak model, artı gerçek ekran görüntüsü
 dosyaları.
+
+
+---
+
+# App Store Connect API ve red gerekçeleri
+
+API bağlandığında ne elde edilir, ne edilmez — plan buna göre kurulmalı:
+
+| Veri | ASC API'de | Not |
+|---|---|---|
+| Sürüm durumu (`REJECTED`, `METADATA_REJECTED`, `DEVELOPER_REJECTED`) | ✅ | `appStoreVersions.appStoreState` |
+| Red tarihi + hangi sürüm | ✅ | Red takvimi otomatik çıkarılabilir |
+| Listing içeriği (metin, görsel, IAP) | ✅ | Denetimin asıl girdisi |
+| Review bilgileri (demo hesap, notlar) | ✅ | `appStoreReviewDetail` |
+| **Reviewer'ın red gerekçesi metni** | ❌ | Resolution Center'da; public API'de karşılığı yok |
+
+Sonuç: **red'in olduğunu** API'den öğreniriz, **neden olduğunu** elle
+kopyalarız (`npm run learn -- --paste`).
+
+Yine de değerli: red tarihini o sürümün listing'iyle eşleştirebilirsek
+"reddedildiği andaki listing"i elde ederiz — eval vakası için asıl istediğimiz
+bu. Sürüm geçmişinin API'de ne kadar geriye gittiği denenerek görülecek.

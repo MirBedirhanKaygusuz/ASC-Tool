@@ -19,7 +19,10 @@ import type { Platform, RuleCard } from '../types.js'
 const EXTRACT_SCHEMA: Record<string, unknown> = {
   type: 'object',
   additionalProperties: false,
-  required: ['platform', 'guideline', 'title', 'artifact', 'excerpt', 'reviewerText', 'severity', 'summary'],
+  required: [
+    'platform', 'guideline', 'title', 'artifact', 'excerpt', 'reviewerText',
+    'severity', 'summary', 'resolution', 'appName', 'rejectedAt',
+  ],
   properties: {
     platform: { type: 'string', enum: ['apple', 'google'] },
     guideline: { type: 'string', maxLength: 40, description: 'YALNIZCA madde numarası, ör. "2.3.3". Başlık metnini ekleme.' },
@@ -35,9 +38,9 @@ const EXTRACT_SCHEMA: Record<string, unknown> = {
       type: 'string', minLength: 20, maxLength: 400,
       description: 'REVIEWER ne dedi. ÖRNEK: "Screenshots do not sufficiently reflect the app in use." Bu alan asla boş kalmaz.',
     },
-    resolution: { type: 'string', maxLength: 300, description: 'Next Steps bölümünde ne isteniyorsa' },
-    appName: { type: 'string', maxLength: 80 },
-    rejectedAt: { type: 'string', maxLength: 20, description: 'YYYY-MM-DD, yazmıyorsa boş' },
+    resolution: { type: ['string', 'null'], maxLength: 300, description: 'Next Steps bölümünde ne isteniyorsa, yoksa null' },
+    appName: { type: ['string', 'null'], maxLength: 80, description: 'Metinde geçiyorsa, yoksa null' },
+    rejectedAt: { type: ['string', 'null'], maxLength: 20, description: 'YYYY-MM-DD, yazmıyorsa null' },
     severity: { type: 'string', enum: ['high', 'medium', 'low'] },
     summary: { type: 'string', maxLength: 300, description: 'Bu red kalıbının 1-2 cümlelik dersi. Gelecekte bunu nasıl yakalarız.' },
   },
@@ -73,9 +76,9 @@ export interface Extracted {
   artifact: string
   excerpt: string
   reviewerText: string
-  resolution?: string
-  appName?: string
-  rejectedAt?: string
+  resolution?: string | null
+  appName?: string | null
+  rejectedAt?: string | null
   severity: 'high' | 'medium' | 'low'
   summary: string
 }
