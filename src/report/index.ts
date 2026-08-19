@@ -1,4 +1,4 @@
-import type { Report, Finding, LintFinding } from '../types.js'
+import type { Report, Finding, LintFinding, ManualCheck } from '../types.js'
 
 const W = { high: 30, medium: 10, low: 3 } as const
 
@@ -8,6 +8,25 @@ export function riskScore(lint: LintFinding[], findings: Finding[]): number {
   for (const l of lint) s += W[l.severity]
   for (const f of findings) s += W[f.severity] * (f.outcome === 'violation' ? 1 : 0.5)
   return Math.min(100, Math.round(s))
+}
+
+/**
+ * Aynı alan + aynı alıntı için birden fazla kart bulgu ürettiyse tek bulguda
+ * topla. Aksi halde tek bir cümle rapora 3 kez düşer ve "listing başına
+ * yanlış alarm" metriği şişer — kullanıcı da aracı gürültülü bulur.
+ */
+export function dedupeFindings(findings: Finding[]): Finding[] {
+  const groups = new Map<string, Finding[]>()
+  for (const f of findings) {
+    const key = `${f.artifact}::${f.excerpt.trim().toLowerCase()}`
+    groups.set(key, [...(groups.get(key) ?? []), f])
+  }
+  const rank = { high: 3, medium: 2, low: 1 } as const
+  return [...groups.values()].map((g) => {
+    const primary = [...g].sort((a, b) => rank[b.severity] - rank[a.severity])[0]!
+    if (g.length === 1) return primary
+    return { ...primary, ruleId: g.map((f) => f.ruleId).join(' + ') }
+  })
 }
 
 export function renderMarkdown(r: Report): string {
@@ -47,8 +66,28 @@ export function renderMarkdown(r: Report): string {
   }
 
   if (!r.lint.length && !r.findings.length) {
-    L.push('✅ Bulgu yok.')
+    L.push('✅ Otomatik bulgu yok.')
     L.push('')
+  }
+
+  // Denetlenmeyeni raporda göstermek zorunlu: aksi halde "bulgu yok" ile
+  // "bakılmadı" aynı görünür ve rapor yanlış güven verir.
+  if (r.notChecked.length) {
+    L.push(`## ⚠ Denetlenmedi (${r.notChecked.length})`)
+    L.push('')
+    L.push('_Bu kurallar ekran görüntüsü görmeden cevaplanamaz ve çalıştırılmadı._')
+    L.push('_Vision destekli bir model kullan ya da görsel dosyalarını sağla._')
+    L.push('')
+    for (const id of r.notChecked) L.push(`- \`${id}\``)
+    L.push('')
+  }
+
+  if (r.manual.length) {
+    L.push(`## Elle doğrula (${r.manual.length})`)
+    L.push('')
+    L.push('_Bu maddeler listing içeriğinden görülemez — uygulamanın kendisinde kontrol edilmeli._')
+    L.push('')
+    for (const m of r.manual) L.push(...renderManual(m))
   }
 
   L.push('---')
@@ -59,6 +98,15 @@ export function renderMarkdown(r: Report): string {
   )
 
   return L.join('\n')
+}
+
+function renderManual(m: ManualCheck): string[] {
+  return [
+    `☐ **${m.why}** — \`${m.ruleId}\``,
+    `   ${m.question}`,
+    `   ↳ *${m.source.doc} ${m.source.section}*`,
+    '',
+  ]
 }
 
 function renderFinding(f: Finding): string[] {

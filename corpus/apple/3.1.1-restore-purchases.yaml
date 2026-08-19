@@ -1,0 +1,29 @@
+id: apple-3.1.1-restore-purchases
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#in-app-purchase
+  retrievedAt: "2026-08-19"
+tags: [subscriptions, paywall, vision]
+scope: cross
+needs: [screenshots, iap]
+appliesWhen:
+  hasSubscription: true
+facts:
+  - "Apple, kullanıcının daha önce satın aldığı içeriği geri yükleyebilmesi için satın alma ekranında bir 'Restore Purchases' mekanizması ister."
+  - "Düğme metni 'Restore', 'Restore Purchases' veya 'Already subscribed?' şeklinde olabilir."
+requiresVision: true
+
+question: >
+  Paywall / satın alma ekran görüntüsünde satın almaları geri yükleme
+  seçeneği görünüyor mu ("Restore", "Restore Purchases", "Already subscribed?")?
+  Görünmüyorsa bildir. Ekran görüntüleri arasında paywall yoksa bulgu üretme.
+ruleText: >
+  Satın alınabilir içerik sunan uygulamalar, kullanıcının önceki satın
+  alımlarını geri yükleyebileceği bir mekanizma sunmalıdır.
+positiveExample: "Paywall'da sadece 'Subscribe' ve 'Close' var; geri yükleme seçeneği yok."
+negativeExample: "Paywall'ın altında 'Restore Purchases' bağlantısı görünüyor."
+outcome: violation
+defaultSeverity: medium
+version: 1

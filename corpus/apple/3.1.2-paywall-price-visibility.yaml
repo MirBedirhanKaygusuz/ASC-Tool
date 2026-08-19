@@ -1,0 +1,28 @@
+id: apple-3.1.2-paywall-price-visibility
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#subscriptions
+  retrievedAt: "2026-08-19"
+tags: [subscriptions, paywall, pricing, vision]
+scope: cross
+needs: [screenshots, iap]
+appliesWhen:
+  hasSubscription: true
+requiresVision: true
+
+question: >
+  Paywall ekran görüntüsünde abonelik FİYATI ve DÖNEMİ (haftalık/aylık/yıllık)
+  birlikte, okunabilir biçimde görünüyor mu? Ayrıca ekranda görünen fiyat,
+  sana verilen abonelik paketlerinin fiyatlarıyla uyuşuyor mu? Fiyat hiç
+  görünmüyorsa ya da dönem belirtilmemişse bildir. Ekranda görünen fiyat
+  tanımlı paketlerden farklıysa ayrıca bildir.
+ruleText: >
+  Abonelik satın alma ekranında fiyat ve abonelik dönemi kullanıcıya açıkça
+  gösterilmelidir; gösterilen fiyat gerçek fiyatla aynı olmalıdır.
+positiveExample: "Paywall'da yalnızca 'Start Free Trial' yazıyor, fiyat ve dönem hiç görünmüyor."
+negativeExample: "Paywall'da '$9.99 / week, auto-renews' açıkça yazıyor."
+outcome: violation
+defaultSeverity: high
+version: 1

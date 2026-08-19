@@ -79,3 +79,58 @@ EULA linkini/fiyatı okuyabiliyor diye bakmak.
 21 (şablon uygulama) ve 23 (aslında web sayfası) için kart **yazmıyoruz**.
 Listing'den güvenilir sinyal yok; yazılırsa yalancı alarm üretir ve aracın
 güvenilirliğini bozar. Bunlar insan gözü / Faz 2 işi.
+
+
+---
+
+# Kapsama durumu — 2026-08-19
+
+23 maddenin **hepsi** sistemde. Nasıl kontrol edildikleri farklı:
+
+| # | Red sebebi | Nasıl kontrol ediliyor |
+|---|---|---|
+| 1 | Açılışta çökme | `apple-2.1-launch-crash` (elle) |
+| 2 | Demo hesap vermeme | `lint-demo-account-missing` |
+| 3 | Demo hesap geçersiz | `lint-demo-account-placeholder` |
+| 4 | Özellik bulunamıyor | `apple-2.3.3-feature-not-evidenced` |
+| 5 | Gizlilik bilgisi yok | `lint-privacy-policy-missing` + `lint-privacy-url-dead` |
+| 6 | Etiket uyuşmuyor | `apple-5.1.1-privacy-claim-contradiction` (kısmi) |
+| 7 | Destek linki ölü | `lint-support-url-dead` |
+| 8 | Abonelik bilgisi yok | `apple-3.1.2-subscription-disclosure` + `lint-trial-no-autorenew-mention` |
+| 9 | Paywall EULA yok | `apple-3.1.2-paywall-terms-links` 👁 |
+| 10 | Fiyat görünmemesi | `apple-3.1.2-paywall-price-visibility` 👁 + `lint-price-mismatch` |
+| 11 | Geri yükleme yok | `apple-3.1.1-restore-purchases` 👁 |
+| 12 | Dışarı ödeme linki | `apple-3.1.1-external-purchase-steering` |
+| 13 | Hesap silme yok | `apple-5.1.1v-account-deletion` (elle) |
+| 14 | Apple ile giriş yok | `apple-4.8-sign-in-with-apple` 👁 |
+| 15 | İzin metni | `apple-5.1.1-purpose-strings` (elle) |
+| 16 | Takip izni | `apple-5.1.2-att` (elle) |
+| 17 | Yakında ekranı | `apple-2.1-coming-soon-placeholder` |
+| 18 | Görseller uymaması | `apple-2.3.3-screenshots-reflect-app` 👁 |
+| 19 | Metinde başka marka | `apple-5.2-third-party-brand-in-text` + `apple-2.3.7-keyword-misuse` |
+| 20 | Yaş sınırı yanlışları | `shared-age-rating-consistency` + `lint-age-rating-ugc-mismatch` |
+| 21 | Şablon uygulama | `apple-4.3-spam-template` (elle) |
+| 22 | Olmayan özellik vaadi | `apple-2.3.3-feature-not-evidenced` + `apple-2.3.1-exaggerated-claims` |
+| 23 | Aslında bir web sayfası | `apple-4.2-minimum-functionality` (elle) |
+
+👁 = `requiresVision: true` — ekran görüntüsü görmeden çalıştırılmaz.
+
+## Üç kart türü
+
+- **`violation`** — kesin ihlal, rapora kırmızı düşer
+- **`risk`** — insan kararı gerekir, sarı
+- **`manual`** — listing'den GÖRÜLEMEZ. LLM'e hiç gitmez; rapora "elle doğrula"
+  maddesi olarak düşer. Böylece kapsama tam kalır ama uydurma bulgu üretilmez.
+
+## Vision olmadan 5 kart çalışmıyor
+
+`requiresVision: true` işaretli kartlar görsel yokken **çalıştırılmıyor** ve
+raporda "⚠ Denetlenmedi" başlığı altında listeleniyor.
+
+Bu bilerek: çalıştırılsalardı model "paywall ekranı bulamadım" der, rapor temiz
+görünür, konu hiç denetlenmemiş olurdu. "Bulgu yok" ile "bakılmadı" aynı
+görünmemeli.
+
+Açmak için: vision destekli model (`gemma3:12b`, `qwen2.5vl:7b`) veya
+`OPENAI_VISION=1` + vision destekleyen uzak model, artı gerçek ekran görüntüsü
+dosyaları.

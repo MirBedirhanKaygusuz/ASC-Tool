@@ -1,0 +1,26 @@
+id: apple-2.3.3-feature-not-evidenced
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#accurate-metadata
+  retrievedAt: "2026-08-19"
+tags: [metadata, claims, screenshots]
+# Red sebebi #4 (özellik bulunamıyor) + #22 (olmayan özellik vaadi).
+# Aynı mekanizma: metin bir şey vaat ediyor, hiçbir kanıt yok.
+scope: cross
+needs: [description, subtitle, promotionalText, screenshots]
+question: >
+  Açıklama veya alt başlık, somut ve ayırt edici bir ÖZELLİK vaat ediyor mu
+  (ör. "video düzenleme", "bulut yedekleme", "canlı destek", "AR deneme")?
+  Ediyorsa, o özelliğin ekran görüntülerinde ya da uygulama tanımında hiçbir
+  izi yok mu? Yalnızca hiçbir kanıtı olmayan somut vaatleri bildir. Genel
+  pazarlama ifadeleri ("kolay kullanım", "hızlı") özellik vaadi DEĞİLDİR.
+ruleText: >
+  Metadata'da tanıtılan özellikler uygulamada gerçekten bulunmalıdır.
+  Reviewer tanıtılan bir özelliği bulamazsa gönderim reddedilir.
+positiveExample: "Includes live 24/7 video consultation with certified dermatologists."
+negativeExample: "Fast, easy and beautiful photo editing on your phone."
+outcome: risk
+defaultSeverity: medium
+version: 1

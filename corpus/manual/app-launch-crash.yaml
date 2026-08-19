@@ -1,0 +1,17 @@
+id: apple-2.1-launch-crash
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#app-completeness
+  retrievedAt: "2026-08-19"
+tags: [checklist, completeness]
+scope: single
+needs: []
+question: >
+  Gönderilecek build temiz bir cihazda açılıyor mu? Uygulamayı sil, App Store sürümünü kur, uçak modunda ve normal ağda aç. Reviewer'ın kullandığı iOS sürümünde test edildi mi?
+ruleText: >
+  Uygulama açılışta çökmemeli ve gönderilen build tamamlanmış olmalıdır. Bu listing icerigi disinda; cihazda dogrulanmali.
+outcome: manual
+defaultSeverity: high
+version: 1

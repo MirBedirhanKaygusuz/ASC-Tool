@@ -6,6 +6,8 @@ export interface CheckStats {
   rulesRun: number
   /** Yanıtı yarıda kesilen çağrı sayısı — bulgu sessizce kaybolur, uyar. */
   truncated: number
+  /** Görsel gerektirdiği halde görsel olmadığı için ÇALIŞTIRILMAYAN kartlar. */
+  skippedNoVision: string[]
   /** JSON parse edilemeyen çağrı sayısı. */
   unparsable: number
   inputTokens: number
@@ -35,16 +37,26 @@ export async function runCheck(
   onProgress?: (done: number, total: number, ruleId: string, ms: number) => void,
 ): Promise<{ findings: Finding[]; stats: CheckStats }> {
   const prefix = await submissionPrefix(sub, { withImages: llm.supportsVision })
+  const imagesInPrefix = prefix.filter((b) => b.type === 'image').length
 
   const stats: CheckStats = {
-    rulesRun: 0, truncated: 0, unparsable: 0,
+    rulesRun: 0, truncated: 0, unparsable: 0, skippedNoVision: [],
     inputTokens: 0, outputTokens: 0, cachedTokens: 0,
     ms: 0, firstCallMs: 0, avgCallMs: 0,
   }
   const findings: Finding[] = []
   const t0 = Date.now()
 
-  const queue = [...rules]
+  // Görsel gerektiren bir kartı görsel olmadan çalıştırmak, en tehlikeli
+  // sonucu üretir: model "paywall ekranı yok" der, rapor TEMİZ görünür, ama
+  // aslında hiç bakılmamıştır. Çalıştırmak yerine açıkça atlıyoruz.
+  const runnable: RuleCard[] = []
+  for (const r of rules) {
+    if (needsVision(r) && imagesInPrefix === 0) stats.skippedNoVision.push(r.id)
+    else runnable.push(r)
+  }
+
+  const queue = [...runnable]
   const workers = Math.max(1, llm.concurrency)
 
   await Promise.all(
@@ -54,7 +66,7 @@ export async function runCheck(
         if (!rule) return
         const got = await one(llm, sub, prefix, rule, stats)
         findings.push(...got)
-        onProgress?.(stats.rulesRun, rules.length, rule.id, stats.ms)
+        onProgress?.(stats.rulesRun, runnable.length, rule.id, stats.ms)
       }
     }),
   )
@@ -97,6 +109,13 @@ async function one(
   return parsed.findings.map((f) => toFinding(sub, rule, f))
 }
 
+/** Kart görsel içeriğe bakmadan anlamlı çalışabilir mi? */
+function needsVision(card: RuleCard): boolean {
+  if (card.requiresVision) return true
+  const visual: ReadonlyArray<string> = ['screenshots', 'icon', 'previewVideo']
+  return card.needs.length > 0 && card.needs.every((n) => visual.includes(n))
+}
+
 interface RawFinding {
   artifact: string
   mediaId?: string
@@ -112,7 +131,7 @@ function toFinding(sub: Submission, rule: RuleCard, raw: RawFinding): Finding {
     ruleId: rule.id,
     platform: sub.platform,
     severity: raw.severity ?? rule.defaultSeverity,
-    outcome: rule.outcome,
+    outcome: rule.outcome === 'manual' ? 'risk' : rule.outcome, // manual kart buraya hiç gelmez
     artifact: raw.artifact as ArtifactKind,
     locator: toLocator(raw),
     excerpt: raw.excerpt ?? '',

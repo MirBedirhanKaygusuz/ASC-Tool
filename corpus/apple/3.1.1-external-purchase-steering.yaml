@@ -1,0 +1,29 @@
+id: apple-3.1.1-external-purchase-steering
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#in-app-purchase
+  retrievedAt: "2026-08-19"
+tags: [monetization, steering]
+# Red sebebi #12. Uygulama içi hali erişilmez; listing'den görülen yarısı
+# metinde/görselde dışarıya ödeme yönlendirmesi.
+scope: cross
+needs: [description, promotionalText, subtitle, whatsNew, screenshots, urls]
+facts:
+  - "Apple, dijital içerik için kullanıcıyı uygulama dışı bir ödeme yöntemine yönlendirmeyi yasaklar."
+  - "Fiziksel ürün/hizmet satışı (kargo gerektiren mal, gerçek dünyada verilen hizmet) bu yasağın dışındadır."
+question: >
+  Metin veya ekran görüntüleri, kullanıcıyı dijital içerik/abonelik için
+  uygulama DIŞINDA bir ödeme yoluna yönlendiriyor mu? Örnek işaretler:
+  "web sitemizden daha ucuz", "sitemizden abone ol", "buradan satın al" +
+  harici bağlantı, indirim kodu ile site yönlendirmesi. Sadece genel bir
+  web sitesi bağlantısı yönlendirme DEĞİLDİR.
+ruleText: >
+  Uygulama içi dijital içerik yalnızca Apple'ın satın alma sistemiyle
+  satılabilir; kullanıcıyı harici ödeme yöntemlerine yönlendirmek yasaktır.
+positiveExample: "Subscribe on our website for 50% less — glamio.com/pro"
+negativeExample: "Learn more about Glamio at glamio.com"
+outcome: violation
+defaultSeverity: high
+version: 1

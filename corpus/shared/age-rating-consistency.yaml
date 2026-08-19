@@ -1,0 +1,26 @@
+id: shared-age-rating-consistency
+platform: both
+source:
+  doc: Apple App Review Guidelines / Google Play Developer Policy
+  section: "1.1 / Content Ratings"
+  url: https://developer.apple.com/app-store/review/guidelines/#safety
+  retrievedAt: "2026-08-19"
+tags: [age-rating, safety, vision]
+scope: cross
+needs: [ageRating, description, screenshots, category]
+facts:
+  - "Kullanıcı içeriği barındıran, sosyal etkileşim sunan veya AI ile gerçekçi insan görüntüsü üreten uygulamalar genellikle 4+ / Everyone derecesine uygun değildir."
+  - "Kozmetik/vücut değiştirme, flört, şiddet veya müstehcenliğe yakın içerik daha yüksek yaş sınırı gerektirir."
+question: >
+  Uygulamanın beyan edilen yaş sınırı, içeriğiyle tutarlı mı? Şunlara bak:
+  metin veya ekran görüntüleri müstehcenliğe yakın, vücut/yüz değiştirme,
+  flört, şiddet ya da kullanıcı içeriği barındırma işareti veriyor mu?
+  Veriyorsa ve beyan edilen yaş sınırı düşükse bildir. Emin değilsen bildirme.
+ruleText: >
+  Beyan edilen yaş sınırı/içerik derecelendirmesi uygulamanın gerçek
+  içeriğiyle tutarlı olmalıdır.
+positiveExample: "Yaş sınırı 4+ ama açıklamada 'AI ile vücudunu yeniden şekillendir' ve kullanıcı galerisi var."
+negativeExample: "Yaş sınırı 12+ ve uygulama basit fotoğraf filtreleri sunuyor."
+outcome: risk
+defaultSeverity: medium
+version: 1

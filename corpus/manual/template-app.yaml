@@ -1,0 +1,17 @@
+id: apple-4.3-spam-template
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#design
+  retrievedAt: "2026-08-19"
+tags: [checklist, spam]
+scope: single
+needs: []
+question: >
+  Uygulama bir şablondan/jeneratörden üretilmiş ya da mağazadaki benzerlerinden ayırt edilemez mi? Ayırt edici bir işlevi var mı? Bu, listing icerigine bakarak guvenilir sekilde yargilanamaz.
+ruleText: >
+  Sablondan uretilmis, ayirt edici islevi olmayan veya mevcut uygulamalarin kopyasi olan gonderimler spam olarak reddedilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

@@ -1,0 +1,27 @@
+id: apple-5.1.1-privacy-claim-contradiction
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage
+  retrievedAt: "2026-08-19"
+tags: [privacy, claims]
+# Red sebebi #6. Tam kontrol (etiket vs gerçek davranış) binary/ağ analizi
+# ister; listing'den görülebilen yarısı metin ile etiketin çelişmesi.
+scope: cross
+needs: [description, promotionalText, subtitle]
+question: >
+  Metin, veri toplama konusunda mutlak bir iddia içeriyor mu — "hiçbir veri
+  toplamıyoruz", "verileriniz asla sunucuya gitmez", "%100 çevrimdışı",
+  "hiç takip yok"? Böyle bir iddia varken uygulamanın hesap/giriş gerektirmesi,
+  bulut işleme yapması ya da analitik/reklam içermesi bu iddiayla çelişir.
+  Yalnızca MUTLAK ifadeleri bildir; "gizliliğinize önem veriyoruz" gibi genel
+  cümleler ihlal değildir.
+ruleText: >
+  Gizlilik beyanları uygulamanın gerçek veri davranışıyla ve App Privacy
+  etiketiyle tutarlı olmalıdır. Çelişkili mutlak iddialar reddedilir.
+positiveExample: "We never collect any data. 100% offline, zero tracking."
+negativeExample: "Your privacy matters to us. Read our privacy policy for details."
+outcome: risk
+defaultSeverity: high
+version: 1

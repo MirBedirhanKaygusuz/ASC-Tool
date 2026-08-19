@@ -1,0 +1,24 @@
+id: apple-2.1-coming-soon-placeholder
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#app-completeness
+  retrievedAt: "2026-08-19"
+tags: [completeness, vision, metadata]
+scope: cross
+needs: [screenshots, description, whatsNew, promotionalText]
+question: >
+  Ekran görüntülerinde veya metinlerde henüz hazır olmayan bir işlev işareti
+  var mı? Örnekler: ekranda "Coming soon", "Yakında", "Beta", "Under
+  construction", boş/placeholder içerik, "Lorem ipsum", gri kutu yer
+  tutucular. Metinde "yakında eklenecek" biçiminde vaat edilen özellikler de
+  bu kapsamdadır. Gelecek sürüm planından genel bahsetmek ihlal DEĞİLDİR.
+ruleText: >
+  Uygulama ve metadata gönderim anında tamamlanmış olmalıdır. "Yakında"
+  içerikleri, yer tutucular ve tamamlanmamış ekranlar reddedilir.
+positiveExample: "Ekran görüntüsünde 'AI Video — Coming Soon' yazan gri bir kart var."
+negativeExample: "We ship new filters every month — follow us for updates."
+outcome: violation
+defaultSeverity: medium
+version: 1

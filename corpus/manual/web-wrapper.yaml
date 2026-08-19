@@ -1,0 +1,17 @@
+id: apple-4.2-minimum-functionality
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#design
+  retrievedAt: "2026-08-19"
+tags: [checklist, completeness]
+scope: single
+needs: []
+question: >
+  Uygulama esasen web sitesinin bir sarmalayıcısı mı? Yerel işlev sunuyor mu (bildirim, çevrimdışı, cihaz özellikleri)? Bir tarayıcıda açmaktan farkı ne? Bu, listing icerigine bakarak guvenilir sekilde yargilanamaz.
+ruleText: >
+  Uygulamalar bir web sitesini paketlemekten fazlasini sunmali, yeterli yerel islevsellige sahip olmalidir.
+outcome: manual
+defaultSeverity: high
+version: 1

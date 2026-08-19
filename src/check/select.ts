@@ -6,28 +6,45 @@ import type { Submission, RuleCard } from '../types.js'
  * Embedding/RAG YOK — corpus küçük (30-100 kart), düz filtreleme yeterli ve
  * deterministik. Corpus 500+ karta çıkarsa burası değişir, o zamana kadar değil.
  */
-export function selectRules(sub: Submission, cards: RuleCard[]): RuleCard[] {
-  return cards.filter((card) => {
-    // 1. Platform
-    if (card.platform !== 'both' && card.platform !== sub.platform) return false
+/**
+ * Kartları ikiye ayırır:
+ *   llm    — modele sorulacaklar
+ *   manual — listing'den görülemeyen, rapora kontrol maddesi olarak düşecekler
+ */
+export function selectRules(
+  sub: Submission,
+  cards: RuleCard[],
+): { llm: RuleCard[]; manual: RuleCard[] } {
+  const applicable = cards.filter((c) => c.platform === 'both' || c.platform === sub.platform)
+  return {
+    llm: applicable.filter((c) => c.outcome !== 'manual').filter((c) => passesFilters(sub, c)),
+    manual: applicable.filter((c) => c.outcome === 'manual').filter((c) => passesConditions(sub, c)),
+  }
+}
 
-    // 2. Kartın ihtiyaç duyduğu artifact'ler gerçekten var mı?
+function passesConditions(sub: Submission, card: RuleCard): boolean {
+  const w = card.appliesWhen
+  if (!w) return true
+  if (w.categories && !w.categories.includes(sub.category)) return false
+  if (w.requiresLogin !== undefined && sub.meta.requiresLogin !== w.requiresLogin) return false
+  if (w.generatesAiContent !== undefined && sub.meta.generatesAiContent !== w.generatesAiContent) return false
+  if (w.hasUserGeneratedContent !== undefined && sub.meta.hasUserGeneratedContent !== w.hasUserGeneratedContent) return false
+  if (w.hasSubscription !== undefined) {
+    if (sub.iap.some((i) => i.kind === 'subscription') !== w.hasSubscription) return false
+  }
+  return true
+}
+
+function passesFilters(sub: Submission, cards_: RuleCard): boolean {
+  return [cards_].filter((card) => {
+
+    // Kartın ihtiyaç duyduğu artifact'ler gerçekten var mı?
     if (!hasAnyNeeded(sub, card)) return false
 
-    // 3. Uygulama koşulları
-    const w = card.appliesWhen
-    if (w) {
-      if (w.categories && !w.categories.includes(sub.category)) return false
-      if (w.requiresLogin !== undefined && sub.meta.requiresLogin !== w.requiresLogin) return false
-      if (w.generatesAiContent !== undefined && sub.meta.generatesAiContent !== w.generatesAiContent) return false
-      if (w.hasUserGeneratedContent !== undefined && sub.meta.hasUserGeneratedContent !== w.hasUserGeneratedContent) return false
-      if (w.hasSubscription !== undefined) {
-        const has = sub.iap.some((i) => i.kind === 'subscription')
-        if (has !== w.hasSubscription) return false
-      }
-    }
+    // Uygulama koşulları
+    if (!passesConditions(sub, card)) return false
 
-    // 4. Ucuz ön kapı — sadece salt-metin kartlarda güvenli.
+    // Ucuz ön kapı — sadece salt-metin kartlarda güvenli.
     //    Görsel içeren kartlarda metin eşleşmemesi ihlal olmadığı anlamına gelmez.
     if (card.prefilter && card.scope === 'single' && !touchesMedia(card)) {
       const haystack = textOf(sub).toLowerCase()
@@ -36,7 +53,7 @@ export function selectRules(sub: Submission, cards: RuleCard[]): RuleCard[] {
     }
 
     return true
-  })
+  }).length > 0
 }
 
 function touchesMedia(card: RuleCard): boolean {

@@ -1,0 +1,17 @@
+id: apple-5.1.1-purpose-strings
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage
+  retrievedAt: "2026-08-19"
+tags: [checklist, privacy]
+scope: single
+needs: []
+question: >
+  Kamera, fotoğraf, konum, mikrofon gibi her izin için Info.plist'teki açıklama metni, iznin NEDEN gerektiğini somut olarak anlatıyor mu? 'Uygulama kamerayı kullanır' gibi genel metinler reddedilir.
+ruleText: >
+  Her izin istegi icin, verinin ne icin kullanilacagini acikca anlatan bir amac metni bulunmalidir.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,30 @@
+id: apple-4.8-sign-in-with-apple
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.8"
+  url: https://developer.apple.com/app-store/review/guidelines/#sign-in-with-apple
+  retrievedAt: "2026-08-19"
+tags: [login, vision]
+scope: cross
+needs: [screenshots, reviewNotes]
+appliesWhen:
+  requiresLogin: true
+facts:
+  - "Bir uygulama üçüncü taraf veya sosyal giriş (Google, Facebook, X/Twitter, Meta) sunuyorsa, Apple ile Giriş'i de eşdeğer bir seçenek olarak sunmak zorundadır."
+  - "Yalnızca e-posta/şifre ile giriş sunan uygulamalar bu şarttan muaftır."
+requiresVision: true
+
+question: >
+  Giriş/kayıt ekran görüntüsünde üçüncü taraf giriş düğmeleri (Google,
+  Facebook, X, Meta) görünüyor mu? Görünüyorsa, aynı ekranda "Sign in with
+  Apple" düğmesi de var mı? Sosyal giriş var ve Apple ile Giriş yoksa bildir.
+  Giriş ekranı görüntülerde yoksa bulgu üretme.
+ruleText: >
+  Üçüncü taraf/sosyal giriş sunan uygulamalar, Apple ile Giriş'i de eşdeğer
+  bir seçenek olarak sunmalıdır.
+positiveExample: "Giriş ekranında 'Continue with Google' ve 'Continue with Facebook' var, Apple yok."
+negativeExample: "Giriş ekranında 'Sign in with Apple', 'Continue with Google' ve e-posta seçeneği birlikte var."
+outcome: violation
+defaultSeverity: high
+version: 1

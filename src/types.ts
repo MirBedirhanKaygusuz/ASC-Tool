@@ -157,6 +157,14 @@ export interface RuleCard {
    * Ucuz ön kapı: metinde bu kalıplardan hiçbiri yoksa LLM'e hiç gitme.
    * Sadece salt-metin (scope: single) kartlarda güvenli — görsel kartlarda kullanma.
    */
+  /**
+   * Kart görsel GÖRMEDEN sorusuna cevap veremiyor mu?
+   * true ise görsel yokken çalıştırılmaz ve raporda "denetlenmedi" olarak
+   * listelenir. Çalıştırılsaydı model "paywall bulamadım" der, rapor temiz
+   * görünür, konu hiç kontrol edilmemiş olurdu.
+   */
+  requiresVision?: boolean
+
   prefilter?: string[]
 
   /**
@@ -178,16 +186,18 @@ export interface RuleCard {
   ruleText: string
 
   /** İhlal SAYILAN örnek. */
-  positiveExample: string
+  positiveExample?: string
 
   /** İhlal SAYILMAYAN örnek. Yalancı alarma karşı en etkili alan — boş bırakma. */
-  negativeExample: string
+  negativeExample?: string
 
   /**
    * violation = kesin ihlal, kırmızı
    * risk      = insan kararı gerekir, sarı ("kontrol et")
+   * manual    = listing'den görülemez. LLM'e HİÇ gitmez; rapora kontrol
+   *             maddesi olarak düşer. Kapsamı tam tutar, uydurma üretmez.
    */
-  outcome: 'violation' | 'risk'
+  outcome: 'violation' | 'risk' | 'manual'
 
   defaultSeverity: Severity
   version: number
@@ -203,6 +213,15 @@ export type Locator =
   | { type: 'image'; mediaId: string; note?: string }
   | { type: 'iap'; iapId: string }
   | { type: 'field'; field: string }
+
+export interface ManualCheck {
+  ruleId: string
+  platform: Platform
+  question: string
+  ruleText: string
+  source: RuleCard['source']
+  why: string
+}
 
 export interface Finding {
   ruleId: string
@@ -241,6 +260,9 @@ export interface Report {
   riskScore: number
   lint: LintFinding[]
   findings: Finding[]
+  manual: ManualCheck[]
+  /** Görsel gerektirdiği için çalıştırılamayan kartlar — DENETLENMEDİ. */
+  notChecked: string[]
   stats: {
     rulesSelected: number
     rulesRun: number

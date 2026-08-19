@@ -11,6 +11,7 @@ import { checkLimits } from './limits.js'
 import { checkMedia } from './media.js'
 import { checkIap } from './iap.js'
 import { checkReviewNotes } from './review-notes.js'
+import { checkPolicyFields } from './policy.js'
 
 export async function runLint(sub: Submission): Promise<LintFinding[]> {
   const results = await Promise.all([
@@ -19,6 +20,7 @@ export async function runLint(sub: Submission): Promise<LintFinding[]> {
     checkMedia(sub),
     checkIap(sub),
     checkReviewNotes(sub),
+    checkPolicyFields(sub),
   ])
   return results.flat()
 }

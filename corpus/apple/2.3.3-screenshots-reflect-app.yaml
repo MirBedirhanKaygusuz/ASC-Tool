@@ -1,0 +1,29 @@
+id: apple-2.3.3-screenshots-reflect-app
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#accurate-metadata
+  retrievedAt: "2026-08-19"
+tags: [metadata, screenshots, vision]
+# Kuralın orijinali "görsel uygulamayı yansıtmalı" — model uygulamayı hiç
+# görmedi, bunu yargılayamaz. Soruyu DARALTIYORUZ: gerçek arayüz var mı?
+# Reddedilen şey de zaten tam olarak bu.
+scope: single
+needs: [screenshots]
+requiresVision: true
+
+question: >
+  Bu ekran görüntüsünde gerçek bir uygulama ARAYÜZÜ görünüyor mu (düğmeler,
+  sekmeler, araç çubukları, durum çubuğu, menüler)? Yoksa görsel tamamen bir
+  pazarlama kompozisyonu mu — sadece bir fotoğraf, sonuç kolajı, model
+  fotoğrafı, ya da arayüzsüz "before/after" görseli? Arayüzün etrafına
+  eklenmiş çerçeve/başlık metni sorun DEĞİLDİR; sorun arayüzün HİÇ olmaması.
+ruleText: >
+  Ekran görüntüleri uygulamanın gerçek kullanımını yansıtmalıdır. Yalnızca
+  pazarlama görselinden oluşan ekran görüntüleri reddedilir.
+positiveExample: "Görsel sadece bir kadın yüzünün öncesi/sonrası fotoğrafı; hiçbir arayüz öğesi yok."
+negativeExample: "Görselde uygulama arayüzü, alt sekme çubuğu ve düzenleme araçları görünüyor; üstte tanıtım başlığı var."
+outcome: risk
+defaultSeverity: medium
+version: 1

@@ -5,9 +5,9 @@ import { runLint } from './lint/index.js'
 import { loadCorpus } from './corpus/index.js'
 import { selectRules } from './check/select.js'
 import { groundFindings } from './check/ground.js'
-import { riskScore, renderMarkdown } from './report/index.js'
+import { riskScore, renderMarkdown, dedupeFindings } from './report/index.js'
 import { createProvider } from './llm/index.js'
-import type { Report, Finding, RuleCard } from './types.js'
+import type { Report, Finding, RuleCard, ManualCheck } from './types.js'
 
 const args = process.argv.slice(2)
 const cmd = args[0]
@@ -58,14 +58,24 @@ async function cmdCheck() {
 
   // 2. Kural seçimi
   const { cards, version } = await loadCorpus()
-  const selected = selectRules(sub, cards)
-  console.error(`→ kural: ${cards.length} karttan ${selected.length} tanesi geçerli`)
+  const { llm: selected, manual: manualCards } = selectRules(sub, cards)
+  console.error(
+    `→ kural: ${cards.length} karttan ${selected.length} tanesi modele gidecek` +
+      `, ${manualCards.length} tanesi elle kontrol maddesi`,
+  )
+
+  const manual: ManualCheck[] = manualCards.map((c) => ({
+    ruleId: c.id, platform: sub.platform, question: c.question.trim(),
+    ruleText: c.ruleText.trim(), source: c.source,
+    why: c.tags.includes('checklist') ? c.ruleText.split('.')[0]!.trim() : c.id,
+  }))
 
   // 3-5. Denetim + alıntı doğrulama + ikinci göz
   let findings: Finding[] = []
   let rulesRun = 0
   let raw = 0
   let afterGround = 0
+  let notChecked: string[] = []
 
   if (!noLlm && selected.length) {
     const llm = await createProvider({ backend: flag('--llm'), model: flag('--model') })
@@ -91,6 +101,14 @@ async function cmdCheck() {
           `(ilk çağrı ${Math.round(res.stats.firstCallMs / 1000)}s, ort. ${Math.round(res.stats.avgCallMs / 1000)}s) ` +
           `· prefill ${res.stats.inputTokens} tok`,
       )
+      if (res.stats.skippedNoVision.length) {
+        console.error(
+          `   ⚠ ${res.stats.skippedNoVision.length} görsel kartı ÇALIŞTIRILMADI ` +
+            `(vision kapalı veya görsel dosyası yok) — bu konular DENETLENMEDİ:`,
+        )
+        for (const id of res.stats.skippedNoVision) console.error(`     · ${id}`)
+      }
+      notChecked = res.stats.skippedNoVision
       if (res.stats.truncated || res.stats.unparsable) {
         console.error(
           `   ⚠ ${res.stats.truncated} çağrı yarıda kesildi, ` +
@@ -113,7 +131,7 @@ async function cmdCheck() {
       if (verified.dropped.length) {
         console.error(`→ ikinci göz: ${verified.dropped.length} zayıf bulgu elendi`)
       }
-      findings = verified.kept
+      findings = dedupeFindings(verified.kept)
     }
   }
 
@@ -127,6 +145,8 @@ async function cmdCheck() {
     riskScore: riskScore(lint, findings),
     lint,
     findings,
+    manual,
+    notChecked,
     stats: {
       rulesSelected: selected.length,
       rulesRun,

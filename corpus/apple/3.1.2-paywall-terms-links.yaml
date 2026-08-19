@@ -1,0 +1,32 @@
+id: apple-3.1.2-paywall-terms-links
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#subscriptions
+  retrievedAt: "2026-08-19"
+tags: [subscriptions, paywall, vision]
+# Red sebebi #9. Paywall ekran görüntüsü tek başına 4 red sebebi taşıyor:
+# EULA linki, fiyat görünürlüğü, restore düğmesi, otomatik yenileme ibaresi.
+scope: cross
+needs: [screenshots, iap]
+appliesWhen:
+  hasSubscription: true
+facts:
+  - "Apple, abonelik satın alma ekranında Kullanım Şartları (EULA/Terms of Use) ve Gizlilik Politikası bağlantılarının GÖRÜNÜR olmasını şart koşar."
+  - "Bu bağlantılar ekranın altında küçük punto ile yer alabilir; varlıkları yeterlidir."
+requiresVision: true
+
+question: >
+  Ekran görüntüleri arasında bir abonelik/satın alma (paywall) ekranı var mı?
+  Varsa, o ekranda "Terms of Use", "Terms", "EULA" veya "Privacy Policy"
+  bağlantıları görünüyor mu? Hiçbiri görünmüyorsa bunu bildir. Paywall ekranı
+  hiç yoksa bulgu üretme.
+ruleText: >
+  Otomatik yenilenen abonelik satın alma ekranında Kullanım Şartları ve
+  Gizlilik Politikası bağlantıları kullanıcıya görünür olmalıdır.
+positiveExample: "Paywall ekranında yalnızca 'Continue' düğmesi ve fiyat var; şart/gizlilik bağlantısı yok."
+negativeExample: "Paywall ekranının altında 'Terms of Use · Privacy Policy · Restore' satırı görünüyor."
+outcome: violation
+defaultSeverity: high
+version: 1
