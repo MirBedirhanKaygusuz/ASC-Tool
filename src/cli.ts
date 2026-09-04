@@ -35,6 +35,7 @@ async function main() {
   if (cmd === 'meta') return cmdMeta()
   if (cmd === 'yalanci-alarm') return cmdYalanciAlarm()
   if (cmd === 'kart-canlilik') return cmdKartCanlilik()
+  if (cmd === 'yakalama') return cmdYakalama()
   if (cmd === 'madde') return cmdMadde()
   if (cmd === 'vitrin') return cmdVitrin()
   usage()
@@ -96,6 +97,10 @@ Greenlight — Store Policy Checker
                         taban dosyası ezilmez, fark yalnız o kartlarda gösterilir.
 
   npm run kart-canlilik              her kart KENDİ ihlal örneğinde ateşliyor mu
+                        1. aşama bedava (seçim), 2. aşama --onayla ile model.
+
+  npm run yakalama                   kart, GERÇEKTEN reddedilen metinde ateşliyor mu
+                        Girdi: ders havuzundaki red vakalarının alıntıları.
                         1. aşama bedava (seçim), 2. aşama --onayla ile model.
 
   npm run lessons                    dersleri listele
@@ -879,6 +884,151 @@ async function cmdYalanciAlarm() {
  * Birinci aşama tek başına değerli: kartın kendi örneği kendi prefilter'ından
  * ya da needs'inden geçemiyorsa o kart gerçek bir listing'de de hiç açılmaz.
  */
+/**
+ * Yakalama ölçümü — "kart, Apple'ın gerçekten reddettiği metinde ateşler miydi?"
+ *
+ * `kapsam` bir TAVAN ölçüyor (kart var mı), `kart-canlilik` kartın KENDİ
+ * örneğinde ateşlediğini. Aradaki boşluk buydu ve README'nin "sırada ne var"
+ * listesinin ilk maddesiydi. Girdi uydurma değil: ders havuzundaki gerçek red
+ * vakalarının `excerpt` alanı — uygulamanın kendi metninden, Apple'ın işaret
+ * ettiği parça.
+ */
+async function cmdYakalama() {
+  const { createLessonStore } = await import('./lessons/index.js')
+  const {
+    yakalamaTaramasi, yakalamaOzeti, yakalamaSubmission,
+  } = await import('./eval/detection.js')
+  const { cards, version } = await loadCorpus()
+
+  const store = await createLessonStore()
+  const saglik = await store.healthcheck()
+  if (!saglik.ok) throw new Error(`Ders deposu hazır değil: ${saglik.reason}`)
+
+  // Vakanın kapsamı DERSTEN geliyor: in-app bir ders altındaki vaka listing
+  // denetiminden ölçülemez ve bunu bilmeden ölçersek kartı, göremeyeceği bir
+  // şeyi kaçırdığı için suçlarız.
+  const dersler = new Map((await store.allLessons()).map((l) => [l.id, l]))
+  const vakalar = (await store.allExamples()).map((c) => ({
+    id: c.id,
+    lessonId: c.lessonId,
+    appName: c.appName,
+    rejectedAt: c.rejectedAt,
+    guideline: c.guideline,
+    artifact: c.artifact,
+    excerpt: c.excerpt ?? '',
+    scope: dersler.get(c.lessonId)?.scope ?? 'listing',
+  }))
+
+  const satirlar = yakalamaTaramasi(vakalar, cards)
+  const o = yakalamaOzeti(satirlar)
+
+  console.log(
+    `\nKural kitabı: ${cards.length} kart (corpus ${version})\n` +
+      `Ders deposu: ${store.name} · ${o.toplam} red vakası\n`,
+  )
+
+  if (!o.toplam) {
+    console.log(
+      'Havuzda hiç red vakası yok. Ölçüm gerçek redlerle besleniyor:\n' +
+        '  npm run learn -- --paste --app <UygulamaAdi>',
+    )
+    return
+  }
+
+  // ÖLÇÜLEMEYENLER ÖNCE. Sayıyı üste koyup "neyi ölçemedik"i altına yazmak,
+  // ikincisinin okunmaması demekti (R22'de aynı karar).
+  if (o.disarida.length) {
+    console.log(`Ölçüm dışı ${o.sinanamaz} vaka:`)
+    for (const d of o.disarida) console.log(`  ${String(d.adet).padStart(3)} × ${d.sebep}`)
+    console.log()
+  }
+
+  if (!o.olculen) {
+    console.log(
+      'ÖLÇÜLEBİLİR VAKA YOK — bu bir sonuç değil, veri eksikliği.\n\n' +
+        'Ölçüm için gereken: listing kapsamlı (in-app değil) ve ALINTISI olan\n' +
+        'red vakaları. Alıntı, reddedilen metnin uygulamanın kendi kaydından\n' +
+        'alınan parçası; çıkarım onu red metninden buluyor ve doğruluyor.\n\n' +
+        'Havuzu besledikçe bu ölçüm anlam kazanır.',
+    )
+    return
+  }
+
+  console.log(
+    `Ölçülen ${o.olculen} vaka:\n` +
+      `  kart YOK      : ${o.kartYok}  (bu redler kesinlikle yakalanmazdı)\n` +
+      `  kart seçildi  : ${o.secildi}  (modele sorulabilir)\n` +
+      `  SEÇİLEMEDİ    : ${o.secilemedi}  (kart var ama açılmıyor)`,
+  )
+
+  const kartYok = satirlar.filter((s) => s.durum === 'kart-yok')
+  if (kartYok.length) {
+    console.log('\n⚠ Kapsama boşluğu — kart yazılmadan bu redler yakalanamaz:')
+    for (const s of kartYok) {
+      console.log(`  ✗ ${s.guideline.padEnd(10)} ${s.appName} (${s.rejectedAt ?? 'tarihsiz'})`)
+      console.log(`      "${s.excerpt.slice(0, 90)}"`)
+    }
+  }
+
+  const secilemedi = satirlar.filter((s) => s.durum === 'secilemedi')
+  if (secilemedi.length) {
+    console.log('\n⚠ Kart var ama gerçek alıntıda açılmıyor — kurulum sorunu:')
+    for (const s of secilemedi) {
+      console.log(`  ✗ ${s.guideline.padEnd(10)} ${s.adaylar.join(', ') || '(aday yok)'}`)
+      console.log(`      sebep: ${s.sebep}`)
+      console.log(`      "${s.excerpt.slice(0, 90)}"`)
+    }
+  }
+
+  const secildi = satirlar.filter((s) => s.durum === 'secildi')
+  if (!args.includes('--onayla')) {
+    console.log(
+      `\nBuraya kadar model çağrısı YOK. İkinci aşama (kart gerçek alıntıda\n` +
+        `bulgu üretiyor mu) ${secildi.length} çağrı eder; koşturmak için --onayla ekle.`,
+    )
+    console.log(SINIR_NOTU)
+    return
+  }
+
+  const { createProvider } = await import('./llm/index.js')
+  const { runCheck } = await import('./check/check.js')
+  const llm = await createProvider({ backend: flag('--llm'), model: flag('--model') })
+  const llmSaglik = await llm.healthcheck()
+  if (!llmSaglik.ok) throw new Error(`LLM hazır değil: ${llmSaglik.reason}`)
+  console.log(`\nmodel: ${llm.name}/${llm.model}\n`)
+
+  let atesleyen = 0
+  for (const s of secildi) {
+    const vaka = vakalar.find((v) => v.id === s.vakaId)!
+    const adaylar = cards.filter((c) => s.adaylar.includes(c.id))
+    const res = await runCheck(llm, yakalamaSubmission(vaka), adaylar, new Map(), () => {}, {})
+    s.atesledi = res.findings.length > 0
+    s.bulgu = res.findings[0]?.rationale
+    if (s.atesledi) {
+      atesleyen++
+      console.log(`  ✓ ${s.guideline.padEnd(10)} ${s.adaylar.join(', ')}`)
+    } else {
+      console.log(`  ✗ ${s.guideline.padEnd(10)} ${s.adaylar.join(', ')} — bulgu ÜRETMEDİ`)
+      console.log(`      "${s.excerpt.slice(0, 90)}"`)
+    }
+  }
+
+  console.log(
+    `\n${atesleyen}/${secildi.length} vakada kart gerçek alıntıda bulgu üretti.\n` +
+      `Ölçülen ${o.olculen} vakanın tamamına göre: ${atesleyen}/${o.olculen}.`,
+  )
+  console.log(SINIR_NOTU)
+}
+
+/**
+ * Bu not her koşuda basılıyor ve kapatılamıyor — R22'deki kararla aynı sebep:
+ * yüzde gören insan onu "yakalama oranı" diye okuyor.
+ */
+const SINIR_NOTU =
+  '\nNOT: bu RECALL DEĞİL. Alıntı listing\'in tamamı değil, kesilmiş bir\n' +
+  'parçası; kart burada ateşleyip gerçek listing\'de ateşlemeyebilir, tersi de\n' +
+  'mümkün. Tek yönlü kesin olan şu: ateşlemeyen kart o redi yakalamazdı.'
+
 async function cmdKartCanlilik() {
   const { canlilikTaramasi, sentetikSubmission } = await import('./eval/card-liveness.js')
   const { cards, version } = await loadCorpus()

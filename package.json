@@ -28,6 +28,7 @@
     "kapsam": "tsx src/cli.ts kapsam",
     "yalanci-alarm": "tsx src/cli.ts yalanci-alarm",
     "kart-canlilik": "tsx src/cli.ts kart-canlilik",
+    "yakalama": "tsx src/cli.ts yakalama",
     "paket": "tsx scripts/paket.ts",
     "havuz": "docker compose -f havuz/docker-compose.yml --env-file havuz/.env up -d",
     "havuz:tls": "docker compose -f havuz/docker-compose.yml -f havuz/docker-compose.tls.yml --env-file havuz/.env up -d",

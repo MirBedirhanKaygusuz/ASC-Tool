@@ -2590,5 +2590,91 @@ console.log('\nhavuz — istemci ↔ sunucu gidiş-dönüşü')
   ok(!oluSag.ok && /ulaşılamadı/.test(oluSag.reason), 'sebep "ulaşılamadı" diyor ve adresi yazıyor')
 }
 
+// ===========================================================================
+console.log('\neval/detection.ts — kart GERÇEK alıntıda ateşliyor mu')
+// ===========================================================================
+{
+  const { yakalamaTaramasi, yakalamaOzeti, yakalamaSubmission, kapsayanKartlar } =
+    await import('../src/eval/detection.js')
+  const { cards } = await loadCorpus()
+
+  const vaka = (over: Partial<Parameters<typeof yakalamaTaramasi>[0][number]> = {}) => ({
+    id: 'v1', lessonId: 'd1', appName: 'Glamio', rejectedAt: '2026-01-05',
+    guideline: '2.3.3', artifact: 'description' as const, excerpt: 'Unlimited free credits forever',
+    scope: 'listing' as const, ...over,
+  })
+
+  // --- Kart YOK: tek yönlü kesin sonuç ------------------------------------
+  const yok = yakalamaTaramasi([vaka({ guideline: '9.9.9' })], cards)
+  ok(yok[0]!.durum === 'kart-yok', 'kartı olmayan madde "kart-yok" diye işaretleniyor')
+  ok(/kesinlikle yakalanmazdı/.test(yok[0]!.sebep ?? ''),
+    'kart yoksa sonuç KESİN — bu bilgi yukarı yuvarlanamaz')
+
+  // --- Gerçek kartla gerçek eşleşme ---------------------------------------
+  //
+  // Kartı elle SEÇMİYORUZ: korpustan metne bakan, görsel istemeyen bir kart
+  // buluyoruz ve kendi ihlal örneğini "reddedilmiş alıntı" gibi veriyoruz.
+  // Kart id'si yazsaydık test, korpus değişince sessizce anlamını yitirirdi.
+  const aday = cards.find((c) =>
+    c.outcome !== 'manual' && c.requiresVision !== true && c.platform === 'apple' &&
+    !c.needs.some((n) => n === 'screenshots' || n === 'icon' || n === 'previewVideo') &&
+    c.needs.includes('description') && !!c.positiveExample &&
+    !c.appliesWhen && /^\d+(\.\d+)*$/.test(c.source.section))
+  ok(!!aday, `korpustan sınanabilir kart bulundu (${aday?.id ?? 'YOK'})`)
+  if (aday) {
+    const satir = yakalamaTaramasi(
+      [vaka({ guideline: aday.source.section, excerpt: aday.positiveExample! })], cards)[0]!
+    ok(satir.durum === 'secildi',
+      `gerçek alıntıdan kurulan listing'de kart SEÇİLİYOR (${satir.durum}${satir.sebep ? ': ' + satir.sebep : ''})`)
+    ok(satir.adaylar.includes(aday.id), 'seçilen kart, maddeyi kapsayan kart')
+  }
+
+  // Kapsama tek yönlü: genel kart özel redi kapsar, tersi olmaz.
+  const genel = kapsayanKartlar('2.3.3', cards).map((c) => c.source.section)
+  ok(genel.every((sec) => '2.3.3'.startsWith(sec)),
+    'daha ÖZEL kart daha genel redi kapsıyor sayılmıyor (tek yönlü eşleşme)')
+
+  // --- Ölçülemeyenler: sessizce düşmüyor, sebebiyle sayılıyor -------------
+  const disarida = yakalamaTaramasi([
+    vaka({ id: 'a', scope: 'in-app' }),
+    vaka({ id: 'b', excerpt: '   ' }),
+    vaka({ id: 'c', artifact: 'screenshots' }),
+    vaka({ id: 'd', artifact: 'ageRating' }),
+  ], cards)
+  ok(disarida.every((s) => s.durum === 'sinanamaz'), 'dört vaka da ölçüm dışı')
+  ok(/uygulama içi/.test(disarida[0]!.sebep ?? ''), 'in-app red ölçüm dışı ve sebebi yazıyor')
+  ok(/alıntı yok/.test(disarida[1]!.sebep ?? ''),
+    'alıntısız vaka VERİ eksikliği olarak ayrılıyor — kart hatası sayılmıyor')
+  ok(/görsel/.test(disarida[2]!.sebep ?? ''), 'görsel alanı metinle sınanamaz')
+  ok(/serbest metin değil/.test(disarida[3]!.sebep ?? ''), 'yapısal alan metinle sınanamaz')
+
+  const o = yakalamaOzeti(disarida)
+  ok(o.toplam === 4 && o.olculen === 0, 'özet: dördü de ölçüm dışı')
+  ok(o.disarida.reduce((n, d) => n + d.adet, 0) === 4,
+    'ölçüm dışı vakaların TAMAMI sebebiyle dökülüyor — sessiz düşürme yok')
+
+  // --- Alan bilinmiyorsa alıntı TÜM metin alanlarına konuyor -------------
+  //
+  // Tek alana koymak, yanlış tahmin ettiğimizde kartı hiç bakmadığı yerde
+  // sınamak olurdu ve "ateşlemedi" çıkardı — ölçüm kendi tahminimizin
+  // hatasıyla kirlenirdi.
+  const belirsiz = yakalamaSubmission(vaka({ artifact: null }))
+  ok(belirsiz.text.name === 'Unlimited free credits forever' &&
+     belirsiz.text.keywords === 'Unlimited free credits forever',
+    'alan bilinmiyorsa alıntı tüm metin alanlarına konuyor')
+  const belli = yakalamaSubmission(vaka({ artifact: 'keywords' }))
+  ok(belli.text.keywords === 'Unlimited free credits forever' && belli.text.name === undefined,
+    'alan belliyse alıntı YALNIZCA o alana konuyor')
+
+  const iapli = yakalamaSubmission(vaka({ artifact: 'iap' }))
+  ok(iapli.iap[0]?.description === 'Unlimited free credits forever', 'iap redinde alıntı ürüne konuyor')
+  ok(iapli.media.screenshots.length === 0,
+    'sahte görsel KONMUYOR — boru hattı görsel görünce yükleyici ister ve uydurma yol patlar')
+
+  // Beyan uydurulmuyor: vaka taşımıyor, doldurmak kartı gerçekte olmayan bir
+  // koşulda çalıştırmak olurdu.
+  ok(Object.keys(yakalamaSubmission(vaka()).meta).length === 0, 'beyanlar UYDURULMUYOR')
+}
+
 console.log(`\n${passed} geçti, ${failed} kaldı`)
 process.exit(failed ? 1 : 0)

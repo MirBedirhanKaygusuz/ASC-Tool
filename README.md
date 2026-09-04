@@ -325,7 +325,7 @@ gelen ikinci bulgu çeyrek ağırlıkla sayılır (lint'te de, kartlarda da) —
 | Kapsam raporu (`npm run kapsam` + panelde) | ✅ hangi maddeleri kaçırdığımız ölçülüyor |
 | Yalancı alarm ölçümü (`npm run yalanci-alarm`) | ✅ ilk koşu yapıldı (5 listing, gpt-4o-mini): ham 101 → kalan 48, savunmanın %66'sı ikinci gözden geliyor |
 | Kart canlılık taraması (`npm run kart-canlilik`) | ✅ ölü kart sınıfı test altında; 43 kart sınanabilir, 9'u görsel olduğu için sınanamıyor |
-| Eval harness — "kart bu redi GERÇEKTEN yakalar mıydı" | ⬜ kapsam tavanı var, yakalama ölçümü yok |
+| Yakalama ölçümü (`npm run yakalama`) — "kart bu redi GERÇEKTEN yakalar mıydı" | 🟡 ölçüm yazıldı ve testli; **veri bekliyor** — havuzdaki redlerin listing kapsamlı ve alıntılı olması gerekiyor |
 | Play Developer API fetch | ⬜ Faz 2 |
 | **Ortak ders havuzu** — Docker + Postgres, kendi sunucunda | ✅ CLI ve eklenti aynı havuzu okuyor ([havuz/README.md](havuz/README.md)) |
 | Artımlı çekim | ⬜ her çekim baştan alıyor (R12) |
@@ -334,7 +334,8 @@ gelen ikinci bulgu çeyrek ağırlıkla sayılır (lint'te de, kartlarda da) —
 
 | İş | Ne gerekiyor | Neden bekliyor |
 |---|---|---|
-| **Eval harness'ın ikinci yarısı** | Geçmiş redlerin listing anlık görüntüsü | Kapsam tavanı ölçülüyor (`npm run kapsam`). Eksik olan: o redi yiyen listing'i denetimden geçirip kartın gerçekten bulgu üretip üretmediğine bakmak. Bunun için redin ALINDIĞI ANDAKİ listing lazım; bugünkü listing çoktan düzeltilmiş olabilir. |
+| **Yakalama ölçümünü besle** | Listing kapsamlı, alıntılı red vakaları | `npm run yakalama` yazıldı: red vakasının alıntısından sentetik listing kurup kartın seçilip seçilmediğine, `--onayla` ile gerçekten bulgu üretip üretmediğine bakıyor. Bugün havuzdaki 2 red de `in-app` ve alıntısız, yani ölçüm "0 ölçülebilir vaka" diyor — sonuç değil, veri eksikliği. Havuz beslendikçe anlam kazanıyor. |
+| Tam listing anlık görüntüsü | Redin ALINDIĞI ANDAKİ listing | Yakalama ölçümü alıntıyla çalışıyor — listing'in kesilmiş bir parçası. Gerçek recall için redin yaşandığı andaki listing'in tamamı gerekiyor; bugünkü listing çoktan düzeltilmiş oluyor. |
 | Çekim arşivinin ortak deposu | Sunucu kararı | Ders havuzu ortaklaştı (`havuz/`), ama HAM ÇEKİMLER hâlâ her makinede ayrı IndexedDB'de. Arayüz (`GLStore`) baştan bu geçiş için soyutlanmıştı; havuz aynı deseni izleyebilir. |
 | Artımlı çekim | — | Her çekim hesabın tamamını baştan alıyor; Apple'a gereksiz yük (R1) ve dakikalar. |
 | `.p8` çapraz doğrulama | ASC API anahtarı | R3'ün panzehiri: aynı uygulama iki kaynaktan çekilip alanlar karşılaştırılacak. Yalnız geliştirme için; kullanıcı hiç görmeyecek. |
