@@ -107,9 +107,26 @@ const BASLIK = {
 
 const EKRAN = {}   // name → (root, v) ; dosyanın altında dolduruluyor
 
+/** Ekranın başlıktaki adı. `app`/`audit`in sabit başlığı yok, adı uygulamadan gelir. */
+function ekranAdi(v) {
+  return BASLIK[v.name]?.[0] ?? v.app?.name ?? 'Greenlight'
+}
+
 function ciz(yon = '') {
   const v = simdiki()
-  $('#back').hidden = YIGIN.length <= 1
+
+  // Geri düğmesi NEREYE döndüğünü söylüyor. Çıplak bir ok, üç seviye derin
+  // bir yığında hiçbir şey anlatmıyordu — özellikle menü artık yığında
+  // kaldığı için "geri" bazen menü, bazen uygulama, bazen ana sayfa.
+  const onceki = YIGIN[YIGIN.length - 2]
+  const geriDugme = $('#back')
+  geriDugme.hidden = !onceki
+  if (onceki) {
+    const ad = ekranAdi(onceki)
+    $('#backLabel').textContent = ad
+    geriDugme.title = `${ad} ekranına dön`
+    geriDugme.setAttribute('aria-label', `Geri: ${ad}`)
+  }
 
   const [b, alt] = BASLIK[v.name] ?? [
     v.app?.name ?? 'Greenlight',
@@ -307,7 +324,10 @@ EKRAN.menu = async (root) => {
   const A = await GLRun.ayarlar()
 
   const satir = (baslik, alt, hedef) =>
-    el('button', { className: 'list-item', onclick: () => { YIGIN.pop(); git(hedef) } },
+    // Menü yığında KALIYOR. Eskiden `YIGIN.pop()` ile kendini atıyordu:
+    // "Menü → Ders havuzu → Geri" seni ana sayfaya düşürüyordu, menüye değil,
+    // ve iki menü maddesine bakmak için menüyü iki kez açmak gerekiyordu.
+    el('button', { className: 'list-item', onclick: () => git(hedef) },
       el('div', { className: 'between' },
         el('div', { className: 'grow' },
           el('div', { className: 'title' }, baslik),
@@ -1238,9 +1258,10 @@ EKRAN.raw = async (root) => {
 
   root.append(el('div', { className: 'card' },
     el('label', { className: 'field' }, 'Uygulama', sel),
+    // Üst başlık zaten "Apple'ın döndürdüğü JSON" diyor; burada yalnızca
+    // NEDEN saklandığı yazıyor.
     el('p', { className: 'small muted', style: 'margin:9px 0 0' },
-      "Apple'ın döndürdüğü ham JSON. Alan adları değişirse burayı yeniden okuruz, " +
-      "Apple'a tek istek daha atmayız."),
+      "Alan adları değişirse buradan yeniden okuruz, Apple'a tek istek daha atmayız."),
     el('div', { className: 'row', style: 'margin-top:10px' },
       el('button', {
         className: 'btn sm primary', textContent: 'Tümünü indir',
@@ -1498,12 +1519,8 @@ EKRAN.settings = async (root) => {
   root.append(el('div', { className: 'card' },
     el('h3', {}, 'Ortak ders havuzu'),
     el('p', { className: 'small muted' },
-      'Ofisin ortak red arşivi. Bağlıyken denetim, kural kartlarının yanına ' +
-      "DAHA ÖNCE YEDİĞİMİZ RED'LERİ de kanıt olarak koyar ve bulguların altında " +
-      'benzer gerçek red örneklerini gösterir. Boşsa denetim yalnız kartlarla koşar.'),
-    el('p', { className: 'tiny muted', style: 'margin-top:6px' },
-      'Buraya OKUMA belirtecini gir. Yazma belirteci red metinlerini işleyen ' +
-      'kişide durur; eklentiye girmesine gerek yok ve girmemeli.'),
+      "Ofisin ortak red arşivi. Bağlıyken denetim, daha önce yediğimiz red'leri de " +
+      'kanıt olarak kullanır. Boşsa yalnız kural kartlarıyla koşar.'),
     el('div', { className: 'col', style: 'margin-top:11px' },
       el('label', { className: 'field' }, 'Havuz adresi', havuzUrl),
       el('label', { className: 'field' }, 'Okuma belirteci', havuzToken)),
@@ -1529,9 +1546,8 @@ EKRAN.settings = async (root) => {
       "metinleri, ekran görüntüleri ve denetlenen içerik senin Worker'ından geçip modele " +
       'gider. Red yazışmaları denetime girmez.'),
     el('p', { className: 'small muted', style: 'margin-top:8px' },
-      'Ders havuzu adresi girildiğinde eklenti havuzdan yalnız OKUR: dersleri ve ' +
-      'red örneklerini çeker. Bu makinedeki çekim, denetim ve dökümlerin hiçbiri ' +
-      'havuza gitmez — havuza yazan tek şey terminaldeki npm run learn.')))
+      'Ders havuzundan yalnız OKUNUR: bu makinedeki çekim, denetim ve dökümler ' +
+      'havuza gitmez.')))
 }
 
 /**
@@ -1706,7 +1722,25 @@ setInterval(() => {
 // --- Açılış -----------------------------------------------------------------
 // EN SONDA: yukarıdaki sabitler ve fonksiyonlar tanımlanmış olsun.
 $('#back').onclick = geri
-$('#menu').onclick = () => (simdiki().name === 'menu' ? geri() : git('menu'))
+/**
+ * Menü düğmesi üç durumu ayırıyor:
+ *   menüdeysen        → kapat (geri)
+ *   menü yığındaysa   → ona DÖN, üstüne ikinci bir menü açma
+ *   yığında yoksa     → aç
+ *
+ * Ortadaki dal olmasaydı menü yığında birikirdi: menü → havuz → menü → geri
+ * seni havuza değil ikinci menüye döndürürdü.
+ */
+function menuDugmesi() {
+  if (simdiki().name === 'menu') return geri()
+  const i = YIGIN.findIndex((v) => v.name === 'menu')
+  if (i >= 0) {
+    YIGIN.length = i + 1
+    return ciz('back')
+  }
+  git('menu')
+}
+$('#menu').onclick = menuDugmesi
 
 console.log(`Greenlight yan panel v${chrome.runtime.getManifest().version} yüklendi — ` +
   new Date().toLocaleTimeString('tr-TR'))
@@ -1722,7 +1756,7 @@ console.log(`Greenlight yan panel v${chrome.runtime.getManifest().version} yükl
  * yazarak herhangi bir ekrana atlanabiliyor. Bir kullanıcı "şurada hata var"
  * dediğinde oraya ulaşmak için altı tıklama gerekmiyor.
  */
-globalThis.GLPanel = { EKRAN, git, geri, kok, ciz, simdiki, redSayilari, kovala, agIzniSor }
+globalThis.GLPanel = { EKRAN, git, geri, kok, ciz, simdiki, menuDugmesi, redSayilari, kovala, agIzniSor }
 
 kok('home')
 chrome.runtime.sendMessage({ type: 'gl:state' }, durumdanKur)

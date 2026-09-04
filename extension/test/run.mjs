@@ -2483,5 +2483,83 @@ suite('ders havuzu ekranı — havuzda ne olduğu GÖRÜNÜYOR')
   globalThis.chrome = gercekChrome
 }
 
+// ===========================================================================
+suite('gezinme — geri düğmesi nereye götürdüğünü biliyor')
+// ===========================================================================
+{
+  // NEDEN BU SUITE VAR: geri düğmesi "çalışıyordu" (yığından pop ediyordu)
+  // ama menü satırı KENDİNİ yığından atıyordu. Sonuç: "Menü → Ders havuzu →
+  // Geri" seni ana sayfaya düşürüyordu, menüye değil — ve iki menü maddesine
+  // bakmak için menüyü iki kez açman gerekiyordu. Ekran testleri bunu
+  // göremezdi: her ekran tek tek çiziliyordu, aralarındaki GEÇİŞ değil.
+  const panel = globalThis.GLPanel
+  const gercekDoc = globalThis.document
+
+  // Belleyen sahte DOM: üstteki harness her `querySelector` çağrısında YENİ
+  // eleman döndürüyor, o yüzden `#back`in durumu gözlenemiyordu.
+  const kutu = new Map()
+  const al = (sel) => {
+    if (!kutu.has(sel)) kutu.set(sel, fakeEl())
+    return kutu.get(sel)
+  }
+  globalThis.document = {
+    querySelector: al, querySelectorAll: () => [],
+    createElement: () => fakeEl(), body: fakeEl(),
+  }
+
+  const yer = () => panel.simdiki().name
+  const geriGizli = () => al('#back').hidden === true
+  const geriEtiketi = () => al('#backLabel').textContent
+
+  try {
+    panel.kok('home')
+    ok(yer() === 'home' && geriGizli(), 'kökte geri düğmesi GİZLİ — dönecek yer yok')
+
+    panel.menuDugmesi()
+    ok(yer() === 'menu', 'menü düğmesi menüyü açıyor')
+    ok(!geriGizli() && geriEtiketi() === 'Greenlight',
+      'geri düğmesi NEREYE döndüğünü yazıyor (ana sayfa)')
+
+    panel.git('havuz')
+    ok(geriEtiketi() === 'Menü', 'menüden girilen ekranda geri "Menü" diyor')
+
+    panel.geri()
+    ok(yer() === 'menu',
+      'GERİ MENÜYE dönüyor — eskiden ana sayfaya düşürüyordu (menü kendini yığından atıyordu)')
+
+    // İki menü maddesine üst üste bakmak: eski davranışta menüyü iki kez
+    // açmak gerekiyordu.
+    panel.git('kapsam')
+    panel.geri()
+    ok(yer() === 'menu', 'ikinci maddeden sonra da menüye dönülüyor')
+
+    // Menü düğmesi yığında menü varken KOPYA açmamalı; açsaydı
+    // menü → havuz → menü → geri seni havuza değil ikinci menüye döndürürdü.
+    panel.git('havuz')
+    panel.menuDugmesi()
+    ok(yer() === 'menu', 'menü düğmesi menüye DÖNÜYOR')
+    panel.geri()
+    ok(yer() === 'home', 'yığında kopya menü birikmemiş — geri doğrudan ana sayfaya')
+
+    // Menüdeyken menü düğmesi kapatıcı olarak çalışmalı.
+    panel.menuDugmesi()
+    ok(yer() === 'menu', 'menü açıldı')
+    panel.menuDugmesi()
+    ok(yer() === 'home', 'menüdeyken menü düğmesi menüyü KAPATIYOR')
+
+    // Uygulama ekranının sabit başlığı yok: ad uygulamadan geliyor.
+    panel.kok('home')
+    panel.git('app', { id: '1', name: 'Örnek App', sayilar: {} })
+    panel.git('audit', { id: '1', name: 'Örnek App', sayilar: {} })
+    ok(geriEtiketi() === 'Örnek App',
+      'başlığı sabit olmayan ekranda geri etiketi uygulama adını gösteriyor')
+
+    panel.kok('home')
+    ok(geriGizli(), 'köke dönünce geri yeniden gizleniyor')
+  } finally {
+    globalThis.document = gercekDoc
+  }
+}
+
 console.log(`\n${passed} geçti, ${failed} kaldı`)
 process.exit(failed ? 1 : 0)

@@ -10,15 +10,22 @@
   body { display: flex; flex-direction: column; overflow: hidden; }
   #view { flex: 1; overflow-y: auto; padding: 12px 13px 32px; }
   #view h2:first-child { margin-top: 0; }
+  /* Geri düğmesi NEREYE döndüğünü yazıyor. Çıplak bir ok, üç seviye derin
+     bir yığında "neye döneceğim" sorusunu cevaplamıyordu. Uzun uygulama
+     adları çubuğu taşırmasın diye kısıtlı ve kırpılıyor. */
+  #back { padding: 5px 8px; max-width: 44%; }
+  #backLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  #backLabel:empty { display: none; }
 </style>
 
 <body>
 
 <div class="topbar">
-  <button class="btn ghost icon" id="back" hidden aria-label="Geri">
+  <button class="btn ghost" id="back" hidden aria-label="Geri">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M15 18l-6-6 6-6"/></svg>
+    <span id="backLabel"></span>
   </button>
   <span class="dot" id="dot"></span>
   <div class="grow">
