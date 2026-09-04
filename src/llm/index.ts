@@ -38,7 +38,12 @@ export async function createProvider(cfg: LlmConfig = {}): Promise<LlmProvider> 
       // Uzak uçta paralellik serbest; yerel KV cache kısıtı burada yok.
       Number(process.env.OPENAI_CONCURRENCY ?? 4),
       process.env.OPENAI_STRICT_SCHEMA === '1',
-      backend,
+      {
+        label: backend,
+        // Ortam okuma FABRİKANIN işi. Sağlayıcının içinde process.env
+        // okumak, o dosyayı tarayıcı paketine sokulamaz hale getiriyordu.
+        imageDetail: (process.env.OPENAI_IMAGE_DETAIL ?? 'low') as 'low' | 'high' | 'auto',
+      },
     )
   }
 

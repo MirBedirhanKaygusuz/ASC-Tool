@@ -1,6 +1,6 @@
 import type { Finding, RuleCard, Submission } from '../types.js'
 import type { LlmProvider } from '../llm/index.js'
-import { VERDICT_SCHEMA, renderFacts } from './prompt.js'
+import { VERDICT_SCHEMA, renderFacts, renderNotViolation } from './prompt.js'
 
 const VOTES = 3
 const THRESHOLD = 2
@@ -19,6 +19,20 @@ const THRESHOLD = 2
  * YEREL MODELE ÖZEL: 3 oy ancak sıcaklık > 0 ise anlamlı. temperature 0'da
  * üç oy da birebir aynı çıkar ve oylama tamamen boşa gider — o yüzden her oy
  * farklı seed ve sıcaklık > 0 ile alınır.
+ *
+ * ÜÇ OY, ÜÇ AYRI SORU — ölçümden çıkan değişiklik.
+ *
+ * İlk sürümde üç oy AYNI prompt'un üç örneklemesiydi. Sahada (5 listing,
+ * gpt-4o-mini) savunmanın %66'sı bu adımdan geliyordu; yani yalancı alarm
+ * savunmasının tamamına yakını, tek bir modelin kendisiyle anlaşmazlığa
+ * düşmesine dayanıyordu. Aynı soruyu üç kez sormak korele hata üretir: model
+ * bir muafiyeti kaçırıyorsa üçünde de kaçırır, bir bulguyu yanlış öldürüyorsa
+ * üçünde de öldürür.
+ *
+ * Artık her oy FARKLI BİR MERCEKTEN bakıyor: biri kuralın yasağına, biri
+ * muafiyete (tersinden), biri de "reviewer bunu red sebebi yapar mıydı"
+ * testine. Model aynı model; sorular farklı olduğu için hatalar daha az
+ * korele. Bu, model değiştirmeden yapılabilecek en doğrudan müdahale.
  */
 export async function verifyFindings(
   llm: LlmProvider,
@@ -50,6 +64,26 @@ export async function verifyFindings(
   return { kept, dropped }
 }
 
+/**
+ * Üç mercek. Hepsi aynı şemayı (violates) dolduruyor, dolayısıyla oylama
+ * mantığı değişmiyor — değişen, modele hangi soruyu sorduğumuz.
+ *
+ * İkincisi bilerek TERSİNDEN soruyor: ölçümde modelin muafiyeti "ihlal mi?"
+ * diye sorulduğunda atladığı, ama doğrudan "muafiyete giriyor mu?" diye
+ * sorulduğunda görebildiği kalıbı hedefliyor.
+ */
+const MERCEKLER = [
+  'Bu içerik yukarıdaki kuralı ihlal ediyor mu? Kuralın AÇIKÇA yasakladığı şey mi?',
+
+  'ÖNCE MUAFİYETE BAK: bu içerik, "ihlal SAYILMAYAN örnek" ya da "BULGU ÜRETME" ' +
+    'listesindeki durumlardan birine giriyor mu? Giriyorsa violates=false döndür. ' +
+    'Yalnızca hiçbirine girmiyorsa ve kural açıkça yasaklıyorsa violates=true döndür.',
+
+  'App Review bu içeriği gördüğünde bunu tek başına bir RED sebebi yapar mıydı? ' +
+    'Sıradan pazarlama dili ya da uygulamanın ne yaptığını anlatan ifade red sebebi ' +
+    'değildir. Emin değilsen violates=false döndür.',
+]
+
 const VERIFIER_SYSTEM =
   'Sen bir politika hakemisin. Sana bir kural ve bir içerik parçası verilir; ' +
   'içeriğin o kuralı ihlal edip etmediğine karar verirsin.\n' +
@@ -80,6 +114,7 @@ async function askOne(
     `## İhlal SAYILMAYAN örnek`,
     rule.negativeExample,
     ``,
+    ...renderNotViolation(rule),
     `## Değerlendirilecek içerik`,
     `Alan: ${f.artifact}`,
     `İçerik: "${f.excerpt}"`,
@@ -87,7 +122,7 @@ async function askOne(
     `## Bağlam`,
     contextFor(sub, f),
     ``,
-    `Bu içerik yukarıdaki kuralı ihlal ediyor mu?`,
+    MERCEKLER[vote % MERCEKLER.length]!,
   ].join('\n')
 
   const res = await llm.complete({

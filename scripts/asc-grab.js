@@ -10,7 +10,8 @@
  *   appstoreconnect.apple.com → DevTools Console → yapıştır → Enter
  *   (Chrome ilk seferde "allow pasting" yazmanı ister)
  *
- * Çıktı: her red thread'i için bir .txt indirir. Sonra:
+ * Çıktı: her GUIDELINE için ayrı bir .txt indirir — Apple tek mesajda birden
+ * çok madde reddedebiliyor ve learn bir dosyayı tek red sayıyor. Sonra:
  *   mkdir -p rejects && mv ~/Downloads/asc-reject-*.txt rejects/
  *   npm run learn -- --dir rejects/
  */
@@ -78,6 +79,38 @@
       .filter((r) => r.code || r.section || r.description)
   }
 
+  /**
+   * Apple'ın mesaj gövdesini madde madde böler.
+   *
+   * Gövde şu kalıpta: "Guideline X - Başlık" → "Issue Description" → "Next Steps".
+   * Tek mesajda 2-3 madde olabiliyor; hepsini tek dosyaya koyarsak learn
+   * yalnız birini ders yapıp gerisini sessizce düşürüyor.
+   */
+  const GUIDELINE_LINE = /^[\s\d.)-]{0,6}Guideline\s+([0-9][0-9A-Za-z.()]*)[^\n]*$/gm
+  // Apple her mesajın sonuna aynı kalıbı ekliyor — derse girmesin.
+  const BOILERPLATE = /^(Resources|Support|Test on the latest betas)\s*$/m
+
+  function splitByGuideline(text) {
+    if (!text) return { preamble: '', blocks: [] }
+    GUIDELINE_LINE.lastIndex = 0
+    const hits = [...text.matchAll(GUIDELINE_LINE)]
+    if (!hits.length) return { preamble: text.trim(), blocks: [] }
+    const blocks = hits.map((hit, i) => {
+      const end = i + 1 < hits.length ? hits[i + 1].index : text.length
+      let body = text.slice(hit.index, end).trim()
+      const cut = body.search(BOILERPLATE)
+      if (cut > 0) body = body.slice(0, cut).trim()
+      return { code: hit[1], body }
+    })
+    return { preamble: text.slice(0, hits[0].index).trim(), blocks }
+  }
+
+  /** "Review Device: …" gibi tek satırlık bağlamı preamble'dan çeker. */
+  function fieldFrom(preamble, label) {
+    const m = preamble.match(new RegExp(`^${label}:\\s*(.+)$`, 'm'))
+    return m ? m[1].trim() : ''
+  }
+
   function download(name, text) {
     const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }))
     const a = document.createElement('a')
@@ -142,40 +175,78 @@
         })
 
         const actorById = new Map(msgInc.map((r) => [`${r.type}#${r.id}`, r.attributes ?? {}]))
-        const lines = []
-        lines.push(`App: ${app.name}`)
-        lines.push(`Platform: ${sub.attributes?.platform ?? 'IOS'}`)
-        if (version) lines.push(`Version: ${version}`)
-        lines.push(`Submission: ${sub.id}  (${sub.attributes?.state ?? '?'})`)
-        lines.push(`Submitted: ${sub.attributes?.submittedDate ?? '-'}`)
-        lines.push(`Thread: ${thread.id}  (${thread.attributes?.state ?? '?'})`)
-        lines.push('')
+        const whoOf = (m) => {
+          const ref = m.relationships?.fromActor?.data
+          const actor = ref ? actorById.get(`${ref.type}#${ref.id}`) : undefined
+          return String(actor?.actorType ?? actor?.name ?? '').toUpperCase()
+        }
 
-        if (reasons.length) {
-          lines.push('=== Red sebepleri ===')
-          for (const r of reasons) {
-            lines.push(`Guideline ${r.code}${r.section ? ` - ${r.section}` : ''}`)
-            if (r.description) lines.push(r.description)
-            lines.push('')
+        // Apple ters kronolojik döndürüyor. Eskiden yeniye çevir ki
+        // "önce red, sonra yanıt" sırası metinde de doğru olsun.
+        const ordered = [...messages].sort((a, b) =>
+          String(a.attributes?.createdDate ?? '').localeCompare(String(b.attributes?.createdDate ?? '')))
+
+        const appleMsgs = ordered.filter((m) => whoOf(m) === 'APPLE')
+        const devMsgs = ordered.filter((m) => whoOf(m) !== 'APPLE')
+
+        // Geliştirici yanıtları maddeye göre indekslenir — dersin `resolution`
+        // alanı "neyle geçtik" bilgisini buradan alıyor.
+        const devByCode = new Map()
+        for (const m of devMsgs) {
+          const { blocks } = splitByGuideline(toPlainText(m.attributes?.messageBody))
+          for (const b of blocks) {
+            const prev = devByCode.get(b.code) ?? []
+            devByCode.set(b.code, [...prev, { date: m.attributes?.createdDate ?? '', body: b.body }])
           }
         }
 
-        lines.push('=== Yazışma ===')
-        for (const m of messages) {
-          const ref = m.relationships?.fromActor?.data
-          const actor = ref ? actorById.get(`${ref.type}#${ref.id}`) : undefined
-          const who = actor?.name ?? actor?.displayName ?? actor?.actorType ?? 'App Review'
-          lines.push(`--- ${who} · ${m.attributes?.createdDate ?? '-'} ---`)
-          lines.push(toPlainText(m.attributes?.messageBody))
-          lines.push('')
-        }
-
-        const stamp = (sub.attributes?.submittedDate ?? '').slice(0, 10) || 'tarihsiz'
         const slug = app.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-        files.push({
-          name: `asc-reject-${slug}-${stamp}-${thread.id}.txt`,
-          text: lines.join('\n').trim() + '\n',
-        })
+
+        for (const msg of appleMsgs.length ? appleMsgs : ordered) {
+          const plain = toPlainText(msg.attributes?.messageBody)
+          const { preamble, blocks } = splitByGuideline(plain)
+          const rejectedAt = String(msg.attributes?.createdDate ?? '').slice(0, 10) || 'tarihsiz'
+          const device = fieldFrom(preamble, 'Review Device')
+          const reviewed = fieldFrom(preamble, 'Version reviewed')
+
+          // Kalıp tutmadıysa (eski mesaj biçimi) mesajın tamamını tek dosya yap.
+          const parts = blocks.length ? blocks : [{ code: '', body: plain }]
+
+          for (const part of parts) {
+            const lines = []
+            lines.push(`App: ${app.name}`)
+            lines.push(`Platform: ${sub.attributes?.platform ?? 'IOS'}`)
+            if (part.code) lines.push(`Guideline: ${part.code}`)
+            lines.push(`Reddedilme: ${rejectedAt}`)
+            if (reviewed || version) lines.push(`Version: ${reviewed || version}`)
+            if (device) lines.push(`Review Device: ${device}`)
+            lines.push(`Submission: ${sub.id}  (${sub.attributes?.state ?? '?'})`)
+            lines.push(`Thread: ${thread.id}`)
+
+            // Yapısal etiket kaba geliyor (5.6.0 iken gövdede 5.6.3 yazıyor).
+            // Bilgi olsun diye tutuyoruz ama guideline'ı gövdeden alıyoruz.
+            const tag = reasons.find((r) => part.code && r.code.startsWith(part.code.split('(')[0].slice(0, 3)))
+            if (tag) lines.push(`Apple etiketi: ${tag.code}${tag.description ? ` — ${tag.description}` : ''}`)
+            lines.push('')
+
+            lines.push("=== Apple'ın red gerekçesi ===")
+            lines.push(part.body)
+            lines.push('')
+
+            const replies = devByCode.get(part.code) ?? []
+            for (const r of replies) {
+              lines.push(`=== Geliştirici yanıtı (${String(r.date).slice(0, 10)}) ===`)
+              lines.push(r.body)
+              lines.push('')
+            }
+
+            const codeSlug = part.code ? part.code.replace(/[^0-9a-z]+/gi, '-').replace(/-$/, '') : 'genel'
+            files.push({
+              name: `asc-reject-${slug}-${codeSlug}-${rejectedAt}.txt`,
+              text: lines.join('\n').trim() + '\n',
+            })
+          }
+        }
       }
     }
   }

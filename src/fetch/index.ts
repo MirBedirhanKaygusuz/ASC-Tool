@@ -13,14 +13,13 @@ export async function loadFixture(path: string): Promise<Submission> {
   return JSON.parse(raw) as Submission
 }
 
-export async function fetchFromAppStoreConnect(_appId: string): Promise<Submission> {
-  // TODO(Faz 1): ASC API — .p8 ile JWT üret, sonra:
-  //   GET /v1/apps/{id}/appStoreVersions
-  //   GET /v1/appStoreVersions/{id}/appStoreVersionLocalizations  -> metinler
-  //   GET /v1/appStoreVersionLocalizations/{id}/appScreenshotSets -> görseller
-  //   GET /v1/apps/{id}/subscriptionGroups                        -> abonelikler
-  // NOT: red gerekçeleri (Resolution Center) bu API'de YOK — elle toplanacak.
-  throw new Error('App Store Connect entegrasyonu henüz yok — --fixture kullan')
+export async function fetchFromAppStoreConnect(
+  appId: string,
+  opts: { locale?: string; territory?: string; onWarn?: (m: string) => void } = {},
+): Promise<Submission> {
+  // Ağır iş asc.ts'te: JWT imzalama + üç ayrı kaynak ağacının birleştirilmesi.
+  const { fetchSubmission } = await import('./asc.js')
+  return fetchSubmission(appId, opts)
 }
 
 export async function fetchFromPlay(_packageName: string): Promise<Submission> {

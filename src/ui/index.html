@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greenlight</title>
+<style>
+  :root {
+    --bg: #f7f7f5;  --panel: #fff;      --line: #e3e2dd;   --line-soft: #efeeea;
+    --ink: #1c1b19;  --muted: #6f6d67;  --accent: #2b6b4f;
+    --high: #b4291f; --medium: #b3760c; --low: #5a6570;
+    --ok: #2b6b4f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161614;  --panel: #1e1e1c;  --line: #33322e;  --line-soft: #262521;
+      --ink: #ece9e3;  --muted: #9a978f; --accent: #6bbd93;
+      --high: #ef6b5f; --medium: #e0a44a; --low: #9aa4ad;  --ok: #6bbd93;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+  }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
+
+  header {
+    display: flex; align-items: center; gap: 20px;
+    padding: 14px 22px; border-bottom: 1px solid var(--line); background: var(--panel);
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { margin: 0; font-size: 16px; font-weight: 620; letter-spacing: -.01em; }
+  nav { display: flex; gap: 4px; }
+  nav button {
+    background: none; border: 0; color: var(--muted); cursor: pointer;
+    padding: 6px 12px; border-radius: 7px; font: inherit; font-size: 14px;
+  }
+  nav button:hover { background: var(--line-soft); color: var(--ink); }
+  nav button[aria-current="true"] { background: var(--line-soft); color: var(--ink); font-weight: 560; }
+
+  main { max-width: 1120px; margin: 0 auto; padding: 24px 22px 80px; }
+  section[hidden] { display: none; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 12px;
+  }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .grow { flex: 1; min-width: 0; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  h2 { font-size: 15px; margin: 26px 0 10px; letter-spacing: -.01em; }
+  h3 { font-size: 14px; margin: 0 0 4px; }
+
+  button.act {
+    background: var(--ink); color: var(--bg); border: 0; border-radius: 8px;
+    padding: 7px 14px; font: inherit; font-size: 13.5px; cursor: pointer;
+  }
+  button.act:hover { opacity: .87; }
+  button.act[disabled] { opacity: .4; cursor: default; }
+  button.ghost {
+    background: none; border: 1px solid var(--line); color: var(--ink);
+    border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  button.ghost:hover { border-color: var(--muted); }
+
+  /* Üç durumlu anahtar: evet / hayır / bilinmiyor. Bilinmiyor gerçek bir
+     durum, boş kutu değil — kural elemesi buna bakıyor. */
+  .tri { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .tri button {
+    background: none; border: 0; padding: 5px 11px; font: inherit; font-size: 12.5px;
+    color: var(--muted); cursor: pointer; border-right: 1px solid var(--line);
+  }
+  .tri button:last-child { border-right: 0; }
+  .tri button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 560; }
+  .tri button:not([aria-pressed="true"]):hover { background: var(--line-soft); }
+
+  /* Alan tanımı: etiket tek başına "kullanıcı içeriği" gibi çok anlamlı bir
+     ifade; yanlış işaretlenen bir bayrak sessizce yanlış kurallara yol açıyor.
+     Bu yüzden her alanın tanımı, sınır durumları ve sonucu yanında duruyor. */
+  .meta-field { padding: 11px 0; border-top: 1px solid var(--line-soft); }
+  .meta-field:first-child { border-top: 0; padding-top: 4px; }
+  .meta-field .name { min-width: 152px; font-weight: 560; font-size: 14px; }
+  .defbox { margin-top: 8px; padding: 11px 13px; background: var(--line-soft); border-radius: 9px; }
+  .defbox p { margin: 7px 0; }
+  .defs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; margin: 10px 0; }
+  @media (max-width: 640px) { .defs { grid-template-columns: 1fr; } }
+  .defs ul { margin: 3px 0 0; padding-left: 17px; }
+  .defs li { margin: 3px 0; }
+  .defs .yes { color: var(--ok); font-weight: 560; }
+  .defs .no { color: var(--muted); font-weight: 560; }
+
+  .pill {
+    display: inline-block; padding: 1px 8px; border-radius: 999px;
+    font-size: 11.5px; border: 1px solid var(--line); color: var(--muted);
+  }
+  .pill.warn { color: var(--medium); border-color: var(--medium); }
+
+  .sev { font-weight: 640; }
+  .sev.high { color: var(--high); }
+  .sev.medium { color: var(--medium); }
+  .sev.low { color: var(--low); }
+
+  .finding { border-left: 3px solid var(--line); padding-left: 14px; margin: 14px 0; }
+  .finding.high { border-left-color: var(--high); }
+  .finding.medium { border-left-color: var(--medium); }
+  .finding.low { border-left-color: var(--low); }
+  blockquote {
+    margin: 8px 0; padding: 8px 12px; background: var(--line-soft);
+    border-radius: 8px; font-size: 13.5px; white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+  details { margin-top: 8px; }
+  summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+
+  #log {
+    background: var(--line-soft); border-radius: 10px; padding: 12px 14px;
+    max-height: 260px; overflow: auto; white-space: pre-wrap;
+  }
+  #log .warn { color: var(--medium); }
+  #log .detail { color: var(--muted); }
+
+  .score { font-size: 34px; font-weight: 680; letter-spacing: -.03em; line-height: 1; }
+  .split { display: grid; grid-template-columns: 300px 1fr; gap: 14px; align-items: start; }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; } }
+  .list button {
+    display: block; width: 100%; text-align: left; background: none; border: 0;
+    border-bottom: 1px solid var(--line-soft); padding: 10px 12px; cursor: pointer;
+    color: var(--ink); font: inherit;
+  }
+  .list button:hover { background: var(--line-soft); }
+  .list button[aria-current="true"] { background: var(--line-soft); font-weight: 560; }
+  .err { color: var(--high); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Greenlight</h1>
+  <nav>
+    <button data-tab="apps" aria-current="true">Uygulamalar</button>
+    <button data-tab="report">Rapor</button>
+    <button data-tab="rejects">Red geçmişi</button>
+    <button data-tab="lessons">Dersler</button>
+  </nav>
+  <span class="grow"></span>
+  <span class="muted small" id="status"></span>
+</header>
+
+<main>
+  <section id="tab-apps">
+    <div id="apps"><p class="muted">Yükleniyor…</p></div>
+  </section>
+
+  <section id="tab-report" hidden>
+    <div id="report"><p class="muted">Henüz denetim çalıştırılmadı.</p></div>
+  </section>
+
+  <section id="tab-rejects" hidden>
+    <div class="card">
+      <div class="row">
+        <div class="grow">
+          <h3>Yeni red metni işle</h3>
+          <div class="muted small">
+            Snippet'in indirdiği .txt içeriğini yapıştır. Yeni kalıpsa ders açılır,
+            bilinen kalıpsa mevcut dersin örneği olur.
+          </div>
+        </div>
+        <button class="act" id="ingestBtn">İşle</button>
+      </div>
+      <textarea id="ingestText" rows="5" placeholder="App: …&#10;Guideline: 2.3.3&#10;=== Apple'ın red gerekçesi ==="
+        style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:1px solid var(--line);
+               background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:12.5px"></textarea>
+      <div id="ingestOut" class="small" style="margin-top:8px"></div>
+    </div>
+    <div id="rejects"></div>
+  </section>
+
+  <section id="tab-lessons" hidden>
+    <div class="split">
+      <div class="card list" style="padding:0;overflow:hidden" id="lessonList"></div>
+      <div id="lessonDetail"><p class="muted">Soldan bir ders seç.</p></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+const TABS = ['apps', 'report', 'rejects', 'lessons']
+const $ = (s, r = document) => r.querySelector(s)
+const el = (tag, props = {}, ...kids) => {
+  const n = Object.assign(document.createElement(tag), props)
+  for (const k of kids.flat()) n.append(k?.nodeType ? k : document.createTextNode(String(k)))
+  return n
+}
+const esc = (s) => String(s ?? '')
+const api = async (path, opts) => {
+  const r = await fetch(path, opts)
+  const j = await r.json()
+  if (j?.error) throw new Error(j.error)
+  return j
+}
+const setStatus = (t, isError) => {
+  const s = $('#status')
+  s.textContent = t
+  s.className = 'small ' + (isError ? 'err' : 'muted')
+}
+
+// --- sekmeler --------------------------------------------------------------
+for (const b of document.querySelectorAll('nav button')) {
+  b.onclick = () => {
+    for (const o of document.querySelectorAll('nav button')) o.setAttribute('aria-current', String(o === b))
+    for (const t of TABS) $(`#tab-${t}`).hidden = t !== b.dataset.tab
+    if (b.dataset.tab === 'lessons') loadLessons()
+    if (b.dataset.tab === 'rejects') loadRejects()
+  }
+}
+
+// --- Uygulamalar -----------------------------------------------------------
+// Alan tanımları SUNUCUDAN geliyor (src/meta-fields.ts). Burada kopyası
+// tutulmuyor: kopya tutulduğunda arayüzdeki kutu ile kuralın baktığı alan
+// zamanla ayrışıyor ve kimse fark etmiyor — nitekim "üçüncü taraf giriş"
+// alanı kodda vardı, bu ekranda hiç yoktu.
+let META_FIELDS = []
+let META_GROUPS = []
+let APPS = []
+
+async function setMeta(app, patch) {
+  setStatus('kaydediliyor…')
+  const res = await api(`/api/apps/${app.id}/meta`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ appName: app.name, meta: patch }),
+  })
+  app.meta = res.meta
+  renderApps(APPS)
+  setStatus('kaydedildi')
+}
+
+const save = (app, patch) => setMeta(app, patch).catch((e) => setStatus(e.message, true))
+
+function triState(app, key) {
+  const wrap = el('span', { className: 'tri' })
+  const current = app.meta[key]
+  for (const [label, value] of [['Evet', true], ['Hayır', false], ['?', null]]) {
+    const b = el('button', { textContent: label, type: 'button' })
+    b.setAttribute('aria-pressed', String(current === value || (value === null && current === undefined)))
+    b.onclick = () => save(app, { [key]: value })
+    wrap.append(b)
+  }
+  return wrap
+}
+
+/** Bir meta alanı: etiket + üç durumlu anahtar + katlanır tanım. */
+function metaField(app, f) {
+  const bullets = (title, cls, items) => el('div', {},
+    el('div', { className: 'small ' + cls }, title),
+    el('ul', { className: 'small muted' }, ...items.map((t) => el('li', {}, t))))
+
+  const body = el('div', { className: 'defbox' },
+    el('p', { className: 'small' }, f.what),
+    el('div', { className: 'defs' },
+      bullets('Evet sayılır', 'yes', f.yes),
+      bullets('Hayır sayılır', 'no', f.no)),
+    f.note ? el('p', { className: 'small muted' }, f.note) : '',
+    el('p', { className: 'small' }, el('strong', {}, 'Evet dersen ne açılır: '), f.effect),
+    el('p', { className: 'small muted' }, f.source))
+
+  return el('div', { className: 'meta-field' },
+    el('div', { className: 'row', style: 'gap:12px' },
+      el('span', { className: 'name' }, f.label),
+      triState(app, f.key),
+      el('span', { className: 'muted small grow' }, f.tldr)),
+    el('details', {}, el('summary', {}, 'ne demek?'), body))
+}
+
+/**
+ * Alan grubu. Toplu "hiçbiri yok" düğmesi var çünkü alanların çoğu nadir
+ * (kripto, kumar, emülatör...) ve tek tek "hayır" tıklatmak insanı alanları
+ * "?" bırakmaya iter — "?" ise kartı denetimden çıkarır. Tek tık, ama yine de
+ * kullanıcının BEYANI: sessiz varsayılan değil.
+ */
+function metaGroup(app, g) {
+  const fields = META_FIELDS.filter((f) => f.group === g.id)
+  if (!fields.length) return ''
+  const bos = fields.filter((f) => app.meta[f.key] === undefined)
+  const head = el('div', { className: 'row', style: 'margin:20px 0 0' },
+    el('span', { style: 'font-weight:600' }, g.title),
+    el('span', { className: 'muted small grow' }, g.hint),
+    bos.length
+      ? el('button', {
+          className: 'ghost',
+          textContent: `${bos.length} boş → hepsi “hayır”`,
+          title: 'Bu gruptaki boş alanları hayır olarak işaretler. Sonra tek tek değiştirebilirsin.',
+          onclick: () => save(app, Object.fromEntries(bos.map((f) => [f.key, false]))),
+        })
+      : el('span', { className: 'pill' }, 'tamam'))
+  return el('div', {}, head, ...fields.map((f) => metaField(app, f)))
+}
+
+function renderApps(apps) {
+  const root = $('#apps')
+  root.textContent = ''
+  root.append(el('h2', {}, `${apps.length} uygulama`))
+  for (const app of apps) {
+    const missing = META_FIELDS.filter((f) => app.meta[f.key] === undefined)
+    const head = el('div', { className: 'row' },
+      el('div', { className: 'grow' },
+        el('h3', {}, app.name),
+        el('div', { className: 'muted small mono' }, `${app.id} · ${app.bundleId} · ${app.primaryLocale}`)),
+      missing.length
+        ? el('span', { className: 'pill warn' }, `${missing.length}/${META_FIELDS.length} alan boş`)
+        : el('span', { className: 'pill' }, 'tamam'),
+      el('button', { className: 'act', textContent: 'Denetle', onclick: () => runAudit(app) }),
+    )
+
+    const meta = el('div', {}, ...META_GROUPS.map((g) => metaGroup(app, g)))
+    root.append(el('div', { className: 'card' }, head, meta))
+  }
+  root.append(el('p', { className: 'muted small' },
+    '“?” = bilinmiyor, “hayır” değil. Alan “?” kaldığı sürece o alana bakan kartlar modele hiç sorulmaz; ' +
+    'rapor bunları “eksik veri” başlığı altında ayrıca listeler — yani denetim olduğundan geniş görünmez. ' +
+    'Aynı alanlar terminalden de yazılabilir: npm run meta -- --app <id> --ugc --no-ads ' +
+    '(alanların tamamı: npm run meta -- --alanlar)'))
+}
+
+Promise.all([api('/api/meta-fields'), api('/api/apps')])
+  .then(([defs, apps]) => {
+    META_FIELDS = defs.fields
+    META_GROUPS = defs.groups
+    APPS = apps
+    renderApps(apps)
+  })
+  .catch((e) => { $('#apps').textContent = ''; $('#apps').append(el('p', { className: 'err' }, e.message)) })
+
+// --- Denetim (SSE) ---------------------------------------------------------
+function runAudit(app) {
+  for (const o of document.querySelectorAll('nav button')) o.setAttribute('aria-current', String(o.dataset.tab === 'report'))
+  for (const t of TABS) $(`#tab-${t}`).hidden = t !== 'report'
+
+  const log = el('div', { id: 'log', className: 'mono small' })
+  const root = $('#report')
+  root.textContent = ''
+  root.append(el('h2', {}, `${app.name} denetleniyor…`), el('div', { className: 'card' }, log))
+
+  const src = new EventSource(`/api/audit/${app.id}`)
+  src.addEventListener('progress', (ev) => {
+    const e = JSON.parse(ev.data)
+    log.append(el('div', { className: e.level }, (e.level === 'warn' ? '⚠ ' : e.level === 'detail' ? '   ' : '→ ') + e.text))
+    log.scrollTop = log.scrollHeight
+  })
+  src.addEventListener('done', (ev) => {
+    src.close()
+    renderReport(JSON.parse(ev.data).report, log)
+  })
+  src.addEventListener('error', (ev) => {
+    src.close()
+    let msg = 'bağlantı koptu'
+    try { msg = JSON.parse(ev.data).message } catch {}
+    log.append(el('div', { className: 'err' }, '✗ ' + msg))
+  })
+}
+
+// --- Rapor -----------------------------------------------------------------
+const SEV_TR = { high: 'yüksek', medium: 'orta', low: 'düşük' }
+
+function findingCard(f) {
+  const node = el('div', { className: 'finding ' + f.severity },
+    el('div', { className: 'row' },
+      el('span', { className: 'sev ' + f.severity }, SEV_TR[f.severity] ?? f.severity),
+      el('span', { className: 'muted small mono' }, `${f.artifact} · ${f.ruleId}`),
+      el('span', { className: 'pill' }, `güven ${Math.round((f.confidence ?? 0) * 100)}%`)),
+    el('p', { style: 'margin:6px 0' }, f.rationale))
+  if (f.excerpt) node.append(el('blockquote', {}, f.excerpt))
+  if (f.suggestedFix) node.append(el('p', { className: 'small' }, el('strong', {}, 'Düzelt: '), f.suggestedFix))
+  for (const ex of f.examples ?? []) {
+    node.append(el('details', {},
+      el('summary', {}, `Gerçek red: ${ex.appName} · Guideline ${ex.guideline}${ex.rejectedAt ? ' · ' + ex.rejectedAt : ''}`),
+      el('blockquote', {}, ex.reviewerText),
+      ex.resolution ? el('p', { className: 'small muted' }, 'Apple ne istedi: ' + ex.resolution) : ''))
+  }
+  return node
+}
+
+function renderReport(rep, log) {
+  const root = $('#report')
+  root.textContent = ''
+
+  // Renk sürekli skordan değil, ENGELLEYİCİ sorun sayısından geliyor:
+  // "yayına çıkmasını engelleyecek belirgin sorun varsa kırmızı olmalı".
+  // Apple tek bir sebeple reddediyor, o yüzden eşik bir.
+  const b = rep.riskBreakdown ?? {}
+  const scoreColor = b.engelleyici > 0 ? 'high' : (b.risk || b.kesinKontrol) ? 'medium' : 'low'
+  const hukumBasligi = b.engelleyici > 0
+    ? `${b.engelleyici} sorun gönderimi engelleyebilir`
+    : (b.risk || b.kesinKontrol) ? 'Kesin engel yok, karar gerektiren bulgular var'
+    : 'Denetlenen alanlarda engel bulunmadı'
+  root.append(el('div', { className: 'card row' },
+    el('div', {}, el('div', { className: 'score sev ' + scoreColor }, rep.riskScore),
+      el('div', { className: 'muted small' }, 'risk / 100'),
+      el('div', { className: 'muted small' }, 'öncelik aracı')),
+    el('div', { className: 'grow', style: 'margin-left:14px' },
+      el('h3', {}, rep.submission.appName),
+      el('div', { className: 'sev ' + scoreColor, style: 'font-size:14px;font-weight:640' }, hukumBasligi),
+      el('div', { className: 'muted small' },
+        `${rep.submission.platform} · ${rep.submission.locale} · corpus ${rep.corpusVersion}`),
+      el('div', { className: 'muted small' },
+        `${rep.stats.rulesSelected} kural seçildi, ${rep.stats.rulesRun} çalıştı · ` +
+        `${rep.stats.rawFindings} ham → ${rep.stats.afterGrounding} alıntı doğrulandı → ${rep.stats.afterVerify} kaldı`))))
+
+  // Neyin ÇALIŞMADIĞI, neyin bulunduğu kadar önemli: 175 karttan tipik olarak
+  // 30'u koşuyor. Bunu yazmayan rapor "kural seçildi: 28" satırını kapsam gibi
+  // okutuyor.
+  if (rep.selection?.elenen?.length) {
+    const s = rep.selection
+    const SEBEP = {
+      'meta-bilinmiyor': ['Beyan eksik', 'Soru yanıtlanmadı; kart denetime hiç girmedi. Alanı doldur, kart açılır.'],
+      'beyan-cekilmedi': ['App Store Connect beyanı çekilmedi', 'Bu kartlar Apple’ın kendi kaydına bakıyor ve o kayıt çekilmedi. Doldurulacak bir alan yok — eksik olan çekim.'],
+      'beyanla-elendi': ['Beyanla elendi', 'Kuralı kapatan şey senin cevabın. Kutu yanlış işaretlendiyse o kural hiç denetlenmedi.'],
+      'veri-yok': ['Veri yok', 'Kartın baktığı alan bu gönderimde boş.'],
+      'konu-gecmiyor': ['Konusu metinde geçmiyor', 'Kartın aradığı kelimeler listing metninde yok — bu bir metin eşleşmesi, anlam çözümlemesi değil.'],
+    }
+    const kutu = el('div', { className: 'card' },
+      el('h3', {}, `${s.elenen.length} kart çalışmadı`),
+      el('p', { className: 'small muted' },
+        `${s.corpus} karttan ${s.modele} tanesi modele, ${s.elleKontrol} tanesi elle kontrol listesine gitti. ` +
+        'Aşağıdakiler hiç çalışmadı — “sorun yok” anlamına gelmez.'))
+    for (const [sebep, [baslik, aciklama]] of Object.entries(SEBEP)) {
+      const liste = s.elenen.filter((e) => e.sebep === sebep)
+      if (!liste.length) continue
+      const tamListe = sebep !== 'konu-gecmiyor' && sebep !== 'veri-yok'
+      const goster = tamListe ? liste : liste.slice(0, 10)
+      kutu.append(el('details', {},
+        el('summary', {}, `${baslik} — ${liste.length} kart`),
+        el('p', { className: 'small muted' }, aciklama),
+        el('div', { className: 'mono small' },
+          ...goster.map((e) => el('div', {}, `${e.id} — ${e.detay}`)),
+          goster.length < liste.length ? el('div', { className: 'muted' }, `…ve ${liste.length - goster.length} kart daha`) : '')))
+    }
+    if (rep.beyan?.length) {
+      kutu.append(el('details', {},
+        el('summary', {}, 'Kural seçimini belirleyen beyanlar'),
+        el('div', { className: 'small' },
+          ...rep.beyan.map((b) => el('div', {},
+            `${b.etiket}: `,
+            el('strong', {}, b.deger === null ? '? (bilinmiyor)' : b.deger ? 'evet' : 'hayır'),
+            el('span', { className: 'muted' }, ` · ${b.kaynak}`))))))
+    }
+    root.append(kutu)
+  }
+
+  if (rep.notChecked?.length) {
+    root.append(el('div', { className: 'card' },
+      el('h3', { className: 'sev medium' }, `${rep.notChecked.length} konu DENETLENMEDİ`),
+      el('div', { className: 'muted small mono' }, rep.notChecked.join(', ')),
+      el('p', { className: 'small muted' }, 'Görsel gerektiren kartlar; vision kapalı ya da görsel okunamadı. “Sorun yok” anlamına gelmez.')))
+  }
+
+  if (rep.lint?.length) {
+    root.append(el('h2', {}, `Kesin kontroller (${rep.lint.length})`))
+    const card = el('div', { className: 'card' })
+    for (const l of rep.lint) {
+      card.append(el('div', { className: 'finding ' + l.severity },
+        el('div', { className: 'row' },
+          el('span', { className: 'sev ' + l.severity }, SEV_TR[l.severity] ?? l.severity),
+          el('span', { className: 'muted small mono' },
+            `${l.artifact} · ${l.checkId}` + (l.section ? ` · Apple ${l.section}` : ''))),
+        el('p', { style: 'margin:6px 0' }, l.message),
+        el('p', { className: 'small' }, el('strong', {}, 'Düzelt: '), l.suggestedFix)))
+    }
+    root.append(card)
+  }
+
+  root.append(el('h2', {}, `Model bulguları (${rep.findings.length})`))
+  const fc = el('div', { className: 'card' })
+  if (!rep.findings.length) fc.append(el('p', { className: 'muted' }, 'Bulgu yok.'))
+  for (const f of rep.findings) fc.append(findingCard(f))
+  root.append(fc)
+
+  if (rep.manual?.length) {
+    root.append(el('h2', {}, `Elle kontrol (${rep.manual.length})`))
+    const mc = el('div', { className: 'card' })
+    for (const m of rep.manual) {
+      mc.append(el('details', {},
+        el('summary', {}, m.question),
+        el('p', { className: 'small muted' }, m.why),
+        el('p', { className: 'small mono muted' }, `${m.source.doc} ${m.source.section}`)))
+    }
+    root.append(mc)
+  }
+
+  if (log) root.append(el('h2', {}, 'Çalışma kaydı'), el('div', { className: 'card' }, log))
+}
+
+// --- Red geçmişi -----------------------------------------------------------
+async function loadRejects() {
+  const root = $('#rejects')
+  root.textContent = 'Yükleniyor…'
+  let rows = []
+  try { rows = await api('/api/rejects') } catch (e) { root.textContent = ''; return root.append(el('p', { className: 'err' }, e.message)) }
+  root.textContent = ''
+  if (!rows.length) {
+    return root.append(el('p', { className: 'muted' }, 'Henüz red kaydı yok. Yukarıya bir red metni yapıştır.'))
+  }
+
+  // Uygulama bazında grupla — "bu uygulama kaç kez, hangi maddeden reddedildi".
+  const byApp = new Map()
+  for (const r of rows) {
+    const key = r.appName || '(bilinmiyor)'
+    byApp.set(key, [...(byApp.get(key) ?? []), r])
+  }
+
+  root.append(el('h2', {}, `${rows.length} red · ${byApp.size} uygulama`))
+  for (const [appName, list] of [...byApp].sort((a, b) => b[1].length - a[1].length)) {
+    const guidelines = [...new Set(list.map((r) => r.guideline))].sort()
+    const card = el('div', { className: 'card' },
+      el('div', { className: 'row' },
+        el('div', { className: 'grow' },
+          el('h3', {}, appName),
+          el('div', { className: 'muted small' }, `${list.length} red · madde: ${guidelines.join(', ')}`))))
+
+    for (const r of list) {
+      const item = el('details', {},
+        el('summary', {},
+          `${r.rejectedAt ?? 'tarihsiz'} · Guideline ${r.guideline}` +
+          `${r.lessonScope === 'in-app' ? ' · ◆ in-app' : ''}` +
+          `${r.ruleId ? '' : ' · ⚠ kartsız'}`),
+        el('div', { className: 'muted small mono' }, `ders: ${r.lessonTitle} (${r.lessonStatus})`),
+        el('blockquote', {}, r.reviewerText),
+        r.excerpt ? el('p', { className: 'small' }, el('strong', {}, 'Alıntı: '), r.excerpt) : '',
+        r.resolution ? el('p', { className: 'small muted' }, 'Apple ne istedi: ' + r.resolution) : '')
+
+      // Ham metni ancak açılınca çekiyoruz: 40 vakada 40 dosyayı önden
+      // okumanın anlamı yok.
+      const rawBtn = el('button', { className: 'ghost', textContent: 'Ham metni göster', type: 'button' })
+      rawBtn.onclick = async () => {
+        rawBtn.disabled = true
+        try {
+          const { text } = await api(`/api/rejects/${encodeURIComponent(r.id)}/raw`)
+          rawBtn.replaceWith(el('blockquote', { className: 'mono' }, text || '(ham metin bulunamadı)'))
+        } catch (e) { rawBtn.disabled = false; setStatus(e.message, true) }
+      }
+      item.append(rawBtn)
+      card.append(item)
+    }
+    root.append(card)
+  }
+}
+
+$('#ingestBtn').onclick = async () => {
+  const btn = $('#ingestBtn')
+  const out = $('#ingestOut')
+  const text = $('#ingestText').value.trim()
+  if (!text) { out.textContent = 'Metin boş.'; out.className = 'small err'; return }
+  btn.disabled = true
+  out.className = 'small muted'
+  out.textContent = 'İşleniyor… (model çağrısı, birkaç saniye)'
+  try {
+    const r = await api('/api/rejects', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    })
+    out.className = 'small'
+    out.textContent =
+      `${r.kind === 'new-lesson' ? '✚ Yeni ders' : '＋ Mevcut derse örnek'}: ${r.lesson.id}` +
+      ` · ${r.lesson.scope}` +
+      (r.coverageGap ? ' · ⚠ kapsama boşluğu (kart yok)' : '') +
+      ` — ${r.matchReason}`
+    $('#ingestText').value = ''
+    loadRejects()
+  } catch (e) {
+    out.className = 'small err'
+    out.textContent = e.message
+  } finally {
+    btn.disabled = false
+  }
+}
+
+// --- Dersler ---------------------------------------------------------------
+const STATUS_TR = { active: '● aktif', draft: '○ onay bekliyor', retired: '× emekli' }
+
+async function loadLessons() {
+  const list = $('#lessonList')
+  list.textContent = ''
+  let lessons = []
+  try { lessons = await api('/api/lessons') } catch (e) { return setStatus(e.message, true) }
+  if (!lessons.length) {
+    list.append(el('div', { style: 'padding:14px' }, el('span', { className: 'muted small' }, 'Henüz ders yok.')))
+    return
+  }
+  for (const l of lessons) {
+    const b = el('button', { type: 'button' },
+      el('div', { className: 'small' }, `${STATUS_TR[l.status] ?? l.status}`),
+      el('div', {}, l.title),
+      el('div', { className: 'muted small mono' },
+        `${l.guideline}${l.scope === 'in-app' ? ' · ◆ in-app' : ''} · ${l.exampleCount} örnek`))
+    b.onclick = () => {
+      for (const o of list.children) o.setAttribute('aria-current', String(o === b))
+      showLesson(l.id)
+    }
+    list.append(b)
+  }
+}
+
+async function showLesson(id) {
+  const root = $('#lessonDetail')
+  root.textContent = 'Yükleniyor…'
+  let data
+  try { data = await api(`/api/lessons/${encodeURIComponent(id)}`) } catch (e) { return setStatus(e.message, true) }
+  const { lesson, examples } = data
+  root.textContent = ''
+
+  const setStatusTo = async (status) => {
+    try {
+      await api(`/api/lessons/${encodeURIComponent(id)}/status`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
+      setStatus('güncellendi')
+      await loadLessons()
+      showLesson(id)
+    } catch (e) { setStatus(e.message, true) }
+  }
+
+  root.append(el('div', { className: 'card' },
+    el('div', { className: 'row' },
+      el('div', { className: 'grow' },
+        el('h3', {}, lesson.title),
+        el('div', { className: 'muted small mono' },
+          `${lesson.platform} ${lesson.guideline} · ${lesson.scope} · kart: ${lesson.ruleId ?? '—'}`)),
+      lesson.status !== 'active'
+        ? el('button', { className: 'act', textContent: 'Onayla', onclick: () => setStatusTo('active') })
+        : el('button', { className: 'ghost', textContent: 'Emekliye ayır', onclick: () => setStatusTo('retired') })),
+    el('p', { style: 'margin:10px 0 0' }, lesson.summary),
+    lesson.scope === 'in-app'
+      ? el('p', { className: 'small muted' }, 'Uygulama içi davranış — listing denetimi göremez, raporda elle kontrol maddesi olarak çıkar.')
+      : lesson.ruleId ? '' : el('p', { className: 'small sev medium' }, '⚠ Hiçbir kurala bağlı değil: kapsama boşluğu.')))
+
+  root.append(el('h2', {}, `Gerçek red örnekleri (${examples.length})`))
+  const card = el('div', { className: 'card' })
+  if (!examples.length) card.append(el('p', { className: 'muted' }, 'Örnek yok.'))
+  for (const ex of examples) {
+    card.append(el('div', { className: 'finding' },
+      el('div', { className: 'muted small mono' },
+        `${ex.appName} · ${ex.rejectedAt ?? 'tarihsiz'} · Guideline ${ex.guideline}`),
+      el('blockquote', {}, ex.reviewerText),
+      ex.excerpt ? el('p', { className: 'small' }, el('strong', {}, 'Alıntı: '), ex.excerpt) : '',
+      ex.resolution ? el('p', { className: 'small muted' }, 'Apple ne istedi: ' + ex.resolution) : ''))
+  }
+  root.append(card)
+}
+</script>
+</body>
+</html>

@@ -34,16 +34,37 @@ function isGrounded(sub: Submission, f: Finding): boolean {
     }
     case 'image': {
       // Görselde birebir alıntı doğrulayamayız; media id geçerli mi ona bakarız.
-      const id = f.locator.mediaId
-      return sub.media.screenshots.some((s) => s.id === id) || sub.media.icon?.id === id
+      const id = normId(f.locator.mediaId)
+      if (!id) return false
+      return sub.media.screenshots.some((s) => normId(s.id) === id) || normId(sub.media.icon?.id) === id
     }
     case 'iap': {
-      const id = f.locator.iapId
-      return sub.iap.some((i) => i.id === id)
+      const id = normId(f.locator.iapId)
+      if (!id) return false
+      return sub.iap.some((i) => normId(i.id) === id)
     }
     case 'field':
       return true
   }
+}
+
+/**
+ * Kimlik karşılaştırması için uçlardaki noktalama ve boşluğu at.
+ *
+ * ÖLÇÜMDEN GELDİ (2026-09-02). 2.3.3 (ekran görüntüsü kartı) bulgularını
+ * alıntı doğrulamada kaybediyordu ve sebep uydurma değildi: model medya
+ * kimliğini cümle sonuna koyup NOKTA ekliyordu —
+ *   modelin verdiği: "d10e4a76-…-f6873955ef74."
+ *   gerçek id      : "d10e4a76-…-f6873955ef74"
+ * Tam eşleşme aradığımız için gerçek bir bulgu "halüsinasyon" sayılıp
+ * atılıyordu. Bu, savunmanın DOĞRU bulguyu kestiği ikinci vaka (ilki
+ * anahtar kelime kartıydı).
+ *
+ * Gevşetme dar tutuldu: yalnız uçlardaki noktalama. Ortadaki tek harf farkı
+ * hâlâ eşleşmiyor — uydurma kimlik yine eleniyor.
+ */
+function normId(id: string | undefined): string {
+  return (id ?? '').trim().replace(/^[^\w-]+/, '').replace(/[^\w-]+$/, '')
 }
 
 /** Boşluk/tırnak farklarını tolere et — model bazen normalize eder. */
