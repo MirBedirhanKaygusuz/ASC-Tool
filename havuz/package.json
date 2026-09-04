@@ -1,0 +1,14 @@
+{
+  "name": "greenlight-havuz",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ortak ders havuzu — HTTP API + Postgres",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

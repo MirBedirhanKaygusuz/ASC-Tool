@@ -1,0 +1,38 @@
+# Gerçek alan adı + otomatik HTTPS. Temel dosyanın ÜSTÜNE bindirilir:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.tls.yml up -d
+#
+# NE ZAMAN GEREKLİ: havuza localhost dışından erişilecekse. Chrome eklentisi
+# güvenli bağlamda koşuyor; düz http adresleri tarayıcı sürümüne göre
+# engellenebiliyor ve belirteç ağda açık gidiyor. Ofis içinde bile HTTPS
+# doğru varsayılan.
+#
+# ÖNCE .env'de HAVUZ_DOMAIN ve HAVUZ_EMAIL doldur, DNS'te alan adını bu
+# sunucuya yönlendir. Caddy sertifikayı Let's Encrypt'ten kendi alır ve
+# kendi yeniler.
+
+services:
+  # api artık dışarı port yayınlamıyor: tek giriş Caddy.
+  # Yayınlamaya devam etseydi HTTPS'in yanında açık bir HTTP kapısı kalırdı.
+  api:
+    ports: !override []
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      HAVUZ_DOMAIN: ${HAVUZ_DOMAIN:?alan adı gerekli — havuz/.env içine HAVUZ_DOMAIN yaz}
+      HAVUZ_EMAIL: ${HAVUZ_EMAIL:?sertifika uyarıları için e-posta gerekli — havuz/.env içine HAVUZ_EMAIL yaz}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-veri:/data
+      - caddy-conf:/config
+
+volumes:
+  caddy-veri:
+  caddy-conf:

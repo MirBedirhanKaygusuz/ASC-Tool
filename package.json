@@ -7,24 +7,43 @@
   "scripts": {
     "check": "tsx src/cli.ts check",
     "corpus": "tsx src/cli.ts corpus",
+    "guidelines": "tsx scripts/scrape-guidelines.ts",
+    "madde": "tsx src/cli.ts madde",
+    "vitrin": "tsx src/cli.ts vitrin",
     "typecheck": "tsc --noEmit",
     "dbg": "tsx scripts/dbg.ts",
     "dbg:verify": "tsx scripts/dbg-verify.ts",
     "learn": "tsx src/cli.ts learn",
     "lessons": "tsx src/cli.ts lessons",
-    "asc:copy": "pbcopy < scripts/asc-grab.js && echo \"snippet panoda — ASC sekmesinde DevTools Console'a yapistir\""
+    "asc:copy": "pbcopy < scripts/asc-grab.js && echo \"snippet panoda — ASC sekmesinde DevTools Console'a yapistir\"",
+    "asc:probe": "pbcopy < scripts/asc-probe.js && echo \"teshis snippet i panoda\"",
+    "apps": "tsx scripts/asc-apps.ts",
+    "meta": "tsx src/cli.ts meta",
+    "ui": "tsx src/ui/server.ts",
+    "test:ext": "tsx scripts/build-ext.ts && node extension/test/run.mjs",
+    "build:ext": "tsx scripts/build-ext.ts",
+    "test:core": "tsx scripts/test-core.ts",
+    "test:fetch": "tsx scripts/test-fetch.ts",
+    "test": "npm run test:core && npm run test:ext",
+    "kapsam": "tsx src/cli.ts kapsam",
+    "yalanci-alarm": "tsx src/cli.ts yalanci-alarm",
+    "kart-canlilik": "tsx src/cli.ts kart-canlilik",
+    "paket": "tsx scripts/paket.ts",
+    "havuz": "docker compose -f havuz/docker-compose.yml --env-file havuz/.env up -d",
+    "havuz:tls": "docker compose -f havuz/docker-compose.yml -f havuz/docker-compose.tls.yml --env-file havuz/.env up -d",
+    "havuz:log": "docker compose -f havuz/docker-compose.yml --env-file havuz/.env logs -f api",
+    "havuz:yedek": "docker compose -f havuz/docker-compose.yml --env-file havuz/.env exec -T db pg_dump -U greenlight greenlight"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.117.1",
-    "@aws-sdk/client-s3": "^3.1113.0",
-    "@supabase/supabase-js": "^2.112.3",
     "yaml": "^2.6.0",
     "zod": "^3.24.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "esbuild": "^0.28.2"
   },
   "allowScripts": {
     "esbuild@0.28.2": true

@@ -1,0 +1,63 @@
+# Ortak ders havuzu — iki kap: Postgres ve API.
+#
+#   docker compose up -d          → db + api (http, localhost)
+#   docker compose -f docker-compose.yml -f docker-compose.tls.yml up -d
+#                                 → üstüne Caddy: gerçek alan adı + otomatik HTTPS
+#
+# TLS neden AYRI DOSYA, profil değil: Compose, profil kapalıyken bile TÜM
+# servislerin değişkenlerini çözüyor. Caddy'deki "alan adı zorunlu" kontrolü
+# (${VAR:?...}) profilin arkasında dursa da normal `up`ı düşürüyordu. Kontrolü
+# gevşetmek yerine servisi ayırdık: zorunluluk yerinde kaldı, varsayılan
+# kurulum etkilenmiyor.
+#
+# Sırlar `.env` dosyasından okunur (bkz. .env.example). Compose dosyasına
+# GÖMÜLMEZ: bu dosya git'te, .env değil.
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-greenlight}
+      POSTGRES_USER: ${POSTGRES_USER:-greenlight}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD zorunlu — .env dosyasına yaz}
+    volumes:
+      - havuz-veri:/var/lib/postgresql/data
+    # DIŞARIYA PORT AÇILMIYOR. Veritabanına yalnız `api` erişir; 5432'yi
+    # yayınlamak, tüm arşivi tek zayıf paroladan ibaret hâle getirirdi.
+    # Elle bakmak için: docker compose exec db psql -U greenlight greenlight
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-greenlight} -d ${POSTGRES_DB:-greenlight}']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-greenlight}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-greenlight}
+      HAVUZ_READ_TOKEN: ${HAVUZ_READ_TOKEN:?openssl rand -hex 32 ile üret ve .env dosyasına yaz}
+      HAVUZ_WRITE_TOKEN: ${HAVUZ_WRITE_TOKEN:?openssl rand -hex 32 ile üret ve .env dosyasına yaz}
+      SCHEMA_PATH: /app/lessons.sql
+    volumes:
+      # Şema DEPODAN bağlanıyor, imaja kopyalanmıyor: sql/lessons.sql tek
+      # kaynak kalsın ve şema değişikliği imaj yeniden derlemesi değil,
+      # `docker compose restart api` olsun. Sunucu açılışta uyguluyor.
+      - ../sql/lessons.sql:/app/lessons.sql:ro
+    ports:
+      # Sadece localhost'a bağla. Ofis ağına açmak için .env'de
+      # HAVUZ_BIND=0.0.0.0 yap — ama o zaman TLS profilini kullan.
+      - '${HAVUZ_BIND:-127.0.0.1}:${HAVUZ_PORT:-8787}:8787'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8787/health']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  havuz-veri:

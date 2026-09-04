@@ -1,0 +1,16 @@
+# Caddy yalnız iki iş yapıyor: TLS'i sonlandırmak ve API'ye geçirmek.
+# Yetkilendirme, tavan, önbellek — hiçbiri burada değil; API'de.
+{
+	email {$HAVUZ_EMAIL}
+}
+
+{$HAVUZ_DOMAIN} {
+	reverse_proxy api:8787
+
+	# Sertifika ve yönlendirmeyi Caddy kendi hallediyor. Loglarda İSTEK
+	# GÖVDESİ yok — yalnız yol ve durum. Red yazışmaları buradan geçiyor.
+	log {
+		output stdout
+		format console
+	}
+}

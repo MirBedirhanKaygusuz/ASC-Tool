@@ -9,3 +9,15 @@ lessons/index.json
 lessons/bodies/
 lessons/rejects/
 rejects/
+
+# Üretilmiş: npm run build:ext
+src/ext/corpus.generated.ts
+
+# Eklenti imza anahtari — yalnizca .crx paketlemek icin gerekir.
+# EKLENTI KLASORUNUN DISINDA durur: extension/ ofise dagitilan klasor,
+# icine ozel anahtar koymak dagitmak demektir (Chrome de uyariyor).
+.extension-signing-key.pem
+
+# Uretilmis: npm run build:ext (kaynak data/apple-guidelines.json)
+src/ext/guidelines.generated.ts
+dist/

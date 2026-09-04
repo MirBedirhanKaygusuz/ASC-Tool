@@ -1,6 +1,6 @@
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
-import type { Lesson, RejectCase, LessonStore } from './types.js'
+import type { Lesson, RejectCase, LessonStore, LessonVector } from './types.js'
 import type { Platform } from '../types.js'
 
 /**
@@ -12,6 +12,7 @@ import type { Platform } from '../types.js'
  * geri kalan kod değişmez.
  *
  *   lessons/index.json        ← Supabase karşılığı (lessons + reject_cases)
+ *   lessons/vectors.json      ← Supabase karşılığı (lesson_vectors)
  *   lessons/bodies/{id}.md    ← R2: lessons/{id}.md
  *   lessons/rejects/{id}.txt  ← R2: rejects/{id}.txt
  */
@@ -32,7 +33,17 @@ export class LocalLessonStore implements LessonStore {
 
   private async index(): Promise<{ lessons: Lesson[]; examples: RejectCase[] }> {
     try {
-      return JSON.parse(await readFile(this.indexPath, 'utf8'))
+      const idx = JSON.parse(await readFile(this.indexPath, 'utf8'))
+      // scope sonradan eklendi. Eski kayıtlarda listing varsayıyoruz — kartsız
+      // bir dersi sessizce kapsam dışına atmak, yanlış alarmdan kötüdür.
+      for (const l of idx.lessons ?? []) {
+        l.scope ??= 'listing'
+        // signals/falsePositive sonradan eklendi. Eski dersler alansız kalır;
+        // `undefined` bırakmak renderLessons'ta `.join` patlatırdı.
+        l.signals ??= []
+        l.falsePositive ??= null
+      }
+      return idx
     } catch {
       return { lessons: [], examples: [] }
     }
@@ -66,6 +77,20 @@ export class LocalLessonStore implements LessonStore {
   async examplesFor(lessonId: string, limit = 3): Promise<RejectCase[]> {
     const { examples } = await this.index()
     return examples.filter((e) => e.lessonId === lessonId).slice(0, limit)
+  }
+
+  async allExamples(): Promise<RejectCase[]> {
+    const { examples } = await this.index()
+    return [...examples].sort((a, b) =>
+      String(b.rejectedAt ?? b.createdAt).localeCompare(String(a.rejectedAt ?? a.createdAt)))
+  }
+
+  async readRaw(example: RejectCase): Promise<string> {
+    try {
+      return await readFile(join(this.root, example.rawKey), 'utf8')
+    } catch {
+      return ''
+    }
   }
 
   async createLesson(lesson: Lesson, body: string): Promise<void> {
@@ -107,6 +132,34 @@ export class LocalLessonStore implements LessonStore {
     } catch {
       return ''
     }
+  }
+
+  private get vectorPath() {
+    return join(this.root, 'vectors.json')
+  }
+
+  /**
+   * Vektörler AYRI dosyada.
+   *
+   * index.json elle okunabilir ve git'te anlamlı diff veriyor; içine ders
+   * başına 512 kayan noktalı sayı koymak ikisini de bitirirdi.
+   */
+  async readVectors(): Promise<LessonVector[]> {
+    try {
+      const parsed = JSON.parse(await readFile(this.vectorPath, 'utf8'))
+      return Array.isArray(parsed?.vectors) ? parsed.vectors : []
+    } catch {
+      return []
+    }
+  }
+
+  async writeVectors(vectors: LessonVector[]): Promise<void> {
+    if (!vectors.length) return
+    const byId = new Map((await this.readVectors()).map((v) => [v.lessonId, v]))
+    for (const v of vectors) byId.set(v.lessonId, v)
+    await mkdir(dirname(this.vectorPath), { recursive: true })
+    // Girintisiz: 512 sayı satır satır yazılınca dosya on kat şişiyor.
+    await writeFile(this.vectorPath, JSON.stringify({ vectors: [...byId.values()] }))
   }
 
   /** Yerel depoya özel: ham reject dosyalarını listele (ingest için kolaylık). */
