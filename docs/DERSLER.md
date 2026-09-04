@@ -54,6 +54,8 @@ Metni kırpma, olduğu gibi yapıştır: `Guideline`, `Submission ID`,
 npm run lessons                        # listele (● aktif ○ taslak × emekli)
 npm run lessons -- approve <ders-id>   # taslağı aktifleştir
 npm run lessons -- retire <ders-id>    # emekliye ayır
+npm run lessons -- push                # yereldekileri ortak havuza taşı
+npm run lessons -- push --kuru         # prova: ne taşınacağını göster, yazma
 ```
 
 Yeni dersler **taslak** doğar ve onaylanana kadar denetimi etkilemez.
@@ -105,18 +107,47 @@ aynı kalıp için farklı id'ler açıyordu.
 
 ## Depo
 
-| | Yerel (bugün) | Bulut |
+| | Yerel | Ortak havuz |
 |---|---|---|
-| İndeks | `lessons/index.json` | Supabase `lessons`, `reject_cases` |
-| Ders gövdesi | `lessons/bodies/{id}.md` | R2 `lessons/{id}.md` |
-| Ham reject | `lessons/rejects/{id}.txt` | R2 `rejects/{id}.txt` |
+| İndeks | `lessons/index.json` | Postgres `lessons`, `reject_cases` |
+| Ders gövdesi | `lessons/bodies/{id}.md` | Postgres `blobs` anahtar `bodies/{id}.md` |
+| Ham reject | `lessons/rejects/{id}.txt` | Postgres `blobs` anahtar `rejects/{id}.txt` |
+| Vektörler | `lessons/vectors.json` | Postgres `lesson_vectors` |
 
-Geçiş: `.env` içinde `GREENLIGHT_STORE=supabase` + anahtarlar. Şema
+Geçiş: `.env` içinde `GREENLIGHT_STORE=havuz` + `HAVUZ_URL` + `HAVUZ_TOKEN`.
+Eldeki dersleri taşımak: `npm run lessons -- push`. Kurulum ve mimari:
+[havuz/README.md](../havuz/README.md). Şema
 [sql/lessons.sql](../sql/lessons.sql). Kod değişmez —
 [src/lessons/types.ts](../src/lessons/types.ts) arayüzü ikisini de karşılıyor.
 
-Ayrım neden: Supabase'e *"apple/2.3.3 için aktif dersler"* diye sorarsın
-(küçük, indeksli); R2'den *seçtiklerini* okursun (büyük, nadiren okunur, ucuz).
+**Sorgulanan ile okunan ayrı tutuluyor** ama artık ayrı SİSTEMDE değil: satır
+tabloları küçük ve indeksli (*"apple/2.3.3 için aktif dersler"* orada koşar),
+gövdeler `blobs` içinde ve yalnız gerektiğinde okunuyor. Ayrım anahtar
+düzeyinde korunduğu için (`body_key`, `raw_key`) gövdeler yarın bir nesne
+deposuna taşınırsa değişen tek şey API'nin blob katmanı olur.
+
+## Ortak havuz — ne değişiyor
+
+Yerel depoda her makinenin kendi kopyası var: Ahmet'in işlediği red'i Ayşe
+göremiyor, ikisi aynı red'den iki ayrı ders çıkarıyor ve proje öğrenmiyor
+([belkiPatlarız R10](../belkiPatlarız.md)). Havuz bağlıyken:
+
+- `learn` yeni bir red'i işlerken **aday havuzu ofisin tamamını görüyor** —
+  ekip arkadaşının açtığı derse örnek olarak eklenir, kopya ders açılmaz.
+- Denetim (terminalde ve **eklentide**) aynı aktif ders setini kullanıyor.
+- Onay herkeste: terminalden `npm run lessons -- approve <id>`, eklentide
+  **Menü → Ders havuzu** altındaki düğmeler. Onaylanan ders herkesin
+  denetimine girer. Bu yüzden yeni dersin `draft` doğması ortak havuzda daha da
+  kritik — hatalı bir çıkarım artık yalnız çıkaranın raporunu değil,
+  herkesinkini değiştirebilirdi. Karar geri alınabilir: durum her zaman geri
+  çevrilebiliyor.
+
+Eklenti havuza yalnız **okur**. Havuza yazan tek şey terminaldeki `learn`.
+Havuz kapalıysa denetim durmaz, yalnız kartlarla koşar ve raporda bunu yazar.
+
+Havuzun içeriğini görmek: terminalde `npm run lessons`, eklentide
+**Menü → Ders havuzu**. İkisi de aynı şeyi gösteriyor — dersin durumu,
+belirtileri, gerçek red örnekleri ve denetimde ne işe yaradığı.
 
 ## Çıkarımda dikkat edilen iki alan
 

@@ -4,29 +4,128 @@ App Store / Google Play listing'lerini **göndermeden önce** politika kurallar�
 karşı denetler. Her bulgu gerçek bir politika maddesine atıfla ve önerilen
 düzeltmeyle gelir.
 
-## Kurulum
+İki yüzü var:
+
+| | Kim kullanır | Ne gerekir |
+|---|---|---|
+| **[Chrome eklentisi](extension/) — asıl ürün** | Ofisteki herkes | Açık bir App Store Connect oturumu. API anahtarı, snippet, terminal yok. |
+| CLI (`npm run check`) | Kural kitabını geliştiren | Node + repo |
+
+Eklenti App Store Connect verisini tarayıcı oturumuyla çeker, denetler ve
+raporu yan panelde gösterir. Kurulum: [extension/README.md](extension/README.md).
+
+**Birine denemesi için vermek** (projeyi paylaşmadan):
 
 ```bash
-brew install ollama
-ollama serve &            # arka planda çalışsın
-ollama pull qwen3:8b
+npm run paket        # dist/greenlight-<sürüm>.zip
+```
 
+Yalnız o zip gönderilir. İçinde kurulum notu (`KURULUM.md`) var; `src/`,
+`corpus/`, `worker/`, `.env` ve imza anahtarı **girmez**. Betik önce paketleri
+yeniden derliyor (eski paketle dağıtmak, karşının düzeltilmiş bir hatayı
+yeniden yaşaması demek) ve sır/Node sızıntısı bulursa zip üretmiyor.
+
+Bilinen kırılma noktaları ve neden öyle yapıldığı: **[belkiPatlarız.md](belkiPatlarız.md)**.
+Yeni bir şey eklemeden önce oradaki R2 ve R3'ü oku — bu projenin bütün
+mimarisi o iki maddeden çıktı.
+
+## CLI kurulumu
+
+```bash
 npm install
 cp .env.example .env
 ```
 
-Model **yereldedir** — bulut API'si ve anahtar gerekmez.
+Model seçimi `.env` ile: yerel Ollama (varsayılan, bedava) ya da
+OpenAI-uyumlu bir uç. Eklenti tarafında model **senin Cloudflare
+Worker'ından** geçer, anahtar orada durur (bkz. [worker/README.md](worker/README.md)).
 
 ## Kullanım
 
 ```bash
 npm run corpus                                                    # kural kitabını listele
+npm run corpus -- --yonerge                                       # Apple'ın hangi maddesinde kart YOK
+npm run meta -- --alanlar                                         # elle işaretlenen alanlar ne demek
 npm run check -- --fixture fixtures/glamio-apple.json --no-llm    # sadece kesin kontroller
 npm run check -- --fixture fixtures/glamio-apple.json             # tam denetim (yerel model)
 npm run check -- --fixture fixtures/glamio-apple.json --model qwen2.5:14b
 ```
 
 Rapor `out/report.md` (okunur) ve `out/report.json` (eval için) olarak yazılır.
+
+### Veri ve kural metni
+
+```bash
+npm run vitrin -- 6756182726     # herkese açık App Store vitrini (anahtar YOK)
+npm run guidelines               # Apple'ın kural metnini çek/yenile (145 madde)
+npm run madde -- 3.1.2           # Apple'ın o maddedeki kendi metni
+npm run madde -- --ara subscription
+npm run test:fetch               # gerçek ağ: hangi veriyi nereden alabiliyoruz
+```
+
+### Araç işe yarıyor mu — iki ayrı soru
+
+```bash
+npm run kapsam                          # "yediğim redlerin kaçını bilirdik" (rejects/)
+npm run kapsam -- --yedek yedek.json    # eklenti yedeğinden
+
+# tersi: "kaç tane uydurdu" — kart bazında gürültü ölçümü
+npm run yalanci-alarm -- out/submission-<id>.json out/submission-<id2>.json
+npm run yalanci-alarm -- out/submission-<id>.json --onayla   # gerçekten koşar
+```
+
+Tanı koşusu: `--kartlar apple-2.3.7-keyword-misuse,apple-5.2-third-party-brand-in-text`
+yalnız o kartları koşturur (ör. "bu kart mı bozuk, model mi zayıf" sorusunu
+20 çağrıyla cevaplamak için). Filtreli koşu tam koşu tabanını **ezmez**, ayrı
+dosyaya yazar, farkı yalnız o kartlar üzerinden gösterir ve rapora "KISMİ KOŞU"
+uyarısı basar.
+
+`yalanci-alarm` **model çağrısı yapar**; `--onayla` olmadan yalnız örneklemi ve
+kaç çağrı yapılacağını gösterir. Ölçtüğü şey kart bazında huni: ham bulgu →
+alıntı doğrulama → ikinci göz → tekrar eleme. Aradığı imza, çok bulgu üretip
+savunmadan hiç geçemeyen kartlar — onlar gürültü kaynağı. Sonuç
+`out/yalanci-alarm.json`'a `corpusVersion` ve tarihle yazılır; ikinci koşu
+birinciyle otomatik karşılaştırılır (tek seferlik sayı değil, regresyon).
+
+Örneklem hakkında iki uyarı komutun kendisinde: kırpılmış `fixtures/` dosyaları
+oranı iyimser gösterir (model uyduracak metin bulamaz) ve örneklemdeki
+uygulamaların ortak beyan profili (ör. hepsi "AI içerik üretiyor") çıktıya
+yazılır — sayı genel bir oran değil, o profilin oranıdır.
+
+### Kartlar ölü mü — örneklem dar olduğunda
+
+```bash
+npm run kart-canlilik              # bedava: kart kendi ihlal örneğinde seçiliyor mu
+npm run kart-canlilik -- --onayla  # model: o örnekte gerçekten bulgu üretiyor mu
+```
+
+Yalancı alarm ölçümü yalnız ÇALIŞAN kartları görüyor: beş AI uygulamasında 173
+kartın ~25'i seçiliyor, kalanı (kumar, VPN, kredi, çocuk) hiç tetiklenmiyor.
+Portföyün tamamı aynı türdeyse bu boşluk başka uygulama ekleyerek kapanmıyor.
+Bu komut her kartı KENDİ `positiveExample`'ından kurulmuş sentetik bir
+listing'e karşı çalıştırır.
+
+Geçmek "recall iyi" demek **değil** — örnekler apaçık ihlal olsun diye yazıldı;
+geçmek yalnızca "ölü değil" demek. Başarısızlık ise tek anlamlı: kart, ihlal
+diye yazdığımız cümlede bile açılmıyorsa gerçek listing'de hiç açılmaz.
+İlk taramada böyle bir kart çıktı (3.2.2(ix) kredi: kendi örneği kendi
+prefilter'ından geçmiyordu) ve `npm run test:core` artık bu sınıfı kilitliyor.
+
+Anlık görüntü üretmek bedava: `npm run check -- --app <id> --no-llm` model
+çağrısı yapmadan `out/submission-<id>.json` yazar.
+
+"Geçmişte yediğim redlerin kaçını kural kitabı bilirdi?" sorusunu elle
+etiketleme olmadan cevaplıyor: Apple'ın red yazışması hangi maddeden geldiğini
+söylüyor, kartlar da madde numarasına çapalı.
+
+**Çıktı bir TAVAN, yakalama oranı değil.** Kart yoksa o red kesinlikle
+yakalanmazdı; kart varsa yakalanmış *olabilir*. Pek çok red listing'den hiç
+görülmez (çöken build, çalışmayan demo hesap, uygulama içi akış).
+
+Asıl değeri **boşluk listesi**: kartı olmayan maddeler, en çok red yediğinden
+başlayarak. Yol haritası orada. Aynı ekran eklentide de var (Menü → Kapsam).
+
+Hangi verinin hangi yoldan geldiği: [docs/VERI-KAYNAKLARI.md](docs/VERI-KAYNAKLARI.md).
 
 ## Boru hattı
 
@@ -66,14 +165,17 @@ Ayrıca katı `json_schema` desteklediği için `OPENAI_STRICT_SCHEMA=1` ile
 
 ## Yerel model notları
 
-Case "maliyeti düşürmek için yerel LLM tercih edilebilir" diyor. Boru hattı bir
-sağlayıcı arayüzü ([src/llm/types.ts](src/llm/types.ts)) konuşur; motor takılıp
-çıkarılabilir. Varsayılan Ollama.
+Boru hattı bir sağlayıcı arayüzü ([src/llm/types.ts](src/llm/types.ts)) konuşur;
+motor takılıp çıkarılabilir. **CLI'ın varsayılanı `ollama`** (`.env` →
+`GREENLIGHT_LLM`), çünkü kural kitabını geliştirirken yüzlerce çağrı atılıyor
+ve bedava olması gerekiyor.
 
-Bulut sağlayıcı ([src/llm/anthropic.ts](src/llm/anthropic.ts)) arayüzün arkasında
-duruyor ama **varsayılan değil** ve anahtar yoksa hiç devreye girmiyor. İki iş için:
-vision (yerel görsel modelleri ince yazı okumada zayıf, case hibrit'e izin veriyor)
-ve "yerel model ne kaybettiriyor" sorusunu aynı eval'de ölçmek.
+**Eklenti bunu kullanmıyor.** Orada model çağrıları kullanıcının Cloudflare
+Worker'ından geçiyor ve gpt-4o-mini'ye gidiyor: ofisteki kimse Ollama
+kurmayacak, üstelik görsel kartları yerel modelde çalışmıyor.
+
+Aşağıdakiler yalnızca yerel modelle çalışırken geçerli — ama ölçülerek
+öğrenildi, o yüzden duruyorlar.
 
 ### Ollama kullanırken değişen şeyler
 
@@ -153,37 +255,88 @@ okunuyor. `usage.cache_read_input_tokens` sıfır geliyorsa cache kırılmışt�
 
 `corpus/{apple|google|shared}/` altına bir YAML. Şema: [src/corpus/schema.ts](src/corpus/schema.ts).
 
-En kritik iki alan:
+En kritik üç alan:
 - `question` — modele sorulacak **tek net soru**. "İhlal ara" değil, daraltılmış
   bir soru. Yargılanamayan kuralı yargılanabilir hale getiren şey budur.
 - `negativeExample` — ihlal **sayılmayan** örnek. Yalancı alarma karşı en etkili
   alan, zorunlu.
+- `notViolation` — bulgu üretilmeyecek durumların açık listesi. Buraya **ölçümde
+  görülen** yalancı alarmlar yazılır, tahmin edilenler değil. Prompt bunu
+  örneklerden sonra, cevap talimatından hemen önce ayrı bir "BULGU ÜRETME"
+  kapısı olarak basıyor: muafiyet `question` içinde bir yan cümleyken
+  gpt-4o-mini onu atlıyordu (5 listing, 14 ham bulgu, sıfır survivor).
 
 `corpus/apple/3.1.2-subscription-disclosure.yaml` cross-scope örneği olarak bak.
+
+Kartı DARALTMANIN iki yolu var; ikisi de kontrol listesini gürültüden korur:
+
+- `appliesWhen` — koşul sağlanmazsa kart hiç çalışmaz. Elle işaretlenen alanların
+  tanımı tek yerde: [src/meta-fields.ts](src/meta-fields.ts). Oraya alan eklemek
+  arayüzü, eklentiyi, komut satırı bayrağını ve şemayı birden günceller.
+  `hasSubscription` / `hasIap` / `hasPreviewVideo` ise submission'dan **türetilir**,
+  kimse işaretlemez.
+- `prefilter` — konu listing metninde hiç geçmiyorsa kartı açma. Modele giden
+  kartlarda yalnız salt-metin kartlarda güvenli; **elle kontrol** kartlarında her
+  zaman uygulanır (VPN maddesi yalnız VPN'den söz eden listing'de çıksın diye).
+  **Dikkat:** eşleşme düz `includes` — birebir metin, anlam değil. Kural kitabı
+  büyüdükçe recall'un ana kolu burası oldu; konu başka kelimelerle anlatılıyorsa
+  kart açılmaz. Bu yüzden elenen kartlar sessizce kaybolmuyor: `selectRules`
+  onları sebebiyle döndürüyor ve rapor "Bu denetim neyi kapsamadı" bölümünde
+  aranan kelimelerle birlikte yazıyor.
+
+Yeni bir alan eklersen `npm run test:core` "sorulan her beyan bir kartı
+tetiklemeli" testinde patlar: soru soruluyor ama hiçbir kuralı etkilemiyorsa
+o soru kullanıcıya yalan söyler.
+
+## Skor nasıl okunur
+
+Raporun tepesindeki hüküm **sürekli skordan gelmiyor**, engelleyici sorun
+sayısından geliyor: kesin kontrollerin yüksek bulguları + ikinci gözden geçmiş
+*kesin ihlal ve yüksek* bulgular, **kural başına tek** sayılarak. Eşik bir —
+Apple tek bir sebeple reddediyor.
+
+Sebebi ölçümde görüldü: 1 yüksek + 7 orta bulgusu olan uygulama ile 3 yüksek
+bulgusu olan uygulama aynı 76'yı alıyordu. 0-100'lük bir eğri "yayına çıkar mı"
+sorusunu cevaplayamıyor; sorun sayısı cevaplıyor.
+
+Skor duruyor ama ikincil: bir **öncelik** aracı, olasılık değil. Aynı kuraldan
+gelen ikinci bulgu çeyrek ağırlıkla sayılır (lint'te de, kartlarda da) — üç
+üründe aynı fiyat hatası tek bir düzeltmedir.
 
 ## Durum
 
 | | Durum |
 |---|---|
-| Lint katmanı (6 kontrol) | ✅ çalışıyor |
-| Rule card şeması + loader | ✅ çalışıyor |
-| Kural seçimi | ✅ çalışıyor |
-| LLM sağlayıcı arayüzü (ollama + bulut) | ✅ çalışıyor |
-| Checker + prefix cache | ✅ çalışıyor (yerel) |
-| Ground (alıntı doğrulama) | ✅ çalışıyor |
-| Verify (ikinci göz, 3 oy) | ✅ çalışıyor (yerel) |
-| Rapor (md + json) | ✅ çalışıyor |
-| Kural kitabı | 🟡 3/30 kart |
-| App Store Connect fetch | ⬜ [src/fetch/index.ts](src/fetch/index.ts) — API key bekliyor |
-| Play Developer API fetch | ⬜ aynı |
-| Eval harness | ⬜ gerçek red kayıtları bekliyor |
-| Vision (ekran görüntüsü) | 🟡 kod hazır; vision modeli + gerçek görsel dosyası gerekiyor |
+| Lint katmanı (25 kesin kontrol, 9 dosya) | ✅ abonelik dönemi (3.1.2(a)) karttan lint'e taşındı: ölçüm 7 yalancı alarm gösterdi, deterministik karşılaştırma sıfır |
+| Rule card şeması + loader | ✅ |
+| Kural seçimi (beyan + artifact filtreleri) | ✅ |
+| LLM sağlayıcı arayüzü (ollama / openai / anthropic) | ✅ |
+| Checker + prefix cache | ✅ |
+| Ground (alıntı doğrulama) | ✅ |
+| Verify (ikinci göz, 3 oy) | ✅ |
+| Rapor (md + json) | ✅ |
+| **Chrome eklentisi** — çekim, denetim, rapor, arşiv | ✅ |
+| App Store Connect'ten veri çekme | ✅ tarayıcı oturumuyla, **anahtarsız** |
+| Vision (ekran görüntüsü) | ✅ gerçek görseller eklenti üzerinden modele gidiyor |
+| Red arşivi + ders çıkarma (`npm run learn`) | ✅ |
+| Denetim geçmişi + dışa aktarma | ✅ |
+| Raporun "neyi kapsamadık" bölümü | ✅ çalışmayan her kart sebebiyle: beyan eksik / beyanla elendi / veri yok / konu geçmiyor |
+| Kural kitabı | ✅ 175 kart — yönergenin kural taşıyan 127 maddesinin tamamında en az bir kart (`npm run corpus -- --yonerge`; test bunu kilitliyor) |
+| Kapsam raporu (`npm run kapsam` + panelde) | ✅ hangi maddeleri kaçırdığımız ölçülüyor |
+| Yalancı alarm ölçümü (`npm run yalanci-alarm`) | ✅ ilk koşu yapıldı (5 listing, gpt-4o-mini): ham 101 → kalan 48, savunmanın %66'sı ikinci gözden geliyor |
+| Kart canlılık taraması (`npm run kart-canlilik`) | ✅ ölü kart sınıfı test altında; 43 kart sınanabilir, 9'u görsel olduğu için sınanamıyor |
+| Eval harness — "kart bu redi GERÇEKTEN yakalar mıydı" | ⬜ kapsam tavanı var, yakalama ölçümü yok |
+| Play Developer API fetch | ⬜ Faz 2 |
+| **Ortak ders havuzu** — Docker + Postgres, kendi sunucunda | ✅ CLI ve eklenti aynı havuzu okuyor ([havuz/README.md](havuz/README.md)) |
+| Artımlı çekim | ⬜ her çekim baştan alıyor (R12) |
 
-## Bloke olan işler ve neden
+## Sırada ne var
 
-| İş | Ne gerekiyor | Not |
+| İş | Ne gerekiyor | Neden bekliyor |
 |---|---|---|
-| Gerçek listing çekme | App Store Connect API key (.p8 + issuer + key id) | Gelene kadar fixture ile çalışıyoruz |
-| Play tarafı | Play Developer API service account JSON | — |
-| **Eval harness** | **Gerçek geçmiş red kayıtları** | **API'den GELMİYOR.** Apple'ın red gerekçeleri Resolution Center'da mesaj olarak durur, ASC API vermez. Elle çıkarılacak: hangi app, tarih, hangi madde, reviewer ne yazmış, hangi düzeltmeyle geçmiş. Bu olmadan aracın işe yarayıp yaramadığı **ölçülemez**. |
+| **Eval harness'ın ikinci yarısı** | Geçmiş redlerin listing anlık görüntüsü | Kapsam tavanı ölçülüyor (`npm run kapsam`). Eksik olan: o redi yiyen listing'i denetimden geçirip kartın gerçekten bulgu üretip üretmediğine bakmak. Bunun için redin ALINDIĞI ANDAKİ listing lazım; bugünkü listing çoktan düzeltilmiş olabilir. |
+| Çekim arşivinin ortak deposu | Sunucu kararı | Ders havuzu ortaklaştı (`havuz/`), ama HAM ÇEKİMLER hâlâ her makinede ayrı IndexedDB'de. Arayüz (`GLStore`) baştan bu geçiş için soyutlanmıştı; havuz aynı deseni izleyebilir. |
+| Artımlı çekim | — | Her çekim hesabın tamamını baştan alıyor; Apple'a gereksiz yük (R1) ve dakikalar. |
+| `.p8` çapraz doğrulama | ASC API anahtarı | R3'ün panzehiri: aynı uygulama iki kaynaktan çekilip alanlar karşılaştırılacak. Yalnız geliştirme için; kullanıcı hiç görmeyecek. |
+| Play tarafı | Play Developer API service account | Faz 2. |
 | Kural kitabının sırası | Yukarıdaki red kayıtları | Hangi kartın önce yazılacağını gerçek red frekansı belirlemeli, tahmin değil |
