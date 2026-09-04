@@ -321,7 +321,7 @@ gelen ikinci bulgu çeyrek ağırlıkla sayılır (lint'te de, kartlarda da) —
 | Red arşivi + ders çıkarma (`npm run learn`) | ✅ |
 | Denetim geçmişi + dışa aktarma | ✅ |
 | Raporun "neyi kapsamadık" bölümü | ✅ çalışmayan her kart sebebiyle: beyan eksik / beyanla elendi / veri yok / konu geçmiyor |
-| Kural kitabı | ✅ 175 kart — yönergenin kural taşıyan 127 maddesinin tamamında en az bir kart (`npm run corpus -- --yonerge`; test bunu kilitliyor) |
+| Kural kitabı | ✅ 173 kart — yönergenin kural taşıyan 127 maddesinin tamamında en az bir kart (%100) (`npm run corpus -- --yonerge`; test bunu kilitliyor) |
 | Kapsam raporu (`npm run kapsam` + panelde) | ✅ hangi maddeleri kaçırdığımız ölçülüyor |
 | Yalancı alarm ölçümü (`npm run yalanci-alarm`) | ✅ ilk koşu yapıldı (5 listing, gpt-4o-mini): ham 101 → kalan 48, savunmanın %66'sı ikinci gözden geliyor |
 | Kart canlılık taraması (`npm run kart-canlilik`) | ✅ ölü kart sınıfı test altında; 43 kart sınanabilir, 9'u görsel olduğu için sınanamıyor |
