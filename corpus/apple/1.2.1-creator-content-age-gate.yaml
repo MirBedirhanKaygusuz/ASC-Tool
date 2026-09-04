@@ -1,0 +1,29 @@
+id: apple-1.2.1-creator-content-age-gate
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.2.1
+  retrievedAt: "2026-08-21"
+tags: [ugc, creator, age-rating, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasUserGeneratedContent: true
+question: >
+  Uygulamada "creator" (içerik üretici) topluluğunun ürettiği içerik varsa:
+  (1) kullanıcı, uygulamanın yaş sınırını AŞAN içeriği ayırt edebiliyor mu,
+  (2) doğrulanmış ya da beyan edilmiş yaşa dayanan bir yaş kısıtlama
+  mekanizması var mı, (3) hangi içeriğin ek satın alma gerektirdiği
+  kullanıcıya söyleniyor mu? Creator içeriği App Review tarafından kullanıcı
+  içeriği sayılıyor: 1.2'nin moderasyon şartları da aynen geçerli.
+ruleText: >
+  Creator içeriği sunan uygulamalar, uygulamanın yaş sınırını aşan içeriğin
+  tanınmasını sağlamalı ve doğrulanmış ya da beyan edilmiş yaşa dayalı bir yaş
+  kısıtlama mekanizmasıyla küçüklerin erişimini sınırlamalıdır. Bu içerik
+  kullanıcı içeriği sayılır; 1.2 (moderasyon) ve 3.1.1 (satın alma) kuralları
+  geçerlidir. Hangi içeriğin ek satın alma gerektirdiği kullanıcıya
+  bildirilmelidir.
+outcome: manual
+defaultSeverity: high
+version: 1

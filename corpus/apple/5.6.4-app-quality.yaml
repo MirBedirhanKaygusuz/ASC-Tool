@@ -1,0 +1,23 @@
+id: apple-5.6.4-app-quality
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.6.4
+  retrievedAt: "2026-08-21"
+tags: [conduct, quality, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama hakkında aşırı müşteri şikâyeti, olumsuz yorum ya da aşırı iade
+  talebi var mı? Apple bunları kalite beklentisinin karşılanmadığının göstergesi
+  sayıyor ve Developer Code of Conduct değerlendirmesinde kullanıyor.
+ruleText: >
+  Müşteriler App Store'dan en yüksek kaliteyi bekler. Uygulaman hakkında aşırı
+  müşteri şikâyeti — olumsuz müşteri yorumları gibi — ve aşırı iade talepleri bu
+  beklentinin karşılanmadığının göstergeleridir. Yüksek kaliteyi
+  sürdürememek, geliştiricinin Developer Code of Conduct'a uyup uymadığına karar
+  verirken bir etken olabilir.
+outcome: manual
+defaultSeverity: low
+version: 1

@@ -1,0 +1,28 @@
+id: apple-2.5.11-sirikit
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.11"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.11
+  retrievedAt: "2026-08-21"
+tags: [software, siri, checklist]
+scope: cross
+needs: []
+prefilter: ["siri", "shortcut", "shortcuts", "voice command"]
+question: >
+  SiriKit ve Kısayollar entegrasyonunda: (i) yalnızca başka bir uygulamaya
+  gerek olmadan gerçekleştirebileceğin ve uygulamanın işlevinden beklenecek
+  intent'lere kaydoldun mu, (ii) plist'teki kelime ve ifadeler uygulamana ve
+  kaydolduğun intent'lere ait mi (takma adlar uygulama/şirket adınla ilgili
+  olmalı, genel terim ya da üçüncü taraf uygulama adı olamaz), (iii) istek en
+  doğrudan biçimde karşılanıyor ve araya reklam/pazarlama girmiyor mu?
+ruleText: >
+  SiriKit ve Kısayollar entegre eden uygulamalar yalnızca ek bir uygulamaya
+  ihtiyaç duymadan karşılayabilecekleri ve belirtilen işlevden beklenecek
+  intent'lere kaydolmalıdır. plist'teki kelime dağarcığı uygulamaya ait
+  olmalı, takma adlar genel terim veya üçüncü taraf adı içermemelidir. Siri
+  isteği ya da Kısayol en doğrudan biçimde çözülmeli, istek ile yerine
+  getirilmesi arasına reklam ya da pazarlama sokulmamalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

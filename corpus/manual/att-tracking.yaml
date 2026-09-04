@@ -8,6 +8,13 @@ source:
 tags: [checklist, privacy]
 scope: single
 needs: []
+
+# Bu kart eskiden HER uygulamada elle kontrol listesine düşüyordu; herkese
+# gösterilen bir madde hiçbir bilgi taşımıyor. Artık yalnız App Privacy
+# etiketinde takip beyanı olanlarda çıkıyor. Etiket ÇEKİLMEMİŞSE kart
+# sessizce elenmez — "bilgi eksik" kovasına düşer ve raporda görünür.
+appliesWhen:
+  declaresTracking: true
 question: >
   Uygulama reklam/analitik için cihazlar arası takip yapıyorsa AppTrackingTransparency izni isteniyor mu? İzin verilmediğinde takip gerçekten duruyor mu? App Privacy etiketindeki beyanla tutarlı mı?
 ruleText: >

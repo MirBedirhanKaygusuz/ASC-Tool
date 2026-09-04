@@ -1,0 +1,20 @@
+id: apple-5.1.2ii-purpose-limitation
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.2
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+question: >
+  Bir amaç için toplanan veri, yeni bir rıza alınmadan başka bir amaçla
+  kullanılıyor mu? (Ör. ürün teslimi için alınan adresin reklam hedeflemede
+  kullanılması.)
+ruleText: >
+  Bir amaç için toplanan veri, yasa açıkça izin vermedikçe, ek rıza olmadan
+  başka bir amaçla yeniden kullanılamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

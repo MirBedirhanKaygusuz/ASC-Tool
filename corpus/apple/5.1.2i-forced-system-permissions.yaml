@@ -1,0 +1,33 @@
+id: apple-5.1.2i-forced-system-permissions
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.2
+  retrievedAt: "2026-08-21"
+tags: [privacy, consent, checklist]
+scope: cross
+needs: []
+question: >
+  (1) Kişisel veri, izin alınmadan kullanılıyor, iletiliyor ya da paylaşılıyor
+  mu? (2) Verinin nerede ve nasıl kullanılacağı bilgisi kullanıcıya sunuluyor
+  mu? (3) Üçüncü taraflarla — üçüncü taraf YAPAY ZEKÂ dâhil — paylaşım açıkça
+  bildirilip açık izin alınıyor mu? (4) İzleme için ATT izni alınıyor mu?
+  (5) Uygulama, işleve ya da içeriğe erişmek için kullanıcıyı sistem
+  özelliklerini (push, konum, izleme) açmaya ZORLUYOR mu — ya da bunun karşılığında
+  hediye kartı/kod gibi bir bedel mi sunuyor? Bu yasak.
+ruleText: >
+  Yasa izin vermedikçe, birinin kişisel verisini önce izin almadan
+  kullanamaz, iletemez veya paylaşamazsın. Verinin nasıl ve nerede
+  kullanılacağına dair bilgiye erişim sağlamalısın. Kişisel verinin üçüncü
+  taraflarla — üçüncü taraf yapay zekâ dâhil — nerede paylaşılacağını açıkça
+  bildirmeli ve öncesinde açık izin almalısın. Uygulamalardan toplanan veri,
+  yalnızca uygulamayı iyileştirmek ya da reklam sunmak için üçüncü taraflarla
+  paylaşılabilir. Kullanıcıların etkinliğini izlemek için App Tracking
+  Transparency API'leriyle açık izin almalısın. Uygulaman, işleve, içeriğe ya da
+  kullanıma erişmek veya parasal ya da başka bir karşılık (hediye kartları ve
+  kodlar dâhil) almak için kullanıcılardan sistem işlevlerini (push bildirimleri,
+  konum servisleri, izleme gibi) etkinleştirmesini isteyemez.
+outcome: manual
+defaultSeverity: high
+version: 1

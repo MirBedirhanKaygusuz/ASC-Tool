@@ -1,0 +1,29 @@
+id: apple-3.1.2a-subscription-value
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2(a)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.2(a)
+  retrievedAt: "2026-08-21"
+tags: [subscriptions, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasSubscription: true
+question: >
+  Abonelikte: (1) kullanıcıya SÜREKLİ değer sunuluyor mu (tek seferlik bir
+  kilidi açıp bitmiyor), (2) abonelik kullanıcının uygulamanın bulunduğu tüm
+  cihazlarında çalışıyor mu, (3) kullanıcı ödediği şeye ulaşmak için ek görev
+  yapmak zorunda mı (sosyal medyada paylaşma, kişi listesi yükleme, günlük giriş
+  gibi — bunlar yasak), (4) mevcut kullanıcıların daha önce satın aldığı temel
+  işlev abonelik modeline geçerken elinden alınıyor mu?
+ruleText: >
+  Otomatik yenilenen abonelik sürekli değer sunmalı ve kullanıcının tüm
+  cihazlarında çalışmalıdır. Abonelik sunan uygulamalar, kullanıcının ödediği
+  şeye sosyal medyada paylaşım yapmak, kişi yüklemek ya da uygulamaya belirli
+  sayıda giriş yapmak gibi ek görevler olmadan ulaşmasına izin vermelidir.
+  Mevcut uygulamanı abonelik modeline çeviriyorsan, kullanıcıların halihazırda
+  satın aldığı temel işlevi ellerinden almamalısın.
+outcome: manual
+defaultSeverity: high
+version: 1

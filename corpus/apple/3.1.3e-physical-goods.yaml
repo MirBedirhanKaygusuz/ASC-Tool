@@ -1,0 +1,24 @@
+id: apple-3.1.3e-physical-goods
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.3(e)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.3(e)
+  retrievedAt: "2026-08-21"
+tags: [payments, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  sellsPhysicalGoodsOrServices: true
+question: >
+  Fiziksel mal ya da uygulama dışında tüketilen hizmet satan uygulamada ödeme
+  uygulama içi satın alma DIŞINDA mı toplanıyor (Apple Pay ya da kredi kartı)?
+  Bu satışlar için IAP kullanmak da ihlaldir — kullanılıyorsa bildir.
+ruleText: >
+  Uygulaman insanların uygulama dışında tüketilecek fiziksel mal veya hizmet
+  satın almasını sağlıyorsa, bu ödemeleri toplamak için Apple Pay ya da geleneksel
+  kredi kartı girişi gibi uygulama içi satın alma dışındaki yöntemleri kullanmak
+  ZORUNDASIN.
+outcome: manual
+defaultSeverity: high
+version: 1

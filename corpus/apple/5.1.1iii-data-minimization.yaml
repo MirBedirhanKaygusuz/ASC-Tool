@@ -1,0 +1,24 @@
+id: apple-5.1.1iii-data-minimization
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama yalnızca ana işleviyle İLGİLİ veriye mi erişim istiyor ve yalnızca
+  işi yapmak için gerekli olanı mı topluyor? Fotoğraflar ve Kişiler gibi
+  korumalı kaynaklarda tam erişim istemek yerine, mümkün olduğunda süreç dışı
+  seçici (picker) ya da paylaşım sayfası kullanılıyor mu?
+ruleText: >
+  Uygulamalar yalnızca uygulamanın ana işleviyle ilgili veriye erişim
+  istemeli ve yalnızca ilgili görevi yerine getirmek için gereken veriyi
+  toplayıp kullanmalıdır. Mümkün olduğunda Fotoğraflar veya Kişiler gibi
+  korumalı kaynaklara tam erişim istemek yerine süreç dışı seçici ya da paylaşım
+  sayfası kullanılmalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

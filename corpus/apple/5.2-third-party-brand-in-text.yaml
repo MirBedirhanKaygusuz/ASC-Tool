@@ -15,16 +15,31 @@ facts:
   - "Instagram, TikTok, Snapchat, WhatsApp, YouTube ve Facebook başka şirketlere ait platform markalarıdır."
   - "Botox, Restylane, Juvederm tescilli tıbbi/kozmetik ürün markalarıdır."
   - "Bir markadan yalnızca gerçek bir entegrasyonu tarif etmek için bahsedilebilir ('export to Instagram'). Karşılaştırma, üstünlük iddiası veya çağrışım ('better than X', 'X alternative') ihlaldir."
+  - "Reels, TikTok(s), Shorts ve Stories birer İÇERİK FORMATI adı olarak da kullanılıyor ('create Reels'). Bu kullanım gri alandır: format adları da o platformların markasıdır ve bu ifade yüzünden gelmiş gerçek redler var. Karar kuralı: uygulama o platforma gerçekten aktarım yapmıyorsa, format adını çıktı vaadi olarak kullanmak BİLDİRİLİR."
 question: >
-  Metinde başka bir şirkete ait bir marka adı geçiyor mu? Geçiyorsa, bu
-  gerçek bir entegrasyonu mu tarif ediyor (ihlal değil), yoksa karşılaştırma,
-  üstünlük iddiası, alternatif olma iddiası ya da o markayla ilişki çağrışımı
-  mı yapıyor (ihlal)? Sadece ikinci durumu bildir.
+  Metinde başka bir şirkete ait bir marka adı geçiyor mu? Geçiyorsa hangi
+  kullanım olduğuna karar ver:
+  (a) gerçek bir entegrasyonun tarifi ("share to Instagram") — İHLAL DEĞİL,
+  bildirme;
+  (b) karşılaştırma, üstünlük ya da alternatif olma iddiası ("better than X",
+  "X alternative") — BİLDİR;
+  (c) platform markasının içerik formatı olarak kullanımı ("create Reels,
+  TikToks and Shorts") ve uygulama o platforma aktarım yapmıyor — BİLDİR.
+  Marka adı olgu listesinde geçmiyorsa bulgu üretme.
 ruleText: >
   Sahibi olmadığınız markaları, uygulamanızla ilişkilendirecek veya
   karşılaştıracak biçimde metadata'da kullanamazsınız.
 positiveExample: "The best free alternative to Facetune and Remini."
 negativeExample: "Share your edits directly to Instagram and TikTok."
+
+# ÖLÇÜMDEN GELDİ (2026-09-02): kart "Perfect for creating high-quality Reels,
+# TikToks, and Shorts." üzerine ateşledi ve ikinci göz 3 oyla birden eledi.
+# Bu bir yalancı alarm DEĞİL — gerçek bir gri alan ve kart bu durumu hiç
+# tarif etmiyordu, model tahmin etmek zorunda kaldı. Karar artık kartta (c).
+notViolation:
+  - "Kendi marka ve ürün adların."
+  - "Jenerik teknoloji ya da format sözcükleri: 'video', 'story', 'clip', 'post', 'filter'."
+  - "Olgu listesinde geçmeyen bir ad. Marka olup olmadığını tahmin etme."
 outcome: violation
 defaultSeverity: high
-version: 1
+version: 2

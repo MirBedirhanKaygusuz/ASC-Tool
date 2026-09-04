@@ -1,0 +1,21 @@
+id: apple-4.2.3-standalone-and-downloads
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2.3
+  retrievedAt: "2026-08-21"
+tags: [design, checklist]
+scope: cross
+needs: []
+question: >
+  (i) Uygulama başka bir uygulamanın kurulmasını gerektirmeden kendi başına
+  çalışıyor mu? (ii) İlk açılışta çalışabilmek için ek kaynak indirmesi
+  gerekiyorsa, indirmenin boyutu kullanıcıya söyleniyor ve onayı alınıyor mu?
+ruleText: >
+  Uygulaman başka bir uygulamanın kurulmasını gerektirmeden kendi başına
+  çalışmalıdır. İlk açılışta çalışmak için ek kaynak indirmesi gerekiyorsa,
+  indirmenin boyutunu açıkla ve indirmeden önce kullanıcıya sor.
+outcome: manual
+defaultSeverity: medium
+version: 1

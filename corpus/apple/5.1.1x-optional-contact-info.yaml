@@ -1,0 +1,25 @@
+id: apple-5.1.1x-optional-contact-info
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  allowsAccountCreation: true
+question: >
+  Uygulama ad ve e-posta gibi temel iletişim bilgisi istiyorsa: (1) bu istek
+  kullanıcı için İSTEĞE BAĞLI mı, (2) özellik ve hizmetler bu bilgiyi vermeye
+  bağlı mı (olmamalı), (3) çocuklardan bilgi toplama sınırları dâhil diğer
+  kurallara uyuluyor mu?
+ruleText: >
+  Uygulamalar temel iletişim bilgisi (ad ve e-posta adresi gibi) isteyebilir;
+  yeter ki bu istek kullanıcı için isteğe bağlı olsun, özellik ve hizmetler bu
+  bilginin verilmesine bağlı olmasın ve çocuklardan bilgi toplamaya ilişkin
+  sınırlamalar dâhil bu kuralların diğer hükümlerine uyulsun.
+outcome: manual
+defaultSeverity: medium
+version: 1

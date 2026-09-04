@@ -1,0 +1,27 @@
+id: apple-5.6-code-of-conduct
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.6
+  retrievedAt: "2026-08-21"
+tags: [conduct, dark-patterns, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama kullanıcıyı sömüren ya da kandıran bir kalıp içeriyor mu:
+  istemediği satın almaya yönlendirme, gereksiz veri paylaşımına zorlama,
+  fiyatı hileli biçimde artırma, teslim edilmeyen özellik ya da içerik için
+  ücret alma, iptali zorlaştırma? Ayrıca App Store yorumlarına, destek
+  taleplerine ve Apple ile yazışmalara verilen yanıtlar saygılı mı?
+ruleText: >
+  Herkese saygılı davran; App Store yorumlarına verdiğin yanıtlarda, müşteri
+  destek taleplerinde ve Apple ile iletişimde taciz, ayrımcı uygulama, gözdağı ve
+  zorbalık yapma. Müşteri güveni uygulama ekosisteminin temel taşıdır:
+  uygulamalar kullanıcıları asla avlamamalı, kandırmamalı, istemedikleri satın
+  almalara yönlendirmemeli, gereksiz veri paylaşımına zorlamamalı, fiyatları
+  hileli biçimde artırmamalı, teslim edilmeyen özellik veya içerik için ücret
+  almamalı ya da başka manipülatif uygulamalara başvurmamalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

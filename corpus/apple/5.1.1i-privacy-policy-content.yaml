@@ -1,0 +1,29 @@
+id: apple-5.1.1i-privacy-policy-content
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, policy, checklist]
+scope: cross
+needs: []
+question: >
+  Gizlilik politikası METNİ üç şeyi açıkça söylüyor mu: (1) hangi verinin
+  toplandığı, nasıl toplandığı ve tüm kullanım amaçları, (2) veri paylaşılan her
+  üçüncü tarafın (analitik, reklam ağı, SDK, bağlı şirketler) aynı ya da eşdeğer
+  koruma sağladığının teyidi, (3) saklama/silme politikası ile kullanıcının
+  rızasını nasıl geri alacağı ve verisinin silinmesini nasıl isteyeceği. Ayrıca
+  politikaya bağlantı hem App Store Connect alanında hem UYGULAMANIN İÇİNDE
+  kolayca erişilebilir yerde var mı?
+ruleText: >
+  Tüm uygulamalar gizlilik politikasına App Store Connect metadata alanında ve
+  uygulama içinde kolayca erişilebilir biçimde bağlantı vermelidir. Gizlilik
+  politikası açıkça: uygulamanın/servisin hangi veriyi topladığını, nasıl
+  topladığını ve tüm kullanım amaçlarını belirtmeli; veri paylaşılan her üçüncü
+  tarafın aynı veya eşdeğer korumayı sağlayacağını teyit etmeli; saklama/silme
+  politikalarını ve kullanıcının rızasını nasıl geri alabileceğini ya da
+  verisinin silinmesini nasıl talep edebileceğini açıklamalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

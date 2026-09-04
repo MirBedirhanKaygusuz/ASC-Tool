@@ -1,0 +1,22 @@
+id: apple-2.4.4-system-settings
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.4.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.4.4
+  retrievedAt: "2026-08-21"
+tags: [hardware, checklist]
+scope: cross
+needs: []
+prefilter: ["restart", "reboot", "turn off wi-fi", "airplane mode", "disable", "settings"]
+question: >
+  Uygulama, kullanıcıdan cihazı yeniden başlatmasını ya da uygulamanın ana
+  işleviyle ilgisiz sistem ayarlarını değiştirmesini istiyor mu (Wi-Fi'ı
+  kapat, güvenlik özelliğini devre dışı bırak gibi)?
+ruleText: >
+  Uygulamalar, ana işlevleriyle ilgisiz biçimde cihazın yeniden
+  başlatılmasını ya da sistem ayarlarının değiştirilmesini asla önermemeli ve
+  şart koşmamalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

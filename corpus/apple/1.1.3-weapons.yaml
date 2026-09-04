@@ -1,0 +1,25 @@
+id: apple-1.1.3-weapons
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.3
+  retrievedAt: "2026-08-21"
+tags: [safety, weapons, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [gun, guns, firearm, firearms, ammo, ammunition, rifle, pistol, weapon, weapons, knife, explosive]
+question: >
+  Metin, silahların ya da tehlikeli nesnelerin yasa dışı veya pervasız
+  kullanımını özendiriyor mu, ya da silah/mühimmat SATIN ALINMASINI
+  kolaylaştırdığını söylüyor mu? Silahların bilgi amaçlı anlatımı ya da
+  bir oyunun içindeki kurgusal silahlar tek başına ihlal değildir.
+ruleText: >
+  Silahların ve tehlikeli nesnelerin yasa dışı ya da pervasız kullanımını
+  özendiren tasvirler ile ateşli silah veya mühimmat satın alınmasını
+  kolaylaştıran uygulamalar yasaktır.
+positiveExample: "Browse and buy handguns and ammo from local sellers, delivered fast."
+negativeExample: "A ballistics reference for licensed sport shooters, with range logs."
+outcome: violation
+defaultSeverity: high
+version: 1

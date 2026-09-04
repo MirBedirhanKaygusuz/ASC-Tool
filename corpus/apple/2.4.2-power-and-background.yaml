@@ -1,0 +1,24 @@
+id: apple-2.4.2-power-and-background
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.4.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.4.2
+  retrievedAt: "2026-08-21"
+tags: [hardware, performance, checklist]
+scope: cross
+needs: []
+prefilter: ["mining", "miner", "crypto", "battery", "charging", "background"]
+question: >
+  Uygulama pili hızla tüketiyor, aşırı ısıtıyor ya da cihaz kaynaklarını
+  gereksiz zorluyor mu? Cihazın yastık/yorgan altında şarj edilmesini öneren
+  bir yönlendirme var mı? Uygulama ya da içindeki üçüncü taraf reklamlar,
+  kripto madenciliği gibi ilgisiz arka plan işlemleri çalıştırıyor mu?
+ruleText: >
+  Uygulamalar gücü verimli kullanmalı ve cihaza zarar riski taşımamalıdır:
+  pili hızla tüketmemeli, aşırı ısı üretmemeli, kaynakları gereksiz
+  zorlamamalıdır. Uygulamalar ve içlerinde gösterilen üçüncü taraf reklamlar,
+  kripto madenciliği gibi ilgisiz arka plan işlemleri çalıştıramaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

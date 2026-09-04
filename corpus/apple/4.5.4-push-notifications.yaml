@@ -1,0 +1,27 @@
+id: apple-4.5.4-push-notifications
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.4
+  retrievedAt: "2026-08-21"
+tags: [apple-services, marketing, checklist]
+scope: cross
+needs: []
+prefilter: ["push", "notification", "notifications", "alerts", "reminder", "reminders", "bildirim"]
+question: >
+  Push bildirimleri: (1) uygulamanın çalışması için ZORUNLU mu (olmamalı),
+  (2) hassas ya da gizli kişisel bilgi gönderiliyor mu (gönderilmemeli),
+  (3) promosyon veya doğrudan pazarlama amaçlı bildirim gönderiliyorsa kullanıcı
+  uygulamanın ARAYÜZÜNDE gösterilen bir rıza metniyle açıkça onay verdi mi,
+  (4) kullanıcı bu mesajlardan çıkmak için uygulamanın içinde bir yol
+  bulabiliyor mu?
+ruleText: >
+  Push bildirimleri uygulamanın çalışması için zorunlu olmamalı ve hassas ya
+  da gizli kişisel bilgi göndermek için kullanılmamalıdır. Push bildirimleri,
+  müşteriler uygulamanın arayüzünde gösterilen rıza metniyle açıkça kabul
+  etmedikçe promosyon ya da doğrudan pazarlama amacıyla kullanılamaz; ayrıca
+  uygulamanda kullanıcının bu mesajlardan çıkabileceği bir yöntem sunmalısın.
+outcome: manual
+defaultSeverity: high
+version: 1

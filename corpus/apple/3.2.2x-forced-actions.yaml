@@ -1,0 +1,25 @@
+id: apple-3.2.2x-forced-actions
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, dark-patterns, checklist]
+scope: cross
+needs: []
+prefilter: ["rate us", "rate the app", "review us", "share to unlock", "invite friends to unlock", "watch an ad to unlock", "download to continue"]
+question: >
+  Uygulama, işleve ya da içeriğe erişmek için kullanıcıyı zorluyor mu:
+  puan/yorum vermek, başka uygulama indirmek, mağazayla ilgili başka bir eylem
+  yapmak? Bunlar yasak. Uygulama içi eylemleri (seviye tamamlamak, reklam
+  izlemek) TEŞVİK etmek serbest — zorunlu kılmak değil.
+ruleText: >
+  Uygulamalar, işleve, içeriğe ya da uygulamanın kullanımına erişmek için
+  kullanıcıları uygulamayı puanlamaya, yorum yapmaya, başka uygulamalar
+  indirmeye ya da mağazayla ilgili başka eylemlere zorlayamaz. Uygulamalar
+  kullanıcıları uygulama içindeki belirli eylemleri (bir seviyeyi tamamlamak,
+  reklam izlemek) yapmaya başka biçimlerde teşvik edebilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

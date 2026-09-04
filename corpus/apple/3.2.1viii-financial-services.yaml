@@ -1,0 +1,24 @@
+id: apple-3.2.1viii-financial-services
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.1
+  retrievedAt: "2026-08-21"
+tags: [business, finance, checklist]
+scope: cross
+needs: []
+prefilter: ["trading", "invest", "investment", "broker", "stocks", "forex", "portfolio", "banking", "wealth", "money management"]
+question: >
+  Finansal işlem, yatırım ya da para yönetimi hizmeti sunan uygulama, bu
+  hizmeti VEREN finansal kurum tarafından mı gönderiliyor? Uygulamanın sunulduğu
+  tüm ülkelerde gerekli lisans ve izinler var mı? (5.1.1(ix) ayrıca bu tür
+  düzenlemeye tabi hizmetlerin bireysel geliştirici hesabıyla gönderilmemesini
+  istiyor.)
+ruleText: >
+  Finansal işlem, yatırım veya para yönetimi için kullanılan uygulamalar, bu
+  hizmetleri veren finansal kurum tarafından gönderilmeli ve uygulamayı sunduğun
+  yerlerde gerekli lisans ve izinlere sahip olmalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,23 @@
+id: apple-3.2.2iii-ad-heavy-app
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, ads, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  showsAds: true
+question: >
+  Uygulama ağırlıklı olarak reklam göstermek için mi tasarlanmış? Reklam
+  gösterimi ya da tıklaması yapay olarak artırılıyor mu (otomatik tıklama,
+  kullanıcıyı kandıran yerleşim, reklamı içerik gibi gösterme)? Reklam yoğunluğu
+  uygulamanın kendi işlevini gölgeliyorsa bu maddeye girer.
+ruleText: >
+  Reklam gösterimlerinin ya da tıklamalarının yapay olarak artırılması ve
+  ağırlıklı olarak reklam göstermek için tasarlanmış uygulamalar kabul edilemez.
+outcome: manual
+defaultSeverity: medium
+version: 1

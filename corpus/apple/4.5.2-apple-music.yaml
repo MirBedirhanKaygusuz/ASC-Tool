@@ -1,0 +1,37 @@
+id: apple-4.5.2-apple-music
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.2
+  retrievedAt: "2026-08-21"
+tags: [apple-services, media, checklist]
+scope: cross
+needs: []
+prefilter: ["apple music", "musickit", "itunes", "playlist", "music library", "spotify"]
+question: >
+  Apple Music/MusicKit kullanılıyorsa: (i) çalmayı kullanıcı mı başlatıyor ve
+  standart medya kontrolleri (oynat/duraklat/atla) var mı; erişim ücretli ya da
+  dolaylı olarak paraya çevrilmiş mi (IAP, reklam, kullanıcı bilgisi isteme);
+  MusicKit kaynaklı müzik dosyaları indiriliyor, yükleniyor ya da paylaşılıyor
+  mu, (ii) daha derin entegrasyon için gereken lisanslar (senkronizasyon,
+  uyarlama) alındı mı; kapak görselleri ve metadata yalnızca çalma/çalma
+  listeleriyle bağlantılı mı kullanılıyor, (iii) Apple Music kullanıcı verisine
+  (çalma listeleri, favoriler) erişiliyorsa bu izin metninde açıkça belirtiliyor
+  ve veri üçüncü taraflarla paylaşılmıyor, kullanıcı/cihaz tanımlamak ya da
+  reklam hedeflemek için kullanılmıyor mu?
+ruleText: >
+  MusicKit ile kullanıcılar Apple Music'i ve yerel müzik kütüphanelerini
+  uygulamandan çalabilir. Akışı kullanıcı başlatmalı ve standart medya
+  kontrolleriyle gezinebilmelidir. Uygulaman Apple Music servisine erişimi
+  ücretlendiremez ya da dolaylı olarak paraya çeviremez. MusicKit API'lerinden
+  gelen müzik dosyaları indirilemez, yüklenemez ve paylaşılamaz. MusicKit
+  kullanmak, daha derin bir müzik entegrasyonu için gereken lisansların yerine
+  geçmez. Kapak görselleri ve diğer metadata yalnızca müzik çalma ya da çalma
+  listeleriyle bağlantılı kullanılabilir. Apple Music kullanıcı verisine erişen
+  uygulamalar bunu izin metninde açıkça belirtmeli; toplanan veri uygulamayı
+  desteklemek veya iyileştirmek dışında üçüncü taraflarla paylaşılamaz,
+  kullanıcı/cihaz tanımlamak ya da reklam hedeflemek için kullanılamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

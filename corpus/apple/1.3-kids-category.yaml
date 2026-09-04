@@ -1,0 +1,32 @@
+id: apple-1.3-kids-category
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.3
+  retrievedAt: "2026-08-21"
+tags: [kids, safety, privacy, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  targetsKids: true
+facts:
+  - "Ebeveyn kapısı (parental gate) şartı üç şeyi birden kapsıyor: uygulamadan çıkan bağlantılar, satın alma imkânları ve çocuğun dikkatini dağıtan diğer yönlendirmeler."
+  - "Kids Category işaretini sonradan kaldırsan bile kullanıcılar uygulamanın bu kurallara uymasını beklediği için yükümlülük sonraki sürümlerde de sürüyor."
+question: >
+  Çocuklara yönelik uygulamada: (1) dışa açılan bağlantılar, satın alma
+  imkânları ve dikkat dağıtıcı yönlendirmelerin tamamı ebeveyn kapısının
+  arkasında mı, (2) üçüncü taraf analitik ve reklam kaldırıldı mı (izin verilen
+  sınırlı durumlarda IDFA ve çocuğa dair hiçbir tanımlayıcı bilgi
+  gönderilmiyor, bağlamsal reklamda insan incelemesi var mı), (3) çocuklardan
+  veri toplanmasına dair yerel yasalara (COPPA, GDPR) uyum sağlandı mı?
+ruleText: >
+  Kids Category uygulamaları, ebeveyn kapısı arkasında olmadıkça uygulamadan
+  çıkan bağlantı, satın alma imkânı veya dikkat dağıtıcı yönlendirme
+  içeremez. Kişisel bilgi ya da cihaz bilgisi üçüncü taraflara gönderilemez;
+  üçüncü taraf analitik ve reklam kullanılmamalıdır. Sınırlı durumlarda
+  IDFA veya çocuğu tanımlayan bilgi toplamayan analitik ile insan incelemesi
+  yapan bağlamsal reklam kabul edilebilir.
+outcome: manual
+defaultSeverity: high
+version: 1

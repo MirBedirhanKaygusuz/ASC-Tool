@@ -1,0 +1,24 @@
+id: apple-4.10-monetizing-built-in-capabilities
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.10"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.10
+  retrievedAt: "2026-08-21"
+tags: [business, checklist]
+scope: cross
+needs: []
+prefilter: ["icloud", "screen time", "push notification", "apple music", "camera access", "gyroscope"]
+question: >
+  Uygulama, donanımın ya da işletim sisteminin YERLEŞİK yeteneklerini
+  paraya çeviriyor mu (push bildirimleri, kamera, jiroskop) ya da Apple
+  servislerini ve teknolojilerini (Apple Music erişimi, iCloud depolama,
+  Screen Time API'leri) satıyor mu? Bunların kendisini ücretlendirmek yasak.
+ruleText: >
+  Donanımın veya işletim sisteminin sağladığı yerleşik yetenekleri (Push
+  Notifications, kamera, jiroskop gibi) ya da Apple servis ve teknolojilerini
+  (Apple Music erişimi, iCloud depolama, Screen Time API'leri gibi) paraya
+  çeviremezsin.
+outcome: manual
+defaultSeverity: medium
+version: 1

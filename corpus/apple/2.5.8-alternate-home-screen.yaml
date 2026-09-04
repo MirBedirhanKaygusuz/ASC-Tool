@@ -1,0 +1,19 @@
+id: apple-2.5.8-alternate-home-screen
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.8"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.8
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+prefilter: ["launcher", "home screen", "desktop", "springboard", "app drawer"]
+question: >
+  Uygulama alternatif bir masaüstü ya da ana ekran ortamı oluşturuyor mu?
+  Bu doğrudan ret sebebi.
+ruleText: >
+  Alternatif masaüstü/ana ekran ortamları oluşturan uygulamalar reddedilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

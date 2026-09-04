@@ -1,0 +1,30 @@
+id: apple-4.4.1-keyboard-extensions
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.4.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.4.1
+  retrievedAt: "2026-08-21"
+tags: [extensions, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasAppExtensions: true
+prefilter: ["keyboard", "klavye", "sticker", "emoji"]
+question: >
+  Klavye uzantısı: (1) gerçekten karakter girişi sağlıyor mu, (2) görsel/emoji
+  içeriyorsa Sticker kurallarına uyuyor mu, (3) sonraki klavyeye geçiş yolu var
+  mı, (4) tam ağ erişimi ve "full access" olmadan çalışıyor mu, (5) kullanıcı
+  etkinliğini yalnızca klavye uzantısının işlevini geliştirmek için mi topluyor,
+  (6) Ayarlar dışında başka uygulama açmıyor ve klavye tuşlarını başka
+  davranışlara yeniden atamıyor, değil mi?
+ruleText: >
+  Klavye uzantıları: karakter girişi sağlamalı; görsel veya emoji içeriyorsa
+  Sticker kurallarına uymalı; sonraki klavyeye geçiş yöntemi sunmalı; tam ağ
+  erişimi olmadan ve tam erişim gerektirmeden çalışmaya devam etmeli; kullanıcı
+  etkinliğini yalnızca cihazdaki klavye uzantısının işlevini geliştirmek için
+  toplamalıdır. Ayarlar dışında başka uygulama başlatamaz ve klavye tuşlarını
+  başka davranışlar için yeniden kullanamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

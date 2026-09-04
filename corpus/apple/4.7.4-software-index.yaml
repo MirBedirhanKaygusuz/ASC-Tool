@@ -1,0 +1,23 @@
+id: apple-4.7.4-software-index
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7.4
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Uygulamada sunulan yazılımların ve metadata'larının bir dizini var mı? Bu
+  dizin, sunulan tüm yazılımlara giden evrensel bağlantıları (universal links)
+  içermek zorunda.
+ruleText: >
+  Uygulamanda sunulan yazılımların ve metadata'nın bir dizinini sağlamalısın.
+  Bu dizin, uygulamanda sunulan tüm yazılımlara giden evrensel bağlantıları
+  içermelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

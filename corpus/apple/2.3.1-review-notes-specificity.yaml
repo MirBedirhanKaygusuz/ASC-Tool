@@ -1,0 +1,30 @@
+id: apple-2.3.1-review-notes-specificity
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.1
+  retrievedAt: "2026-08-21"
+tags: [review-notes, metadata]
+scope: single
+needs: [reviewNotes]
+facts:
+  - "Apple bu maddede “generic descriptions will be rejected” diyor: yeni özellik ve değişiklikler review notlarında AÇIKÇA anlatılmak zorunda."
+question: >
+  Review notları, bu sürümdeki yeni özellikleri ve değişiklikleri SOMUT olarak
+  anlatıyor mu? "Bug fixes and improvements", "minor updates", "yeni özellikler
+  eklendi" gibi genel ifadeler tek başına yeterli değildir. Notlarda yalnızca
+  genel ifade varken uygulamada anlatılmamış yeni bir işlev olduğunu düşündüren
+  bir durum varsa bildir. Yalnızca hata düzeltmesi içeren bir sürümde genel
+  ifade kabul edilebilir.
+ruleText: >
+  Gizli, uykuda ya da belgelenmemiş özellik bulunamaz; uygulamanın işlevi hem
+  son kullanıcı hem App Review için açık olmalıdır. Tüm yeni özellikler,
+  işlevler ve ürün değişiklikleri App Store Connect'in Notes for Review
+  alanında SPESİFİK olarak anlatılmalı ve incelemeye açık olmalıdır; genel
+  açıklamalar reddedilir.
+positiveExample: "Bug fixes and performance improvements."
+negativeExample: "Adds an AI photo editor (Home > Edit > Enhance). Test account: demo@x.com / 1234. The editor calls our server; no login needed to try it."
+outcome: risk
+defaultSeverity: medium
+version: 1

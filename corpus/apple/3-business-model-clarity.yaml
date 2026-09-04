@@ -1,0 +1,26 @@
+id: apple-3-business-model-clarity
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3"
+  url: https://developer.apple.com/app-store/review/guidelines/#3
+  retrievedAt: "2026-08-21"
+tags: [business, metadata]
+scope: cross
+needs: [description, reviewNotes, iap]
+question: >
+  Uygulamanın nasıl para kazandığı listing'den ve review notlarından
+  anlaşılıyor mu? Ücretli bir işlev, abonelik ya da alışılmadık bir iş modeli
+  varken metinde bundan hiç söz edilmiyorsa bildir. Apple bunu "anlaşılmıyorsa
+  inceleme gecikir ve ret tetiklenebilir" diye yazıyor.
+ruleText: >
+  İş modelin açık değilse metadata'da ve App Review notlarında açıkla.
+  Uygulamanın nasıl çalıştığı ya da uygulama içi satın almaların ne olduğu
+  anlaşılmıyorsa inceleme gecikir ve ret tetiklenebilir. Fiyatlandırma sana
+  aittir ama kullanıcıyı akıl dışı yüksek fiyatlarla kandıran uygulamalar
+  dağıtılmaz.
+positiveExample: "Uygulamada 5 adet abonelik var, açıklama ve review notlarında ne satıldığına dair tek kelime yok."
+negativeExample: "Açıklama: “Ücretsiz sürümde günde 3 düzenleme; sınırsız düzenleme için aylık abonelik.”"
+outcome: risk
+defaultSeverity: medium
+version: 1

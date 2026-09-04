@@ -1,0 +1,24 @@
+id: apple-5.1.2iii-anonymous-profiling
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.2
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama, toplanan veriye dayanarak gizlice kullanıcı profili oluşturuyor
+  mu? Anonim kullanıcıları tanımlamaya ya da "anonimleştirilmiş",
+  "toplulaştırılmış" denilen veriden profil yeniden kurmaya çalışıyor, bunu
+  kolaylaştırıyor ya da başkalarını buna teşvik ediyor mu?
+ruleText: >
+  Uygulamalar toplanan veriye dayanarak gizlice kullanıcı profili oluşturmaya
+  çalışmamalıdır; Apple'ın sağladığı API'lerden ya da "anonimleştirilmiş",
+  "toplulaştırılmış" veya başka biçimde tanımlanamaz olduğu söylenen verilerden
+  anonim kullanıcıları tanımlamaya veya kullanıcı profillerini yeniden kurmaya
+  çalışamaz, bunu kolaylaştıramaz veya başkalarını buna teşvik edemez.
+outcome: manual
+defaultSeverity: medium
+version: 1

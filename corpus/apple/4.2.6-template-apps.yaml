@@ -1,0 +1,27 @@
+id: apple-4.2.6-template-apps
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2.6
+  retrievedAt: "2026-08-21"
+tags: [design, spam, checklist]
+scope: cross
+needs: []
+prefilter: ["template", "white label", "app builder", "app generator", "no-code", "for your business"]
+question: >
+  Uygulama ticari bir şablondan ya da uygulama üretme hizmetinden mi
+  oluşturuldu? Öyleyse gönderimi, uygulamanın İÇERİĞİNİN sahibi yapmak zorunda —
+  şablon sağlayıcısı müşterisi adına gönderemez. Şablon sağlayıcısıysan, tüm
+  müşteri içeriğini tek bir binary'de toplayan bir "seçici" model kabul edilir.
+ruleText: >
+  Ticari bir şablondan ya da uygulama üretme hizmetinden oluşturulan
+  uygulamalar, doğrudan uygulamanın içerik sağlayıcısı tarafından
+  gönderilmedikçe reddedilir. Bu hizmetler müşterileri adına uygulama
+  göndermemeli; müşterilerinin özelleştirilmiş, yenilikçi ve özgün deneyimler
+  üretmesine izin veren araçlar sunmalıdır. Şablon sağlayıcıları için kabul
+  edilebilir bir seçenek de tüm müşteri içeriğini toplu ya da "seçici" bir
+  modelde barındıran tek bir binary oluşturmaktır.
+outcome: manual
+defaultSeverity: high
+version: 1

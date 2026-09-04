@@ -1,0 +1,28 @@
+id: apple-1.1.6-false-features
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.6
+  retrievedAt: "2026-08-21"
+tags: [safety, false-claims, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [fake, prank, spoof, joke, trick, anonymous call, anonymous sms, fake gps, fake location, fake call, hidden number, untraceable]
+facts:
+  - "Apple bu maddede üç şeyi ayrı ayrı sayıyor: yanlış cihaz verisi, şaka/hile işlevi, ve anonim/şaka arama veya mesaj gönderme."
+  - "“Yalnızca eğlence amaçlıdır” ibaresi bu maddeyi aşmaz — Apple bunu metnin içinde açıkça yazıyor."
+question: >
+  Metin, gerçek olmayan bir işlev vaat ediyor mu? Özellikle: sahte cihaz verisi
+  (sahte konum, sahte sensör ölçümü), şaka/hile işlevi, ya da anonim veya şaka
+  amaçlı arama/SMS gönderme. "Sadece eğlence amaçlı" notu bu maddeyi aşmaz.
+ruleText: >
+  Yanlış bilgi ve işlevler yasaktır: hatalı cihaz verisi, şaka/hile işlevleri
+  (ör. sahte konum takipçileri) buna dâhildir. "Yalnızca eğlence amaçlıdır"
+  demek bu kuralı aşmaz. Anonim ya da şaka amaçlı telefon araması veya
+  SMS/MMS göndermeyi sağlayan uygulamalar reddedilir.
+positiveExample: "Send anonymous prank calls and fake your GPS location instantly."
+negativeExample: "Simulate camera angles for filmmakers with a virtual location preview inside the app."
+outcome: violation
+defaultSeverity: high
+version: 1

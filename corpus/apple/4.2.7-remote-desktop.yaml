@@ -1,0 +1,33 @@
+id: apple-4.2.7-remote-desktop
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2.7
+  retrievedAt: "2026-08-21"
+tags: [design, checklist]
+scope: cross
+needs: []
+prefilter: ["remote desktop", "rdp", "vnc", "stream your pc", "mirror your", "remote access", "cloud gaming"]
+question: >
+  Uzak masaüstü uygulaması belirli bir yazılımın/servisin aynası gibi
+  davranıyorsa beş şart: (a) yalnızca kullanıcının sahip olduğu kişisel
+  bilgisayara ya da oyun konsoluna, aynı yerel ağ üzerinden bağlanıyor mu,
+  (b) yazılım tamamen ana cihazda mı çalışıp orada mı işleniyor, (c) hesap
+  oluşturma ve yönetimi ana cihazdan mı başlatılıyor, (d) istemcideki arayüz
+  iOS/App Store görünümüne benzemiyor, mağaza gibi davranmıyor ve kullanıcının
+  sahip olmadığı yazılımı göz atma/seçme/satın alma imkânı vermiyor, değil mi,
+  (e) uygulama bulut tabanlı uygulamalar için ince istemci değil, değil mi?
+ruleText: >
+  Uzak masaüstü uygulaması, ana cihazın genel bir aynası yerine belirli bir
+  yazılımın ya da servisin aynası gibi davranıyorsa: yalnızca kullanıcının sahip
+  olduğu kişisel bilgisayara ya da özel oyun konsoluna ve yerel ağ üzerinden
+  bağlanmalı; yazılım tamamen ana cihazda çalışıp orada işlenmeli; hesap
+  oluşturma ve yönetimi ana cihazdan başlatılmalı; istemcideki arayüz iOS ya da
+  App Store görünümüne benzememeli, mağaza benzeri bir arayüz sunmamalı ve
+  kullanıcının sahip olmadığı yazılımı göz atma, seçme veya satın alma imkânı
+  vermemelidir. Bulut tabanlı uygulamalar için ince istemciler App Store'a uygun
+  değildir.
+outcome: manual
+defaultSeverity: medium
+version: 1

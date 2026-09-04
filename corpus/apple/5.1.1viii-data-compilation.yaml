@@ -1,0 +1,22 @@
+id: apple-5.1.1viii-data-compilation
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+prefilter: ["people search", "public records", "lookup", "reverse phone", "find people", "background check", "directory"]
+question: >
+  Uygulama, kişisel bilgiyi doğrudan kullanıcıdan almadan ya da açık rızası
+  olmadan derliyor mu? Kamuya açık veritabanları da buna dâhil — "insan arama",
+  telefon rehberi, kayıt taraması gibi işlevler bu maddeden reddediliyor.
+ruleText: >
+  Doğrudan kullanıcıdan olmayan hiçbir kaynaktan, kullanıcının açık rızası
+  olmadan kişisel bilgi derleyen uygulamalara — kamuya açık veritabanları dâhil —
+  App Store'da veya alternatif dağıtımda izin verilmez.
+outcome: manual
+defaultSeverity: high
+version: 1

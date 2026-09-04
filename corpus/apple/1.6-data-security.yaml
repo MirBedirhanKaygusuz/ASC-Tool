@@ -1,0 +1,24 @@
+id: apple-1.6-data-security
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.6
+  retrievedAt: "2026-08-21"
+tags: [privacy, security, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  allowsAccountCreation: true
+question: >
+  Kullanıcı verisi uygun güvenlik önlemleriyle mi işleniyor: aktarım ve
+  depolamada şifreleme, yetkisiz erişime karşı koruma, üçüncü taraf
+  erişimlerinin sınırlanması? Hesap açtırıp veri saklayan bir uygulamada bu
+  Apple'ın ayrı bir maddesi.
+ruleText: >
+  Uygulamalar, topladıkları kullanıcı bilgisinin doğru işlenmesini sağlamak ve
+  yetkisiz kullanımını, ifşasını ya da üçüncü taraflarca erişilmesini önlemek
+  için uygun güvenlik önlemleri uygulamalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

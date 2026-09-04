@@ -1,0 +1,28 @@
+id: apple-5.2.3-media-downloading
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.2.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.2.3
+  retrievedAt: "2026-08-21"
+tags: [ip, legal, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: ["download video", "youtube", "mp3", "converter", "save video", "downloader", "offline download", "ripper", "soundcloud", "vimeo"]
+question: >
+  Metin, üçüncü taraf kaynaklardan (YouTube, Apple Music, SoundCloud, Vimeo,
+  Instagram vb.) medya kaydetme, dönüştürme ya da indirme yeteneği sunuyor mu?
+  Ya da yasa dışı dosya paylaşımını kolaylaştırdığını gösteriyor mu? Kaynağın
+  açık yetkisi olduğu belirtilmedikçe bu ihlaldir. Kendi içeriğini indirtmek ya
+  da çevrimdışı kullanıma almak ihlal değildir.
+ruleText: >
+  Uygulamalar yasa dışı dosya paylaşımını kolaylaştırmamalı; üçüncü taraf
+  kaynaklardan (Apple Music, YouTube, SoundCloud, Vimeo vb.) medyayı, o
+  kaynakların açık yetkisi olmadan kaydetme, dönüştürme veya indirme imkânı
+  içermemelidir. Ses/video içeriğinin akışa alınması da kullanım şartlarını ihlal
+  edebilir; erişmeden önce kontrol et. Yetki, talep edildiğinde sunulmalıdır.
+positiveExample: "Download any YouTube video as MP3 and save it to your library."
+negativeExample: "Download the episodes you subscribed to for offline listening."
+outcome: violation
+defaultSeverity: high
+version: 1

@@ -1,0 +1,22 @@
+id: apple-3.2.2v-arbitrary-restrictions
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, checklist]
+scope: cross
+needs: []
+prefilter: ["only available in", "carrier", "operator", "region locked", "only for users in"]
+question: >
+  Uygulamayı kimin kullanabileceği keyfî olarak kısıtlanıyor mu (konuma ya da
+  operatöre göre)? Yasal zorunluluk ya da lisans kaynaklı coğrafi kısıt bu
+  maddenin konusu değildir — 5.3.4 ve 5.1.1(ix) bazı durumlarda coğrafi kısıt
+  ZORUNLU kılıyor.
+ruleText: >
+  Uygulamayı kimin kullanabileceğinin keyfî biçimde kısıtlanması — ör. konuma
+  ya da operatöre göre — kabul edilemez.
+outcome: manual
+defaultSeverity: low
+version: 1

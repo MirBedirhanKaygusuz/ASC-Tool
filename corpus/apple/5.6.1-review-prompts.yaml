@@ -1,0 +1,24 @@
+id: apple-5.6.1-review-prompts
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.6.1
+  retrievedAt: "2026-08-21"
+tags: [conduct, reviews, checklist]
+scope: cross
+needs: []
+question: >
+  (1) Uygulama puanlama istemi için Apple'ın sağladığı API'yi mi kullanıyor?
+  Özel/kendi yazdığın yorum istemleri kabul edilmiyor. (2) App Store
+  yorumlarına verdiğin yanıtlar kullanıcının yorumuna odaklı mı; kişisel bilgi,
+  spam ya da pazarlama içeriyor mu?
+ruleText: >
+  App Store müşteri yorumları uygulama deneyiminin ayrılmaz bir parçası
+  olabilir; yorumlara yanıt verirken müşterilere saygılı davran. Yanıtların
+  kullanıcının yorumuna odaklı olsun ve kişisel bilgi, spam ya da pazarlama
+  içermesin. Kullanıcılardan uygulamanı değerlendirmelerini istemek için
+  sağlanan API'yi kullan; özel yorum istemlerine izin verilmez.
+outcome: manual
+defaultSeverity: medium
+version: 1

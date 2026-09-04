@@ -1,0 +1,29 @@
+id: apple-2.3.2-iap-purchase-disclosure
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.2
+  retrievedAt: "2026-08-21"
+tags: [iap, metadata, disclosure]
+scope: cross
+needs: [description, screenshots, iap]
+appliesWhen:
+  hasIap: true
+requiresVision: true
+question: >
+  Açıklama ve ekran görüntülerinde öne çıkarılan özellik, seviye, içerik ya da
+  abonelik EK SATIN ALMA gerektiriyorsa bu açıkça söyleniyor mu? Ücretsiz gibi
+  sunulup aslında satın alma gerektiren özellikleri bildir. Ayrıca App Store'da
+  tanıtılan IAP'ların adı ve açıklaması genel kitleye uygun mu?
+ruleText: >
+  Uygulama içi satın alma varsa; açıklama, ekran görüntüleri ve önizlemeler,
+  öne çıkarılan öğelerin, seviyelerin veya aboneliklerin ek satın alma
+  gerektirip gerektirmediğini açıkça belirtmelidir. App Store'da tanıtılan
+  uygulama içi satın almaların görünen adı, ekran görüntüsü ve açıklaması genel
+  bir kitleye uygun olmalıdır.
+positiveExample: "Unlimited AI portraits, unlimited exports, all filters — everything included. (Tüm bu özellikler yalnızca abonelikte açılıyor ama metin bunu söylemiyor.)"
+negativeExample: "Includes 3 free edits per day. Unlimited edits require a Premium subscription."
+outcome: risk
+defaultSeverity: medium
+version: 1

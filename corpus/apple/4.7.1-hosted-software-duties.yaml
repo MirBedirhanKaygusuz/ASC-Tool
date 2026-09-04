@@ -1,0 +1,29 @@
+id: apple-4.7.1-hosted-software-duties
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7.1
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, ugc, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Barındırılan yazılımlar için üç şart: (1) gizlilik kuralları (5.1) —
+  veri toplama, kullanım ve paylaşım ile çocuklardan gelen sağlık ve kişisel
+  veri dâhil, (2) uygunsuz materyali süzme yöntemi, içeriği şikayet etme
+  mekanizması, şikayetlere zamanında yanıt ve kötüye kullanan kullanıcıları
+  engelleme imkânı, (3) dijital mal ve hizmetler için 3.1 (uygulama içi satın
+  alma) kuralları. Üçü de sağlanıyor mu?
+ruleText: >
+  Bu kural kapsamında sunulan yazılımlar: veri toplama, kullanım ve paylaşım
+  ile hassas veriler (çocuklardan gelen sağlık ve kişisel veriler gibi) dâhil
+  5.1'deki gizlilik kurallarına uymalı; uygunsuz materyali süzen bir yöntem,
+  içeriği bildirme mekanizması ve şikayetlere zamanında yanıt ile kötüye kullanan
+  kullanıcıları engelleme imkânı içermeli; son kullanıcılara dijital mal veya
+  hizmet sunmak için 3.1'e uymalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,21 @@
+id: apple-5.1.2vii-apple-pay-data
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.2
+  retrievedAt: "2026-08-21"
+tags: [privacy, payments, checklist]
+scope: cross
+needs: []
+prefilter: ["apple pay"]
+question: >
+  Apple Pay ile elde edilen kullanıcı verisi üçüncü taraflarla yalnızca mal ve
+  hizmetlerin teslimini kolaylaştırmak ya da iyileştirmek için mi paylaşılıyor?
+ruleText: >
+  Apple Pay kullanan uygulamalar, Apple Pay aracılığıyla elde edilen kullanıcı
+  verisini üçüncü taraflarla yalnızca mal ve hizmetlerin tesliminin
+  kolaylaştırılması ya da iyileştirilmesi amacıyla paylaşabilir.
+outcome: manual
+defaultSeverity: low
+version: 1

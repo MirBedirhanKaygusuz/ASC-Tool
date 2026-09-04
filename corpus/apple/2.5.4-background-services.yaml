@@ -1,0 +1,23 @@
+id: apple-2.5.4-background-services
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.4
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+prefilter: ["background", "voip", "location", "audio", "always on", "arka plan"]
+question: >
+  Uygulama arka plan servislerini yalnızca amacına uygun kullanıyor mu
+  (VoIP, ses çalma, konum, görev tamamlama, yerel bildirim)? Beyan edilen arka
+  plan modu gerçekten kullanılıyor mu, yoksa yalnızca uygulamayı canlı tutmak
+  için mi açılmış?
+ruleText: >
+  Çoklu görev yapan uygulamalar arka plan servislerini yalnızca amaçlarına
+  uygun kullanabilir: VoIP, ses çalma, konum, görev tamamlama, yerel
+  bildirimler vb.
+outcome: manual
+defaultSeverity: medium
+version: 1

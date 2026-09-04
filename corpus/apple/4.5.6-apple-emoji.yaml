@@ -1,0 +1,25 @@
+id: apple-4.5.6-apple-emoji
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.6
+  retrievedAt: "2026-08-21"
+tags: [apple-services, ip, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasAppExtensions: true
+prefilter: ["emoji", "emojis", "sticker", "stickers"]
+question: >
+  Apple emojileri yalnızca Apple platformlarında ve Unicode karakter olarak mı
+  kullanılıyor? Apple emojileri başka platformlarda kullanılamaz ve doğrudan
+  uygulama binary'sine gömülemez; üçüncü taraf klavyeler ve Sticker paketleri
+  Apple emojisi içeremez (5.2.5).
+ruleText: >
+  Uygulamalar, uygulamalarında ve uygulama metadata'sında Apple emojisi olarak
+  görüntülenen Unicode karakterlerini kullanabilir. Apple emojileri başka
+  platformlarda kullanılamaz ve doğrudan uygulama binary'sine gömülemez.
+outcome: manual
+defaultSeverity: low
+version: 1

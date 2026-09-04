@@ -1,0 +1,28 @@
+id: apple-5.1.1ii-consent
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, consent, checklist]
+scope: cross
+needs: []
+question: >
+  Veri toplayan uygulamada: (1) toplama için kullanıcı rızası alınıyor mu
+  (toplandığı anda anonim sayılsa bile), (2) ücretli işlev bu veriye erişim
+  iznine BAĞLI mı (olmamalı), (3) kullanıcı rızasını kolayca ve anlaşılır
+  biçimde geri alabiliyor mu, (4) izin metinleri (purpose strings) verinin
+  kullanımını eksiksiz anlatıyor mu, (5) GDPR'ın meşru menfaat istisnasına
+  dayanıyorsan yasanın tüm şartlarına uyuluyor mu?
+ruleText: >
+  Kullanıcı ya da kullanım verisi toplayan uygulamalar, veri toplandığı anda
+  anonim sayılsa bile toplama için kullanıcı rızası almalıdır. Ücretli işlev, bu
+  veriye erişim iznine bağlı olamaz ya da bunu gerektiremez. Uygulamalar
+  kullanıcıya rızasını geri almak için kolay ve anlaşılır bir yol sunmalıdır.
+  İzin metinlerin verinin kullanımını açık ve eksiksiz anlatmalıdır. GDPR ya da
+  benzeri bir yasanın meşru menfaat hükmüne dayanarak rızasız veri toplayan
+  uygulamalar o yasanın tüm şartlarına uymalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

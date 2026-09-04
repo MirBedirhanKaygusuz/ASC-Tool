@@ -1,0 +1,22 @@
+id: apple-5.3.2-official-rules
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.3.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.3.2
+  retrievedAt: "2026-08-21"
+tags: [gambling, contests, checklist]
+scope: cross
+needs: []
+prefilter: ["sweepstake", "sweepstakes", "contest", "raffle", "giveaway", "prize", "lottery", "çekiliş"]
+question: >
+  Çekiliş, yarışma ya da piyangonun resmî kuralları uygulamanın İÇİNDE
+  sunuluyor mu? Bu kurallar Apple'ın sponsor OLMADIĞINI ve etkinliğe hiçbir
+  biçimde dâhil olmadığını açıkça belirtiyor mu?
+ruleText: >
+  Çekilişlerin, yarışmaların ve piyangoların resmî kuralları uygulamada
+  sunulmalı ve Apple'ın sponsor olmadığını, etkinliğe hiçbir biçimde dâhil
+  olmadığını açıkça belirtmelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

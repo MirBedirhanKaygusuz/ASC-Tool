@@ -9,7 +9,10 @@ tags: [login, vision]
 scope: cross
 needs: [screenshots, reviewNotes]
 appliesWhen:
-  requiresLogin: true
+  # requiresLogin DEĞİL: 4.8 yalnızca ÜÇÜNCÜ TARAF giriş sunanları bağlıyor.
+  # Yalnızca e-posta/şifre ile giriş yaptıran uygulama muaf; ona bu kartı
+  # koşturmak boşuna model çağrısı ve yalancı alarm riskiydi (R20).
+  hasThirdPartyLogin: true
 facts:
   - "Bir uygulama üçüncü taraf veya sosyal giriş (Google, Facebook, X/Twitter, Meta) sunuyorsa, Apple ile Giriş'i de eşdeğer bir seçenek olarak sunmak zorundadır."
   - "Yalnızca e-posta/şifre ile giriş sunan uygulamalar bu şarttan muaftır."
@@ -27,4 +30,4 @@ positiveExample: "Giriş ekranında 'Continue with Google' ve 'Continue with Fac
 negativeExample: "Giriş ekranında 'Sign in with Apple', 'Continue with Google' ve e-posta seçeneği birlikte var."
 outcome: violation
 defaultSeverity: high
-version: 1
+version: 2

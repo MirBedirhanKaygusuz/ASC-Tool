@@ -1,0 +1,24 @@
+id: apple-2.5.17-matter
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.17"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.17
+  retrievedAt: "2026-08-21"
+tags: [hardware, checklist]
+scope: cross
+needs: []
+prefilter: ["matter", "thread", "homekit", "smart home", "iot"]
+question: >
+  Matter destekliyorsan: eşleştirmeyi başlatmak için Apple'ın Matter destek
+  çerçevesini kullanıyor musun? Apple'ın verdiği Matter SDK dışında bir Matter
+  bileşeni kullanıyorsan, o bileşen çalıştığı platform için Connectivity
+  Standards Alliance tarafından sertifikalandırılmış mı?
+ruleText: >
+  Matter destekleyen uygulamalar eşleştirmeyi başlatmak için Apple'ın Matter
+  destek çerçevesini kullanmalıdır. Apple'ın sağladığı Matter SDK dışında bir
+  Matter yazılım bileşeni kullanılıyorsa, bu bileşen çalıştığı platform için
+  Connectivity Standards Alliance tarafından sertifikalandırılmış olmalıdır.
+outcome: manual
+defaultSeverity: low
+version: 1

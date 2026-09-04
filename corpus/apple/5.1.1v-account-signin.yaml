@@ -1,0 +1,36 @@
+id: apple-5.1.1v-account-signin
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1(v)"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1(v)
+  retrievedAt: "2026-08-21"
+tags: [privacy, login, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  requiresLogin: true
+question: >
+  (1) Uygulamanın gerçekten önemli hesap tabanlı özellikleri var mı? Yoksa
+  insanlar girişsiz kullanabilmeli. (2) Kullanıcıdan kişisel bilgi girmesi, ana
+  işlevle doğrudan ilgili ya da yasa gereği olmadıkça isteniyor mu? (3) Ana
+  işlevin belirli bir sosyal ağla ilgili DEĞİLSE, girişsiz ya da başka bir
+  mekanizmayla erişim sunuluyor mu? (Profil bilgisi çekmek, sosyal ağda
+  paylaşmak ya da arkadaş davet etmek ana işlev sayılmaz.) (4) Sosyal ağ
+  kimlik bilgilerini iptal etme ve veri erişimini kesme yolu uygulamanın
+  içinde var mı? (5) Sosyal ağ token'ları cihaz dışında saklanıyor mu
+  (saklanmamalı)?
+ruleText: >
+  Uygulamanın önemli hesap tabanlı özellikleri yoksa insanların girişsiz
+  kullanmasına izin ver. Uygulaman hesap oluşturmayı destekliyorsa uygulama
+  içinde hesap silmeyi de sunmalısın. Uygulamalar, ana işlevle doğrudan ilgili
+  olmadıkça ya da yasa gerektirmedikçe çalışmak için kişisel bilgi girilmesini
+  zorunlu kılamaz. Ana işlevin belirli bir sosyal ağla ilgili değilse girişsiz
+  ya da başka bir mekanizmayla erişim sağlamalısın; temel profil bilgisi çekmek,
+  sosyal ağda paylaşmak veya arkadaş davet etmek ana işlev sayılmaz. Uygulama
+  ayrıca sosyal ağ kimlik bilgilerini iptal etmek ve veri erişimini kesmek için
+  uygulama içinde bir mekanizma içermelidir. Kimlik bilgileri ya da token'lar
+  cihaz dışında saklanamaz.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,24 @@
+id: apple-2.5.9-system-controls
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.9"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.9
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+prefilter: ["volume button", "silent switch", "mute switch", "lock screen", "system button"]
+question: >
+  Uygulama standart anahtarların (ses açma/kısma, sessize alma) ya da
+  yerleşik arayüz öğelerinin davranışını değiştiriyor veya devre dışı
+  bırakıyor mu? Kullanıcının belirli biçimde çalışmasını beklediği bağlantı ve
+  özellikleri engelliyor mu?
+ruleText: >
+  Ses açma/kısma ve zil/sessiz anahtarı gibi standart anahtarların ya da
+  yerleşik arayüz öğelerinin ve davranışlarının işlevini değiştiren veya devre
+  dışı bırakan uygulamalar reddedilir. Örneğin uygulamalar, kullanıcının
+  çalışmasını beklediği diğer uygulamalara giden bağlantıları engellememelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

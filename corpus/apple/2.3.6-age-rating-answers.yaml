@@ -1,0 +1,28 @@
+id: apple-2.3.6-age-rating-answers
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.6
+  retrievedAt: "2026-08-21"
+tags: [metadata, age-rating, checklist]
+scope: cross
+needs: []
+question: >
+  (1) App Store Connect'teki yaş sınırı soruları dürüstçe yanıtlandı mı —
+  uygulamanın gerçekte içerdiği şiddet, korku, cinsellik, kumar, madde kullanımı
+  ve kullanıcı içeriği beyanları doğru mu? (2) Uygulama, içerik derecelendirmesi
+  ya da uyarı gösterilmesi gereken medya içeriyorsa (film, müzik, oyun),
+  uygulamanın sunulduğu her ülkenin yerel gerekliliklerine uyuluyor mu? Yanlış
+  derecelendirme hem kullanıcıyı şaşırtır hem düzenleyici incelemesi tetikleyebilir.
+ruleText: >
+  App Store Connect'teki yaş sınırı sorularını dürüstçe yanıtla ki uygulaman
+  ebeveyn denetimleriyle doğru biçimde hizalansın. Uygulaman yanlış
+  derecelendirilirse müşteriler beklemedikleri içerikle karşılaşabilir ya da bu
+  durum devlet düzenleyicilerinin incelemesini tetikleyebilir. Uygulaman içerik
+  derecelendirmesi veya uyarısı gösterilmesi gereken medya (film, müzik, oyun
+  vb.) içeriyorsa, sunulduğu her ülke ve bölgedeki yerel gerekliliklere uymaktan
+  sen sorumlusun.
+outcome: manual
+defaultSeverity: high
+version: 1

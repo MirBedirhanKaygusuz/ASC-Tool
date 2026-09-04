@@ -1,0 +1,25 @@
+id: apple-1.4.4-dui-checkpoints
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.4
+  retrievedAt: "2026-08-21"
+tags: [safety, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: [dui, checkpoint, checkpoints, speed trap, police trap, radar, alkol kontrol, drunk driving]
+question: >
+  Metin, alkol/hız denetim noktalarını gösterdiğini söylüyor mu? Söylüyorsa
+  bu verinin kolluk kuvvetlerince YAYIMLANMIŞ olduğu belirtiliyor mu?
+  Ayrıca alkollü araç kullanmayı ya da aşırı hız gibi pervasız davranışları
+  özendiren ifadeler var mı?
+ruleText: >
+  Uygulamalar yalnızca kolluk kuvvetleri tarafından yayımlanmış alkol denetim
+  noktalarını gösterebilir ve alkollü araç kullanmayı ya da aşırı hız gibi
+  pervasız davranışları asla özendirmemelidir.
+positiveExample: "Crowd-sourced DUI checkpoints so you can drive home after a few drinks."
+negativeExample: "Official traffic advisories published by the highway authority."
+outcome: violation
+defaultSeverity: high
+version: 1

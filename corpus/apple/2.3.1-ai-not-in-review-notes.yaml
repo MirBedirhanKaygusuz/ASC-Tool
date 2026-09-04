@@ -1,0 +1,34 @@
+id: apple-2.3.1-ai-not-in-review-notes
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#accurate-metadata
+  retrievedAt: "2026-08-25"
+tags: [ai, review-notes, disclosure]
+scope: single
+needs: [reviewNotes]
+appliesWhen:
+  generatesAiContent: true
+facts:
+  - "Apple, her yeni işlevin İnceleme Notları alanında AYRINTILI anlatılmasını istiyor ve 'genel açıklamalar reddedilecektir' diye yazıyor."
+  - "AI üretimi, reviewer'ın ekrandan anlayamayacağı bir işlevdir: hangi modelin kullanıldığı, çıktının nasıl süzüldüğü, içeriğin nereden geldiği notta yazmıyorsa reviewer varsayım yapmak zorunda kalır ve genellikle en kötü varsayımı yapar."
+  - "Yeterli not şunları söyler: üretimin nerede çalıştığı (cihazda/sunucuda), hangi sağlayıcı/model kullanıldığı, uygunsuz girdi ve çıktının nasıl engellendiği, üretilen içeriğin saklanıp saklanmadığı."
+  - "Notların boş olması ya da yalnızca demo hesap bilgisi içermesi bu kartın konusudur."
+question: >
+  Uygulama AI ile içerik üretiyor. Aşağıdaki İnceleme Notları metni bu işlevi
+  reviewer'ın anlayacağı AYRINTIDA anlatıyor mu?
+  Aranan asgari bilgi: üretimin nerede çalıştığı, hangi model/sağlayıcının
+  kullanıldığı, uygunsuz girdi ve çıktının nasıl engellendiği.
+  Notlar boşsa, yalnızca demo hesap/şifre içeriyorsa, ya da AI'dan hiç söz
+  etmiyorsa bildir. Not bu üçünden en az ikisini somut olarak anlatıyorsa
+  bulgu üretme.
+ruleText: >
+  Bütün yeni özellikler, işlevler ve ürün değişiklikleri App Store Connect'in
+  İnceleme Notları bölümünde AYRINTILI olarak anlatılmalı ve incelemeye
+  erişilebilir olmalıdır; genel açıklamalar reddedilir.
+positiveExample: "Notes for Review: test@demo.com / 123456"
+negativeExample: "Notes for Review: Görsel üretimi Replicate üzerinde SDXL ile sunucuda çalışıyor. Prompt'lar gönderilmeden önce OpenAI moderation API'sinden geçiyor, uygunsuz istekler reddediliyor. Üretilen görseller 24 saat sonra siliniyor. Demo: test@demo.com / 123456"
+outcome: risk
+defaultSeverity: medium
+version: 1

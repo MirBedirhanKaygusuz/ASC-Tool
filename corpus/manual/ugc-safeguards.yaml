@@ -1,0 +1,33 @@
+id: apple-1.2-ugc-safeguards
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#user-generated-content
+  retrievedAt: "2026-08-25"
+tags: [ugc, moderation, safety]
+scope: cross
+needs: []
+appliesWhen:
+  hasUserGeneratedContent: true
+facts:
+  - "Apple, kullanıcı içeriği barındıran uygulamalardan DÖRT şeyi birden ister ve bunların hepsi uygulamanın İÇİNDE olmalıdır."
+  - "Bu dördü listing'den görülemez; ekran görüntüsüne bakarak var/yok denemez. O yüzden bu kart modele gitmez, insana düşer."
+  - "Eksik olduğunda gelen red genellikle Guideline 1.2 atfıyla ve 'moderation' kelimesiyle gelir."
+question: >
+  Kullanıcı içeriği barındıran uygulamada Apple'ın istediği DÖRT mekanizma da
+  uygulamanın içinde var mı?
+  (1) Uygunsuz içeriği yayına girmeden SÜZEN bir yöntem,
+  (2) rahatsız edici içeriği ŞİKAYET etme yolu ve şikayetlere zamanında dönüş,
+  (3) kötüye kullanan kullanıcıyı ENGELLEME imkânı,
+  (4) kullanıcıların sana ulaşabileceği YAYINLANMIŞ iletişim bilgisi.
+  Dördünden biri bile yoksa gönderme.
+ruleText: >
+  Kullanıcı içeriği ya da sosyal ağ işlevi barındıran uygulamalar şunları
+  içermek zorundadır: uygunsuz materyalin uygulamaya gönderilmesini süzen bir
+  yöntem, rahatsız edici içeriği bildirme mekanizması ve bildirimlere zamanında
+  yanıt, kötüye kullanan kullanıcıları hizmetten engelleme imkânı, ve
+  kullanıcıların size kolayca ulaşabilmesi için yayınlanmış iletişim bilgisi.
+outcome: manual
+defaultSeverity: high
+version: 1

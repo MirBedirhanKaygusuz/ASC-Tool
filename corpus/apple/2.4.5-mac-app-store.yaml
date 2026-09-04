@@ -1,0 +1,30 @@
+id: apple-2.4.5-mac-app-store
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.4.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.4.5
+  retrievedAt: "2026-08-21"
+tags: [mac, checklist]
+scope: cross
+needs: []
+prefilter: ["mac", "macos", "mac app store", "desktop"]
+question: >
+  Mac App Store'a gönderiyorsan dokuz şartın hepsi sağlanıyor mu:
+  (i) uygun sandbox ve dosya sistemi kuralları, (ii) Xcode ile paketleme,
+  üçüncü taraf yükleyici yok, tek ve kendi kendine yeten paket,
+  (iii) rızasız otomatik başlatma yok, Dock'a kendini eklemiyor,
+  (iv) bağımsız uygulama/kext/ek kod indirmiyor, (v) root yetkisi istemiyor,
+  (vi) açılışta lisans ekranı yok, kendi kopya korumasını uygulamıyor,
+  (vii) güncellemeler Mac App Store üzerinden, (viii) güncel işletim
+  sisteminde çalışıyor ve kullanımdan kaldırılmış teknoloji kullanmıyor,
+  (ix) tüm dil desteği tek pakette.
+ruleText: >
+  Mac App Store üzerinden dağıtılan uygulamalar için ek şartlar geçerlidir:
+  sandbox, Xcode ile paketleme, rızasız otomatik başlatmama, ek kod
+  indirmeme, root yetkisi istememe, lisans ekranı ve kendi kopya koruması
+  koymama, güncellemeleri Mac App Store'dan dağıtma, güncel işletim
+  sisteminde çalışma ve tüm yerelleştirmeyi tek pakette taşıma.
+outcome: manual
+defaultSeverity: medium
+version: 1

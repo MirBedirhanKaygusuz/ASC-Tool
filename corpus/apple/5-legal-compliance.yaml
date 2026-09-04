@@ -1,0 +1,23 @@
+id: apple-5-legal-compliance
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5"
+  url: https://developer.apple.com/app-store/review/guidelines/#5
+  retrievedAt: "2026-08-21"
+tags: [legal, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulamanın sunulduğu HER ülkede geçerli yasalara uyduğu kontrol edildi mi?
+  Apple bunu geliştiricinin sorumluluğuna bırakıyor: yalnız bu kurallara uymak
+  yetmiyor. Suç ya da açıkça pervasız davranışı teşvik eden hiçbir işlev yok,
+  değil mi?
+ruleText: >
+  Uygulamalar, sunuldukları her yerde tüm yasal gerekliliklere uymalıdır.
+  Yerel yasaları anlamak ve uygulamanın bunlara uygun olmasını sağlamak senin
+  sorumluluğundur. Suç işlemeyi ya da açıkça pervasız davranışı talep eden,
+  teşvik eden veya özendiren uygulamalar reddedilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

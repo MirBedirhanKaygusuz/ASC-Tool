@@ -1,0 +1,31 @@
+id: apple-before-you-submit-checklist
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "before-you-submit"
+  url: https://developer.apple.com/app-store/review/guidelines/#before-you-submit
+  retrievedAt: "2026-08-21"
+tags: [checklist, completeness]
+scope: cross
+needs: []
+question: >
+  Apple'ın gönderim öncesi listesi: (1) uygulama çökme ve hatalara karşı
+  test edildi mi, (2) tüm uygulama bilgisi ve metadata eksiksiz ve doğru mu,
+  (3) App Review sana ulaşabilsin diye iletişim bilgin güncel mi, (4) hesap
+  tabanlı özellikler varsa aktif bir demo hesap ya da tam işlevli demo modu ile
+  incelemeye gereken diğer kaynaklar (giriş bilgisi, örnek QR kod, donanım)
+  verildi mi, (5) arka uç servisleri inceleme boyunca açık mı, (6) apaçık
+  olmayan özellikler ve uygulama içi satın almalar App Review notlarında —
+  gerekiyorsa destekleyici belgeyle — ayrıntılı anlatıldı mı?
+ruleText: >
+  Gönderim öncesinde: uygulamanı çökme ve hatalara karşı test et; tüm uygulama
+  bilgisinin ve metadata'nın eksiksiz ve doğru olduğundan emin ol; App Review'un
+  sana ulaşması gerekirse diye iletişim bilgini güncelle; App Review'a uygulamana
+  tam erişim ver (hesap tabanlı özellikler varsa aktif bir demo hesap ya da tam
+  işlevli demo modu ile incelemeye gerekebilecek diğer donanım ve kaynaklar);
+  arka uç servislerini inceleme sırasında canlı ve erişilebilir tut; apaçık
+  olmayan özellikleri ve uygulama içi satın almaları — uygun olduğunda
+  destekleyici belgelerle birlikte — App Review notlarında ayrıntılı anlat.
+outcome: manual
+defaultSeverity: high
+version: 1

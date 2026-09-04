@@ -1,0 +1,26 @@
+id: apple-3.1.1-credits-and-gifts
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasIap: true
+question: >
+  Uygulama içi satın almalarda: (1) satın alınan kredi ya da oyun içi para
+  birimi zaman aşımına uğruyor mu (uğramamalı), (2) geri yüklenebilir satın
+  almalar için bir geri yükleme mekanizması var mı, (3) hediye edilebilen
+  öğeler yalnızca ilk satın alana iade ediliyor ve takas edilemiyor mu?
+ruleText: >
+  Uygulama içi satın almayla alınan krediler ve oyun içi para birimleri
+  zaman aşımına uğrayamaz; geri yüklenebilir satın almalar için bir geri
+  yükleme mekanizması bulunmalıdır. Uygulamalar, uygulama içi satın almaya
+  uygun öğelerin başkalarına hediye edilmesine izin verebilir; bu hediyeler
+  yalnızca ilk satın alana iade edilebilir ve takas edilemez.
+outcome: manual
+defaultSeverity: medium
+version: 1

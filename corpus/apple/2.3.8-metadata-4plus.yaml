@@ -1,0 +1,31 @@
+id: apple-2.3.8-metadata-4plus
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.8"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.8
+  retrievedAt: "2026-08-21"
+tags: [metadata, age-rating, media, vision]
+scope: cross
+needs: [screenshots, icon]
+requiresVision: true
+facts:
+  - "Kural yaş sınırından BAĞIMSIZ: uygulama 17+ olsa bile metadata 4+ ölçüsüne uymak zorunda."
+  - "Apple’ın verdiği örnek: şiddet içeren bir oyunda korkunç bir ölüm sahnesi ya da belirli bir karaktere doğrultulmuş silah gösteren görsel seçilmemeli."
+question: >
+  Ekran görüntüleri ve simge, uygulamanın yaş sınırından bağımsız olarak 4+
+  ölçüsüne uyuyor mu? Kanlı/vahşi sahne, birine doğrultulmuş silah, cinsel
+  içerik, küfür ya da uyuşturucu/alkol kullanımı gösteren görselleri bildir.
+  Ayrıca simge ile ekran görüntülerindeki uygulama görsel olarak aynı uygulama
+  gibi mi duruyor?
+ruleText: >
+  Metadata tüm kitlelere uygun olmalıdır: uygulama daha yüksek yaş sınırına
+  sahip olsa bile uygulama ve uygulama içi satın alma simgeleri, ekran
+  görüntüleri ve önizlemeler 4+ yaş sınırına uymalıdır. Metadata'nın —
+  uygulama adı ve simgeleri dâhil — kafa karışıklığı yaratmayacak biçimde
+  birbirine benzemesi gerekir.
+positiveExample: "Ekran görüntüsünde bir karaktere doğrultulmuş tabanca ve kanlı bir sahne var."
+negativeExample: "Ekran görüntülerinde oyunun arayüzü, seviye haritası ve puan tablosu görünüyor."
+outcome: risk
+defaultSeverity: medium
+version: 1

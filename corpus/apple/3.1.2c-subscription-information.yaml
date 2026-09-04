@@ -1,0 +1,25 @@
+id: apple-3.1.2c-subscription-information
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2(c)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.2(c)
+  retrievedAt: "2026-08-21"
+tags: [subscriptions, disclosure, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasSubscription: true
+question: >
+  Abone olmayı istemeden ÖNCE kullanıcı ne aldığını net olarak biliyor mu:
+  fiyat karşılığında tam olarak ne verildiği (ayda kaç sayı, ne kadar bulut
+  alanı, hizmete nasıl bir erişim)? Bu bilgi paywall ekranında mı, yoksa yalnız
+  mağaza açıklamasında mı duruyor?
+ruleText: >
+  Bir müşteriden abone olmasını istemeden önce, ödeyeceği fiyat karşılığında
+  ne alacağını açıkça anlatmalısın: ayda kaç sayı, ne kadar bulut depolama,
+  hizmetine ne tür bir erişim. Apple Developer Program Lisans Sözleşmesi
+  Ek 2'deki gereklilikleri de açıkça ilettiğinden emin ol.
+outcome: manual
+defaultSeverity: high
+version: 1

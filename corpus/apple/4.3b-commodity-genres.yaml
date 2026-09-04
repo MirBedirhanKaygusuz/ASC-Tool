@@ -1,0 +1,30 @@
+id: apple-4.3b-commodity-genres
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.3
+  retrievedAt: "2026-08-21"
+tags: [design, spam, metadata]
+scope: single
+needs: [name, subtitle, description, category, keywords]
+prefilter: ["flashlight", "wallpaper", "wallpapers", "fortune", "horoscope", "dating", "sound effects", "timer", "fart", "drinking game", "kama sutra", "soundboard"]
+question: >
+  Uygulama, Apple'ın adıyla saydığı doygun türlerden birine mi giriyor
+  (flört, fener, ses efektleri, duvar kâğıdı, basit zamanlayıcı, falcılık) ya da
+  düşük kaliteli saydığı türlerden biri mi (içki oyunları, Kama Sutra, osuruk,
+  geğirme)? Öyleyse metin, anlamlı biçimde FARKLI ya da GELİŞMİŞ bir deneyim
+  sunduğunu gösteriyor mu? Ayırt edici bir şey vaat etmiyorsa bildir.
+ruleText: >
+  Halihazırda yaygın olarak bulunanlardan ayırt edilemeyen uygulamalar
+  gönderme. Flört, fener, ses efektleri, duvar kâğıdı, basit zamanlayıcı ve
+  falcılık gibi belirli uygulama türleri App Store'da yerleşiktir ve anlamlı
+  biçimde farklı ya da geliştirilmiş bir deneyim sunmadıkça yeni gönderimler
+  kabul edilmez. İçki oyunları, Kama Sutra, osuruk ve geğirme uygulamaları gibi
+  türler ise vasat, düşük kaliteli ya da düşük çabalıdır ve App Store'a değer
+  katmaz.
+positiveExample: "Simple flashlight — turn your screen white and tap to toggle brightness."
+negativeExample: "A flashlight for divers: depth-aware red-light mode and a strobe for signalling, tested to 40m."
+outcome: risk
+defaultSeverity: medium
+version: 1

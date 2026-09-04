@@ -1,0 +1,24 @@
+id: apple-4.3-duplicate-bundles
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.3
+  retrievedAt: "2026-08-21"
+tags: [design, spam, checklist]
+scope: cross
+needs: []
+question: >
+  Aynı uygulamanın birden çok Bundle ID ile farklı sürümleri App Store'da mı
+  (her şehir, takım, üniversite ya da müşteri için ayrı uygulama)? Apple bunun
+  yerine tek bir uygulama ve varyasyonların uygulama içi satın alma ile
+  sunulmasını istiyor.
+ruleText: >
+  Aynı uygulamanın birden fazla Bundle ID'sini oluşturma (ör. dünyadaki her
+  şehir için ayrı harita uygulaması yerine her şehri aratabilen tek bir
+  uygulama). Uygulamanın belirli konumlar, spor takımları, üniversiteler vb.
+  için farklı sürümleri varsa tek bir uygulama gönderip varyasyonları uygulama
+  içi satın almayla sunmayı düşün.
+outcome: manual
+defaultSeverity: medium
+version: 1

@@ -1,0 +1,24 @@
+id: apple-2.5.13-facial-recognition
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.13"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.13
+  retrievedAt: "2026-08-21"
+tags: [software, privacy, checklist]
+scope: cross
+needs: []
+prefilter: ["face id", "facial recognition", "face unlock", "face login", "face scan", "biometric"]
+question: >
+  Hesap doğrulaması için yüz tanıma kullanılıyorsa: mümkün olan her yerde
+  LocalAuthentication mı kullanılıyor (ARKit ya da başka bir yüz tanıma
+  teknolojisi değil)? 13 yaşından küçük kullanıcılar için alternatif bir
+  doğrulama yöntemi var mı?
+ruleText: >
+  Hesap kimlik doğrulaması için yüz tanıma kullanan uygulamalar mümkün olan
+  yerlerde LocalAuthentication kullanmalı (ARKit ya da diğer yüz tanıma
+  teknolojileri değil) ve 13 yaşından küçük kullanıcılar için alternatif bir
+  kimlik doğrulama yöntemi sunmalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

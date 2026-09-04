@@ -1,0 +1,29 @@
+id: apple-3.1.4-hardware-specific-content
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.4
+  retrievedAt: "2026-08-21"
+tags: [payments, hardware, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  unlocksContentWithoutIap: true
+question: >
+  İşlev bir donanıma bağlı olarak açılıyorsa: (1) bu gerçekten donanıma bağlı
+  bir özellik mi (ör. teleskopla eşleşince açılan gökbilim özellikleri),
+  (2) onaylı bir fiziksel ürünle isteğe bağlı çalışan özellikler için AYRICA bir
+  uygulama içi satın alma seçeneği de sunuluyor mu, (3) işlevi açmak için
+  kullanıcıdan ilgisiz ürün satın alması ya da pazarlama etkinliğine katılması
+  isteniyor mu (yasak)?
+ruleText: >
+  Sınırlı durumlarda, özellikler çalışmak için belirli bir donanıma bağlıysa
+  uygulama o işlevi uygulama içi satın alma kullanmadan açabilir. Onaylı bir
+  fiziksel ürünle (ör. oyuncak) isteğe bağlı olarak çalışan özellikler, bir
+  uygulama içi satın alma seçeneği de sunulması koşuluyla açılabilir. Ancak
+  uygulama işlevini açmak için kullanıcılardan ilgisiz ürünler satın almasını ya
+  da reklam/pazarlama etkinliklerine katılmasını isteyemezsin.
+outcome: manual
+defaultSeverity: medium
+version: 1

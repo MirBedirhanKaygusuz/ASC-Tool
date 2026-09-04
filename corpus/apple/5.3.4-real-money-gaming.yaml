@@ -1,0 +1,26 @@
+id: apple-5.3.4-real-money-gaming
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.3.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.3.4
+  retrievedAt: "2026-08-21"
+tags: [gambling, legal, checklist]
+scope: cross
+needs: []
+prefilter: ["casino", "betting", "bet", "poker", "lottery", "sports betting", "horse racing", "gambling", "bahis", "kumar"]
+question: >
+  Gerçek para oyunu (spor bahsi, poker, casino, at yarışı) ya da piyango
+  sunan uygulamada: (1) kullanıldığı her yerde gerekli lisans ve izinler var mı,
+  (2) uygulama bu yerlere coğrafi olarak sınırlandırıldı mı, (3) App Store'da
+  ÜCRETSİZ mi, (4) kart sayacı gibi yasa dışı kumar yardımcıları yok, değil mi,
+  (5) piyango ise bedel, şans ve ödül üçü birden var mı?
+ruleText: >
+  Gerçek para oyunu (spor bahsi, poker, casino oyunları, at yarışı) ya da
+  piyango sunan uygulamalar, kullanıldıkları yerlerde gerekli lisans ve izinlere
+  sahip olmalı, bu yerlerle coğrafi olarak sınırlandırılmalı ve App Store'da
+  ücretsiz olmalıdır. Kart sayaçları dâhil yasa dışı kumar yardımcılarına izin
+  verilmez. Piyango uygulamalarında bedel, şans ve ödül bulunmalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

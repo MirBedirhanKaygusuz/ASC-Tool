@@ -9,18 +9,24 @@ tags: [age-rating, safety, vision]
 scope: cross
 needs: [ageRating, description, screenshots, category]
 facts:
+  - "Apple'ın yaş sınırı merdiveni SADECE şudur, aşağıdan yukarıya: 4+, 9+, 12+, 17+. Google Play'de: Everyone, Everyone 10+, Teen, Mature 17+, Adults only 18+."
+  - "17+ Apple'ın EN YÜKSEK derecesidir. Bir uygulama zaten 17+ ise daha yukarı çıkarılamaz ve bu kart o uygulama için bulgu ÜRETMEMELİDİR."
   - "Kullanıcı içeriği barındıran, sosyal etkileşim sunan veya AI ile gerçekçi insan görüntüsü üreten uygulamalar genellikle 4+ / Everyone derecesine uygun değildir."
   - "Kozmetik/vücut değiştirme, flört, şiddet veya müstehcenliğe yakın içerik daha yüksek yaş sınırı gerektirir."
 question: >
-  Uygulamanın beyan edilen yaş sınırı, içeriğiyle tutarlı mı? Şunlara bak:
-  metin veya ekran görüntüleri müstehcenliğe yakın, vücut/yüz değiştirme,
-  flört, şiddet ya da kullanıcı içeriği barındırma işareti veriyor mu?
-  Veriyorsa ve beyan edilen yaş sınırı düşükse bildir. Emin değilsen bildirme.
+  ÖNCE BUNA BAK: uygulamanın beyan edilen yaş sınırı nedir? 17+ (ya da
+  Google'da "Mature 17+"/"Adults only") ise BULGU ÜRETME ve dur — zaten en
+  yüksek derecede, yükseltilecek yer yok.
+  Daha düşükse devam et: metin veya ekran görüntüleri müstehcenliğe yakın,
+  vücut/yüz değiştirme, flört, şiddet ya da kullanıcı içeriği barındırma
+  işareti veriyor mu? Veriyorsa bildir ve önerinde MEVCUT DERECEDEN DAHA
+  YÜKSEK bir basamak yaz (4+ → 9+ → 12+ → 17+). Mevcut dereceye eşit ya da
+  ondan düşük bir öneri yazma. Emin değilsen bildirme.
 ruleText: >
   Beyan edilen yaş sınırı/içerik derecelendirmesi uygulamanın gerçek
   içeriğiyle tutarlı olmalıdır.
 positiveExample: "Yaş sınırı 4+ ama açıklamada 'AI ile vücudunu yeniden şekillendir' ve kullanıcı galerisi var."
-negativeExample: "Yaş sınırı 12+ ve uygulama basit fotoğraf filtreleri sunuyor."
+negativeExample: "Yaş sınırı zaten 17+ ve uygulama AI ile yüz değiştirme sunuyor — en yüksek derecede olduğu için bulgu yok."
 outcome: risk
 defaultSeverity: medium
-version: 1
+version: 2

@@ -1,0 +1,32 @@
+id: apple-1.2-ai-output-is-ugc
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#user-generated-content
+  retrievedAt: "2026-08-25"
+tags: [ai, ugc, moderation, safety]
+scope: cross
+needs: []
+appliesWhen:
+  generatesAiContent: true
+facts:
+  - "App Review, kullanıcının verdiği girdiden (prompt, yüklenen fotoğraf) ÜRETİLEN içeriği kullanıcı içeriği sayar. Geliştiricilerin en sık kaçırdığı nokta budur: 'bizde kullanıcı içeriği yok, biz üretiyoruz' savunması kabul görmez."
+  - "Üretici uygulamalarda süzgeç iki yerde birden gerekir: GİRDİDE (uygunsuz prompt reddedilmeli) ve ÇIKTIDA (üretilen görsel/metin uygunsuzsa gösterilmemeli)."
+  - "Yüz değiştirme, avatar ve görsel üretme uygulamalarında en sık gelen red budur; genellikle Guideline 1.2 atfıyla ve uygulamanın gerçek bir kişinin müstehcen görüntüsünü üretebildiğini gösteren bir ekran görüntüsüyle gelir."
+question: >
+  Uygulama AI ile içerik üretiyor. App Review bu çıktıyı KULLANICI İÇERİĞİ
+  sayar. Şu üçü var mı?
+  (1) Uygunsuz GİRDİYİ (prompt, yüklenen fotoğraf) reddeden bir süzgeç,
+  (2) uygunsuz ÇIKTIYI kullanıcıya göstermeden engelleyen bir süzgeç,
+  (3) üretilen bir içeriği şikayet etme yolu.
+  Kendi uygulamanda dene: müstehcen ya da şiddet içeren bir prompt yaz,
+  tanınmış bir kişinin fotoğrafını yükle. Ne çıkıyor?
+ruleText: >
+  Kullanıcı içeriği barındıran uygulamalar uygunsuz materyali süzmek, şikayet
+  mekanizması sunmak, kötüye kullanan kullanıcıları engellemek ve yayınlanmış
+  iletişim bilgisi bulundurmak zorundadır. Kullanıcı girdisinden üretilen
+  içerik de bu kapsamdadır.
+outcome: manual
+defaultSeverity: high
+version: 1

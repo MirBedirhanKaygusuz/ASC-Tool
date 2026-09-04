@@ -1,0 +1,24 @@
+id: apple-2.5.1-public-apis
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.1
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama yalnızca genel (public) API'leri mi kullanıyor ve güncel işletim
+  sisteminde mi çalışıyor? Kullanımdan kaldırılan çerçeveler ayıklandı mı?
+  Kullanılan çerçeveler AMACINA uygun mu (HealthKit sağlık/fitness için,
+  HomeKit ev otomasyonu için) ve bu entegrasyon uygulama açıklamasında
+  belirtiliyor mu?
+ruleText: >
+  Uygulamalar yalnızca genel API'leri kullanabilir ve güncel işletim
+  sisteminde çalışmalıdır. Kullanımdan kaldırılan özellik, çerçeve ve
+  teknolojiler aşamalı olarak bırakılmalıdır. API ve çerçeveler amaçlarına
+  uygun kullanılmalı ve bu entegrasyon uygulama açıklamasında belirtilmelidir.
+outcome: manual
+defaultSeverity: high
+version: 1

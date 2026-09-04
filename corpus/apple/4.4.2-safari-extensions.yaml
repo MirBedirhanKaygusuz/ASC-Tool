@@ -1,0 +1,27 @@
+id: apple-4.4.2-safari-extensions
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.4.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.4.2
+  retrievedAt: "2026-08-21"
+tags: [extensions, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasAppExtensions: true
+prefilter: ["safari", "browser extension", "web extension", "content blocker", "ad blocker"]
+question: >
+  Safari uzantısı ilgili işletim sisteminin güncel Safari sürümünde çalışıyor
+  mu? Sistem ya da Safari arayüz öğelerine müdahale ediyor mu? Kötü niyetli veya
+  yanıltıcı içerik/kod içeriyor mu? Çalışmak için gerçekten gerekli olandan daha
+  fazla siteye erişim talep ediyor mu?
+ruleText: >
+  Safari uzantıları ilgili Apple işletim sistemindeki güncel Safari sürümünde
+  çalışmalıdır. Sistem ya da Safari arayüz öğelerine müdahale edemez ve asla
+  kötü niyetli veya yanıltıcı içerik ya da kod içeremez. Safari uzantıları
+  çalışmak için kesinlikle gerekli olandan daha fazla web sitesine erişim
+  talep etmemelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

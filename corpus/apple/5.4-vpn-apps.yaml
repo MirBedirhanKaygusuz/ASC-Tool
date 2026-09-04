@@ -1,0 +1,31 @@
+id: apple-5.4-vpn-apps
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.4
+  retrievedAt: "2026-08-21"
+tags: [vpn, privacy, legal, checklist]
+scope: cross
+needs: []
+prefilter: ["vpn", "proxy", "tunnel", "private network", "hide your ip"]
+question: >
+  VPN hizmeti sunuyorsan: (1) NEVPNManager API kullanılıyor mu, (2) geliştirici
+  hesabın ORGANİZASYON olarak mı kayıtlı, (3) hangi kullanıcı verisinin
+  toplanacağı ve nasıl kullanılacağı, kullanıcı satın alma ya da kullanma
+  eylemine geçmeden ÖNCE bir uygulama ekranında açıkça beyan ediliyor mu,
+  (4) veri üçüncü taraflara satılmıyor/açıklanmıyor ve bu taahhüt gizlilik
+  politikasında yazılı mı, (5) VPN lisansı gereken bir ülkede sunuyorsan lisans
+  bilgisi App Review Notes alanına yazıldı mı?
+ruleText: >
+  VPN hizmeti sunan uygulamalar NEVPNManager API'sini kullanmalı ve yalnızca
+  organizasyon olarak kayıtlı geliştiriciler tarafından sunulmalıdır. Kullanıcı,
+  satın alma ya da hizmeti kullanma eylemine geçmeden önce hangi verinin
+  toplanacağı ve nasıl kullanılacağı bir uygulama ekranında açıkça beyan
+  edilmelidir. VPN uygulamaları hiçbir veriyi hiçbir amaçla üçüncü taraflara
+  satamaz, kullanamaz veya açıklayamaz ve buna gizlilik politikalarında taahhüt
+  etmelidir. Yerel yasalar ihlal edilemez; VPN lisansı gerektiren bir bölgede
+  sunuyorsan lisans bilgini App Review Notes alanında vermelisin.
+outcome: manual
+defaultSeverity: high
+version: 1

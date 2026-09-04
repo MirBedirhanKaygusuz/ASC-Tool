@@ -1,0 +1,19 @@
+id: apple-2.5.5-ipv6
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.5
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama yalnızca IPv6 olan bir ağda tam olarak çalışıyor mu? Apple
+  incelemesi bu ağda yapılıyor; IPv4 varsayımı yapan bir istemci ya da sabit
+  IP kullanımı burada patlar.
+ruleText: >
+  Uygulamalar yalnızca IPv6 olan ağlarda tam işlevsel olmalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

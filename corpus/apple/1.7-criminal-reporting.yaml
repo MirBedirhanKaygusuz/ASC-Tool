@@ -1,0 +1,22 @@
+id: apple-1.7-criminal-reporting
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.7
+  retrievedAt: "2026-08-21"
+tags: [safety, checklist]
+scope: cross
+needs: []
+prefilter: [report crime, criminal activity, law enforcement, police, emergency report, suç ihbar, ihbar]
+question: >
+  Uygulama suç ihbarı almayı sağlıyorsa: yerel kolluk kuvvetleri sürece
+  gerçekten dâhil mi ve uygulama yalnızca bu iş birliğinin aktif olduğu
+  ülke/bölgelerde mi sunuluyor?
+ruleText: >
+  İddia edilen suç faaliyetini bildirmeye yarayan uygulamalar yerel kolluk
+  kuvvetlerini sürece dâhil etmek zorundadır ve yalnızca bu katılımın aktif
+  olduğu ülke veya bölgelerde sunulabilir.
+outcome: manual
+defaultSeverity: high
+version: 1

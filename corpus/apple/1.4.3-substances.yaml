@@ -1,0 +1,27 @@
+id: apple-1.4.3-substances
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.3
+  retrievedAt: "2026-08-21"
+tags: [safety, substances, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [tobacco, cigarette, vape, vaping, nicotine, cannabis, weed, marijuana, dispensary, alcohol, drinking, shots, drug, drugs]
+question: >
+  Metin, tütün/elektronik sigara, yasa dışı uyuşturucu ya da aşırı alkol
+  tüketimini özendiriyor mu? Ya da kontrollü madde veya tütün satışını
+  kolaylaştırdığını söylüyor mu (lisanslı eczane ve yasal esrar dispensary
+  istisnası dışında)? Bırakma/azaltma yardımı ihlal değildir.
+ruleText: >
+  Tütün ve vape ürünleri, yasa dışı uyuşturucular ya da aşırı alkol tüketimini
+  özendiren uygulamalara izin verilmez; küçükleri bu maddeleri tüketmeye
+  özendirenler reddedilir. Kontrollü maddelerin veya tütünün satışını
+  kolaylaştırmak yasaktır (lisanslı eczaneler ile lisanslı ya da yasal esrar
+  dispensary'leri hariç).
+positiveExample: "Find the cheapest vapes and get them delivered to your door tonight."
+negativeExample: "A quit-smoking tracker with craving logs and milestone rewards."
+outcome: violation
+defaultSeverity: high
+version: 1

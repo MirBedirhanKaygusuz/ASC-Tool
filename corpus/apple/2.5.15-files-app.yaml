@@ -1,0 +1,21 @@
+id: apple-2.5.15-files-app
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.15"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.15
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+prefilter: ["file", "files", "document", "documents", "pdf", "import", "storage"]
+question: >
+  Kullanıcıya dosya görüntületip seçtiren uygulama, Files uygulamasındaki
+  öğeleri ve kullanıcının iCloud belgelerini de listeliyor mu?
+ruleText: >
+  Kullanıcıların dosyaları görüntülemesini ve seçmesini sağlayan uygulamalar
+  Files uygulamasındaki öğeleri ve kullanıcının iCloud belgelerini de
+  içermelidir.
+outcome: manual
+defaultSeverity: low
+version: 1

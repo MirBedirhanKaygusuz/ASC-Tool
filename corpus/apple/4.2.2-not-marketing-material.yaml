@@ -1,0 +1,21 @@
+id: apple-4.2.2-not-marketing-material
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2.2
+  retrievedAt: "2026-08-21"
+tags: [design, checklist]
+scope: cross
+needs: []
+prefilter: ["links", "directory", "catalog", "aggregator", "rss", "feed", "news reader", "bookmark"]
+question: >
+  Uygulama esasen pazarlama materyali, reklam, web kırpıntısı, içerik
+  toplayıcı ya da bağlantı derlemesi mi? Katalog uygulamaları istisna;
+  diğerleri bu maddeden reddedilir.
+ruleText: >
+  Kataloglar dışında uygulamalar esas olarak pazarlama materyali, reklam, web
+  kırpıntısı, içerik toplayıcı ya da bağlantı koleksiyonu olmamalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

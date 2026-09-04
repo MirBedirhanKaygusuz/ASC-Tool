@@ -1,0 +1,36 @@
+id: apple-5.2.1-ai-likeness-claims
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#intellectual-property
+  retrievedAt: "2026-08-25"
+tags: [ai, ip, likeness, metadata]
+scope: cross
+needs: [description, subtitle, keywords, promotionalText]
+appliesWhen:
+  generatesAiContent: true
+facts:
+  - "Korunan üçüncü taraf materyali (marka, telif eser, tanınmış kişi benzerliği) izinsiz kullanılamaz. Bu, uygulamanın ÜRETTİĞİ içerik için de geçerlidir."
+  - "Listing metninin kendisi delil sayılır: uygulama tanınmış bir kişiye ya da telifli bir karaktere dönüştürme vaat ediyorsa, App Review bunu izinsiz kullanım beyanı olarak okur ve denemeye bile gerek duymaz."
+  - "Sık görülen kalıplar: 'ünlü olarak gör', 'çizgi film karakterine dönüş', stüdyo/marka adıyla stil vaadi (Disney, Pixar, Ghibli, Marvel), 'X ile yüzünü değiştir' (X gerçek bir kişi)."
+  - "Genel ve marka içermeyen stil adları (anime, 3D, yağlı boya, piksel sanat, vintage) bu kuralın konusu DEĞİLDİR — bunlar bulgu üretmemeli."
+question: >
+  Aşağıdaki metin, uygulamanın GERÇEK BİR KİŞİYE benzerlik ya da TELİFLİ bir
+  karakter/marka stiline dönüştürme yaptığını vaat ediyor mu?
+  İhlal sayılacaklar: adı geçen veya açıkça kastedilen ünlü/kamuya mal olmuş
+  kişiler; telifli karakterler ve stüdyo adları (Disney, Pixar, Ghibli, Marvel,
+  Barbie gibi); "ünlülerle yüz değiştir" türü vaatler.
+  İhlal SAYILMAYACAKLAR: marka içermeyen genel stiller (anime, 3D, karikatür,
+  yağlı boya, vintage, piksel); kullanıcının KENDİ fotoğrafını düzenlemesi;
+  kullanıcının kendi yüklediği içeriği dönüştürmesi.
+  Emin değilsen bulgu üretme.
+ruleText: >
+  Marka, telifli eser veya patentli fikir gibi korunan üçüncü taraf materyalini
+  izin almadan uygulamanda kullanma; uygulama paketinde veya geliştirici adında
+  yanıltıcı, yanlış ya da taklit temsiller, isimler veya üstveri bulundurma.
+positiveExample: "Turn yourself into a Disney princess or swap faces with your favorite celebrity!"
+negativeExample: "Fotoğrafını anime, 3D karikatür veya yağlı boya stiline dönüştür."
+outcome: violation
+defaultSeverity: high
+version: 1

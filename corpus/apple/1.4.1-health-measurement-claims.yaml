@@ -1,0 +1,30 @@
+id: apple-1.4.1-health-measurement-claims
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.1
+  retrievedAt: "2026-08-21"
+tags: [health, false-claims, metadata, safety]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [blood pressure, blood oxygen, spo2, glucose, blood sugar, x-ray, xray, body temperature, heart rate, bpm, ecg, ekg, diagnose, diagnosis, treat]
+facts:
+  - "Apple bu maddede dört ölçümü ADIYLA yasaklıyor: yalnızca cihaz sensörleriyle röntgen çekmek, tansiyon, vücut sıcaklığı, kan şekeri veya kan oksijeni ölçmek."
+  - "Doğruluk iddiası varsa veri ve yöntemin açıkça anlatılması gerekiyor; doğrulanamıyorsa uygulama reddediliyor."
+question: >
+  Metin, yalnızca telefonun sensörleriyle tıbbi bir ölçüm yaptığını iddia
+  ediyor mu (tansiyon, kan şekeri, kan oksijeni, vücut sıcaklığı, röntgen)?
+  Ya da teşhis/tedavi iddiası var mı? Böyle bir iddia varsa ölçümün dayandığı
+  veri ve yöntem metinde açıklanıyor mu? Harici bir tıbbi cihazdan veri okumak
+  ihlal değildir; ihlal, ölçümü cihazın kendi sensörlerine dayandırmaktır.
+ruleText: >
+  Sağlık ölçümlerine ilişkin doğruluk iddiaları veri ve yöntemle
+  desteklenmelidir. Yalnızca cihaz sensörlerini kullanarak röntgen çektiğini,
+  tansiyon, vücut sıcaklığı, kan şekeri ya da kan oksijeni ölçtüğünü iddia eden
+  uygulamalara izin verilmez.
+positiveExample: "Measure your blood pressure and blood oxygen using just your iPhone camera."
+negativeExample: "Log readings from your Bluetooth blood pressure cuff and see weekly trends."
+outcome: violation
+defaultSeverity: high
+version: 1

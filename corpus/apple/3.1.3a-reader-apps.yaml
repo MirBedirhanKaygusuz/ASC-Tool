@@ -1,0 +1,29 @@
+id: apple-3.1.3a-reader-apps
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.3(a)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.3(a)
+  retrievedAt: "2026-08-21"
+tags: [payments, reader, checklist]
+scope: cross
+needs: []
+prefilter: ["magazine", "newspaper", "books", "audiobook", "music", "video", "streaming", "reader", "subscription content"]
+question: >
+  Uygulama bir "reader" uygulaması mı (dergi, gazete, kitap, ses, müzik,
+  video içeriğine erişim)? Öyleyse: (1) yalnızca daha önce satın alınmış
+  içeriğe ya da içerik aboneliğine erişim mi sunuluyor, (2) ücretsiz katman
+  için hesap oluşturma ve mevcut müşteriler için hesap yönetimi dışında
+  uygulama içinde satın alma yapılıyor mu, (3) hesap oluşturma/yönetme
+  bağlantısı veriyorsan External Link Account Entitlement'ın var mı? (ABD
+  vitrininde bu entitlement gerekmiyor.)
+ruleText: >
+  Reader uygulamaları kullanıcının daha önce satın aldığı içeriğe ya da içerik
+  aboneliklerine (dergi, gazete, kitap, ses, müzik, video) erişmesine izin
+  verebilir. Ücretsiz katmanlar için hesap oluşturma ve mevcut müşteriler için
+  hesap yönetimi sunulabilir. Geliştiriciler, hesap oluşturmak veya yönetmek
+  üzere kendi sitelerine bilgilendirici bir bağlantı vermek için External Link
+  Account Entitlement başvurusu yapabilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

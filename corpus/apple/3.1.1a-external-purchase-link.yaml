@@ -1,0 +1,32 @@
+id: apple-3.1.1a-external-purchase-link
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1(a)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1(a)
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, entitlement, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasExternalPurchaseLink: true
+question: >
+  Uygulamada IAP dışı satın almaya yönlendiren bağlantı varsa: (1) uygun
+  entitlement'a (StoreKit External Purchase Link, Music Streaming Services ya da
+  External Link Account) sahip misin, (2) bağlantı yalnızca entitlement'ın
+  kapsadığı vitrinlerde mi gösteriliyor, (3) bağlantı metni yalnızca izin verilen
+  bilgiyi mi veriyor (nerede ve nasıl satın alınacağı, öğelerin daha ucuz
+  olabileceği), (4) yanıltıcı pazarlama ya da dolandırıcılık iması yok, değil mi?
+  ABD vitrininde bu yasak uygulanmıyor.
+ruleText: >
+  Geliştiriciler, dijital içerik veya hizmet satın almak üzere kendi
+  sitelerine bağlantı vermek için entitlement başvurusu yapabilir. Bu
+  entitlement'lar yalnızca belirli vitrinlerde iOS/iPadOS App Store'da
+  kullanılabilir. ABD vitrini dışındaki tüm vitrinlerde, uygulamalar ve
+  metadata'ları müşterileri uygulama içi satın alma dışındaki satın alma
+  mekanizmalarına yönlendiren düğme, dış bağlantı ya da çağrı içeremez.
+  Entitlement ile ilgili yanıltıcı pazarlama, dolandırıcılık ya da sahtekârlık
+  uygulamanın kaldırılmasıyla sonuçlanır.
+outcome: manual
+defaultSeverity: high
+version: 1

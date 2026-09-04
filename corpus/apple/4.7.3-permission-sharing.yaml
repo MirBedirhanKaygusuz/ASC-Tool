@@ -1,0 +1,22 @@
+id: apple-4.7.3-permission-sharing
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7.3
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, privacy, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Uygulama, barındırdığı yazılımlarla veri ya da gizlilik izinlerini
+  paylaşıyor mu? Bu yalnızca HER SEFERİNDE alınan açık kullanıcı rızasıyla
+  yapılabilir.
+ruleText: >
+  Uygulaman, her durumda açık kullanıcı rızası olmadan, barındırdığı hiçbir
+  yazılımla veri ya da gizlilik izinlerini paylaşamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

@@ -1,0 +1,25 @@
+id: apple-4.2-webview-wrapper
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2
+  retrievedAt: "2026-08-21"
+tags: [design, minimum-functionality, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  isWebViewWrapper: true
+question: >
+  Uygulama esas olarak bir web sitesini gösteriyorsa: sitenin ötesine geçen
+  hangi yerel değeri sunuyor (çevrimdışı çalışma, bildirim, kamera/konum
+  entegrasyonu, cihaz özellikleri, yerel arayüz)? "Yeniden paketlenmiş web
+  sitesi"nin ötesine geçtiğini gösteren somut bir özellik yoksa bu gönderim
+  4.2'den reddedilir.
+ruleText: >
+  Uygulaman, onu yeniden paketlenmiş bir web sitesinin ötesine taşıyan
+  özellikler, içerik ve arayüz sunmalıdır. Uygulaman özellikle yararlı, özgün ya
+  da "uygulama gibi" değilse App Store'a ait değildir.
+outcome: manual
+defaultSeverity: high
+version: 1

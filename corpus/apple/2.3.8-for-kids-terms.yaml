@@ -1,0 +1,31 @@
+id: apple-2.3.8-for-kids-terms
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.8"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.8
+  retrievedAt: "2026-08-21"
+tags: [metadata, kids]
+scope: single
+needs: [name, subtitle, description, keywords, promotionalText]
+appliesWhen:
+  targetsKids: false
+prefilter: [for kids, for children, kids, children, toddler, preschool, çocuklar için, çocuk]
+facts:
+  - "“For Kids” ve “For Children” ifadeleri App Store’da yalnızca Kids Category için ayrılmış."
+  - "5.1.4 bunu genişletiyor: Kids Category’de olmayan uygulama, ana kitlesinin çocuklar olduğunu ima eden hiçbir ifadeyi ad, altyazı, simge, ekran görüntüsü ya da açıklamada kullanamaz."
+question: >
+  Uygulama Kids Category'de DEĞİL. Metinde ana kitlenin çocuklar olduğunu ima
+  eden bir ifade var mı ("for kids", "for children", "toddler", "preschool",
+  "çocuklar için")? Çocuklara UYGUN olduğunu söylemek ile çocuklar İÇİN
+  olduğunu söylemek farklıdır; ikincisi bu kategoride yasaktır.
+ruleText: >
+  "For Kids" ve "For Children" gibi terimlerin uygulama metadata'sında
+  kullanımı App Store'da Kids Category için ayrılmıştır. Kids Category'de
+  olmayan uygulamalar; ad, altyazı, simge, ekran görüntüsü veya açıklamada
+  ana kitlenin çocuklar olduğunu ima eden ifade kullanamaz.
+positiveExample: "Fun math games for kids ages 4-8"
+negativeExample: "A family-friendly puzzle game everyone can enjoy"
+outcome: violation
+defaultSeverity: high
+version: 1

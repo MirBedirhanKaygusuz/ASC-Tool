@@ -1,0 +1,26 @@
+id: apple-1.4.1-medical-app-duties
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.1
+  retrievedAt: "2026-08-21"
+tags: [health, safety, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasHealthFeatures: true
+question: >
+  Sağlık/tıbbi işlev sunan uygulamada: (1) kullanıcıya, uygulamayı kullanmanın
+  yanı sıra ve tıbbi karar vermeden ÖNCE doktoruna danışması hatırlatılıyor mu,
+  (2) doğruluk iddiası varsa dayandığı veri ve yöntem uygulamada açıklanıyor mu,
+  (3) düzenleyici onayın (FDA vb.) varsa belgesinin bağlantısı gönderime
+  eklendi mi?
+ruleText: >
+  Yanlış veri veya bilgi verebilecek, ya da teşhis/tedavi için kullanılabilecek
+  tıbbi uygulamalar daha sıkı incelenir. Uygulamalar kullanıcıya doktoruna
+  danışmayı hatırlatmalıdır. Düzenleyici onay alınmışsa belgenin bağlantısı
+  gönderimle birlikte iletilmelidir.
+outcome: manual
+defaultSeverity: high
+version: 1

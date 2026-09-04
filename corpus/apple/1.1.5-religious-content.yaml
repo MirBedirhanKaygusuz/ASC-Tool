@@ -1,0 +1,23 @@
+id: apple-1.1.5-religious-content
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.5
+  retrievedAt: "2026-08-21"
+tags: [safety, content, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: [quran, koran, bible, torah, hadith, prophet, verse, scripture, religion, religious, islamic, christian, jewish, hindu, buddhist]
+question: >
+  Metin, kışkırtıcı dinî yorum içeriyor ya da dinî metinlerden yanlış/yanıltıcı
+  alıntı yaptığını gösteriyor mu? Dinî içerik sunmak tek başına ihlal değildir;
+  ihlal, kışkırtıcı yorum ya da kaynağı çarpıtan alıntıdır.
+ruleText: >
+  Kışkırtıcı dinî yorumlar ile dinî metinlerin yanlış veya yanıltıcı biçimde
+  alıntılanması yasaktır.
+positiveExample: "Learn why followers of that faith are wrong, verse by verse."
+negativeExample: "Daily prayer times, qibla direction and a searchable Quran text."
+outcome: risk
+defaultSeverity: medium
+version: 1

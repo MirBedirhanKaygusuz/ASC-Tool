@@ -1,0 +1,30 @@
+id: apple-2.5.12-call-sms-blocking
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.12"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.12
+  retrievedAt: "2026-08-21"
+tags: [software, spam, metadata]
+scope: single
+needs: [description, name, subtitle, promotionalText]
+prefilter: [spam call, call block, call blocking, sms block, robocall, spam sms, caller id, spam identification, unknown caller]
+facts:
+  - "Apple iki şeyi birden istiyor: bu özelliklerin PAZARLAMA METNİNDE açıkça belirtilmesi ve engelleme/spam listelerinin ölçütünün açıklanması."
+question: >
+  Uygulama arama/SMS/MMS engelleme ya da spam tanımlama sunuyorsa, pazarlama
+  metni (1) bu özellikleri açıkça tanıtıyor mu ve (2) engellenen/spam sayılan
+  numaraların hangi ölçüte göre belirlendiğini açıklıyor mu? Özellik var ama
+  ölçüt anlatılmamışsa bildir.
+ruleText: >
+  CallKit kullanan ya da SMS Fraud Extension içeren uygulamalar yalnızca
+  doğrulanmış spam numaraları engellemelidir. Arama, SMS ve MMS engelleme ya da
+  spam tanımlama işlevi içeren uygulamalar bu özellikleri pazarlama metinlerinde
+  açıkça belirtmeli ve engelleme/spam listelerinin ölçütünü açıklamalıdır. Bu
+  araçlarla erişilen veri, uygulamanın işletilmesi veya iyileştirilmesiyle
+  doğrudan ilgili olmayan hiçbir amaçla kullanılamaz.
+positiveExample: "Blocks thousands of spam callers automatically."
+negativeExample: "Blocks numbers reported as spam by at least 50 users and verified against the public FTC complaint list; you can review and unblock any number."
+outcome: risk
+defaultSeverity: medium
+version: 1

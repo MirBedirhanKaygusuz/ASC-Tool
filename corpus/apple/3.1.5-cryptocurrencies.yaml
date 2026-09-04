@@ -1,0 +1,34 @@
+id: apple-3.1.5-cryptocurrencies
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.5
+  retrievedAt: "2026-08-21"
+tags: [payments, crypto, checklist]
+scope: cross
+needs: []
+prefilter: ["crypto", "cryptocurrency", "bitcoin", "ethereum", "wallet", "exchange", "mining", "ico", "blockchain", "token", "airdrop"]
+question: >
+  Kripto para işlevi varsa Apple'ın beş alt kuralı: (i) cüzdan sunuyorsan
+  geliştirici hesabın ORGANİZASYON olarak kayıtlı mı, (ii) cihazda madencilik
+  yapılmıyor (yalnız cihaz dışı/bulut madencilik serbest), (iii) alım satım
+  yalnızca onaylı bir borsada ve yalnızca lisans/izinlerin olduğu ülkelerde mi
+  sunuluyor, (iv) ICO, kripto vadeli işlem ya da kripto menkul kıymet işlemi
+  varsa uygulama bir banka, aracı kurum ya da onaylı finansal kurumdan mı
+  geliyor, (v) uygulama indirme, davet, sosyal paylaşım gibi görevler
+  karşılığında kripto para VERİYOR mu (yasak)?
+ruleText: >
+  (i) Cüzdanlar: uygulamalar sanal para depolamayı kolaylaştırabilir, yeter ki
+  organizasyon olarak kayıtlı geliştiriciler tarafından sunulsun. (ii) Madencilik:
+  işlem cihaz dışında yapılmadıkça kripto madenciliği yapılamaz. (iii) Borsalar:
+  onaylı bir borsada kripto işlemleri yalnızca uygun lisans ve izinlerin olduğu
+  ülke veya bölgelerde kolaylaştırılabilir. (iv) ICO'lar, kripto vadeli işlemler
+  ve diğer kripto menkul kıymet işlemleri yerleşik bankalardan, menkul kıymet
+  firmalarından, FCM'lerden ya da onaylı finansal kurumlardan gelmeli ve tüm ilgili
+  yasalara uymalıdır. (v) Kripto para uygulamaları, başka uygulamaları indirmek,
+  başkalarını indirmeye teşvik etmek ya da sosyal ağlarda paylaşım yapmak gibi
+  görevlerin karşılığında para birimi teklif edemez.
+outcome: manual
+defaultSeverity: high
+version: 1

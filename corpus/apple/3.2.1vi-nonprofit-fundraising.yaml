@@ -1,0 +1,31 @@
+id: apple-3.2.1vi-nonprofit-fundraising
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.1
+  retrievedAt: "2026-08-21"
+tags: [business, donations, checklist]
+scope: cross
+needs: []
+prefilter: ["donate", "donation", "donations", "charity", "fundraise", "fundraising", "nonprofit", "bağış"]
+question: >
+  Uygulama içinde bağış topluyorsan: (1) Apple'ın onayladığı bir kâr amacı
+  gütmeyen kuruluş musun, (2) Apple Pay desteği var mı, (3) toplanan paranın
+  nasıl kullanılacağı açıklanıyor mu, (4) bağışçılara uygun vergi makbuzu
+  sağlanıyor mu, (5) başka kuruluşlara bağış aktaran bir platformsan listelenen
+  her kuruluş da onay sürecinden geçti mi? Onaylı kuruluş DEĞİLSEN uygulama
+  içinde bağış toplayamazsın: uygulama ücretsiz olmalı ve bağış yalnızca
+  uygulama dışında (Safari, SMS) toplanmalı.
+ruleText: >
+  Onaylı kâr amacı gütmeyen kuruluşlar kendi uygulamalarında ya da üçüncü taraf
+  uygulamalarda doğrudan bağış toplayabilir; bu kampanyalar tüm App Review
+  kurallarına uymalı ve Apple Pay desteklemelidir. Bu uygulamalar fonların nasıl
+  kullanılacağını açıklamalı, tüm yerel ve federal yasalara uymalı ve bağışçılara
+  uygun vergi makbuzlarının sunulmasını sağlamalıdır. Onaylı kâr amacı gütmeyen
+  kuruluş değilsen, uygulama içinde hayır kurumları ve bağış kampanyaları için
+  fon toplayamazsın; bu tür uygulamalar App Store'da ücretsiz olmalı ve fonları
+  yalnızca Safari veya SMS gibi uygulama dışı yollarla toplayabilir.
+outcome: manual
+defaultSeverity: high
+version: 1

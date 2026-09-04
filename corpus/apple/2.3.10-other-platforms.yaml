@@ -1,0 +1,29 @@
+id: apple-2.3.10-other-platforms
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.10"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.10
+  retrievedAt: "2026-08-21"
+tags: [metadata, platform]
+scope: single
+needs: [name, subtitle, description, keywords, promotionalText, whatsNew]
+prefilter: [android, google play, play store, huawei, appgallery, galaxy store, samsung store, windows phone, amazon appstore, apk]
+facts:
+  - "Yasak yalnızca ADLARDA değil: başka mobil platformların ya da alternatif uygulama pazarlarının adı, simgesi ve görselleri uygulamada ve metadata’da geçemez."
+  - "Aynı madde metadata’nın konu dışı bilgi içermemesini de istiyor."
+question: >
+  Metinde başka bir mobil platformun ya da alternatif uygulama pazarının adı
+  geçiyor mu (Android, Google Play, Huawei AppGallery, Galaxy Store, APK)?
+  Onaylanmış özel bir etkileşimli işlev yoksa bu ihlaldir. Ayrıca metadata
+  uygulamayla ilgisiz bilgi içeriyorsa bildir.
+ruleText: >
+  Uygulaman, desteklediği Apple platformlarındaki deneyime odaklanmalıdır;
+  onaylanmış özel bir etkileşimli işlev yoksa uygulamada ya da metadata'da
+  başka mobil platformların veya alternatif uygulama pazarlarının adları,
+  simgeleri ya da görselleri yer alamaz. Metadata konu dışı bilgi içermemelidir.
+positiveExample: "Also available on Android — download the APK from our site."
+negativeExample: "Syncs across your iPhone, iPad and Mac."
+outcome: violation
+defaultSeverity: high
+version: 1

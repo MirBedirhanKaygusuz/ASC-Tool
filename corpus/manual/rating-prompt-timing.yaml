@@ -1,0 +1,33 @@
+id: apple-5.6.3-rating-prompt-timing
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#developer-code-of-conduct
+  retrievedAt: "2026-08-26"
+tags: [rating, onboarding, code-of-conduct]
+scope: single
+needs: []
+facts:
+  - "Apple, App Store müşteri deneyiminin herhangi bir öğesini — sıralama, arama, YORUM/PUAN veya yönlendirme — manipüle etmeyi yasaklıyor."
+  - "Somut ihlal biçimi: kullanıcı uygulamanın değerini anlamaya fırsat bulmadan, ilk açılışta ya da onboarding sırasında puan istemek."
+  - "Doğru yol `SKStoreReviewController.requestReview` ve doğru AN: kullanıcı anlamlı bir işi TAMAMLADIKTAN sonra. Apple çağrı sayısını zaten yılda üçle sınırlıyor; sorun sıklık değil ZAMANLAMA."
+  - "Kendi yazdığın özel bir 'bize 5 yıldız ver' penceresi, kullanıcıyı App Store'a yönlendiren düğme, ya da puan karşılığı ödül/kredi vermek de aynı maddeye giriyor."
+  - "Bu davranış listing'den GÖRÜLEMEZ — build'in içinde. O yüzden kart modele gitmez, insana düşer."
+question: >
+  Uygulama puan/yorum isteme penceresini NE ZAMAN gösteriyor?
+  Temiz kur: uygulamayı sil, yeniden kur ve ilk açılışı izle.
+  İhlal sayılacaklar: ilk açılışta veya onboarding sırasında puan istemek;
+  kullanıcı henüz anlamlı bir iş tamamlamadan istemek; kendi yazdığın
+  "5 yıldız ver" penceresi; puan karşılığı ödül/kredi/özellik açmak;
+  kullanıcıyı doğrudan App Store yorum sayfasına atmak.
+  Temiz sayılan: `SKStoreReviewController.requestReview`, kullanıcı gerçek bir
+  işi tamamladıktan sonra (ör. ilk tasarımını kaydetti, ilk videosunu üretti).
+ruleText: >
+  App Store'da yer almak dürüstlük ve müşteri güvenini korumaya bağlılık
+  gerektirir. App Store müşteri deneyiminin herhangi bir öğesini — sıralamalar,
+  arama, yorumlar veya yönlendirmeler — manipüle etmek müşteri güvenini
+  aşındırır ve buna izin verilmez.
+outcome: manual
+defaultSeverity: high
+version: 1

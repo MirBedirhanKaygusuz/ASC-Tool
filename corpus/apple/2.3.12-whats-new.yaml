@@ -1,0 +1,28 @@
+id: apple-2.3.12-whats-new
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.12"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.12
+  retrievedAt: "2026-08-21"
+tags: [metadata, whats-new]
+scope: single
+needs: [whatsNew]
+facts:
+  - "Basit hata düzeltmeleri, güvenlik güncellemeleri ve performans iyileştirmeleri için genel ifade SERBEST; kural yalnızca daha önemli değişiklikler için."
+question: >
+  "What's New" metni bu sürümdeki yeni özellikleri ve ürün değişikliklerini
+  anlatıyor mu? Metin yalnızca genel bir ifadeden ibaretse ("bug fixes and
+  improvements") ama aynı metin yeni bir özellikten söz ediyorsa ya da
+  açıklama/ekran görüntüleri yeni bir özelliği işaret ediyorsa bildir.
+  Yalnızca hata düzeltmesi içeren sürümde genel ifade kabul edilir.
+ruleText: >
+  Uygulamalar yeni özellikleri ve ürün değişikliklerini "What's New" metninde
+  açıkça anlatmalıdır. Basit hata düzeltmeleri, güvenlik güncellemeleri ve
+  performans iyileştirmeleri genel bir açıklamaya dayanabilir; daha önemli
+  değişiklikler notlarda listelenmelidir.
+positiveExample: "Various improvements. Also adds AI background removal and a new subscription tier."
+negativeExample: "Fixes a crash when opening large photos."
+outcome: risk
+defaultSeverity: low
+version: 1

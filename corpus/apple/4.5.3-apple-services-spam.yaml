@@ -1,0 +1,25 @@
+id: apple-4.5.3-apple-services-spam
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.3
+  retrievedAt: "2026-08-21"
+tags: [apple-services, checklist]
+scope: cross
+needs: []
+prefilter: ["push", "notification", "notifications", "game center", "leaderboard", "live activity"]
+question: >
+  Apple servisleri (Game Center, Push Notifications, Live Activities)
+  üzerinden istenmeyen mesaj, spam ya da oltalama gönderiliyor mu? Game
+  Center'dan elde edilen Player ID, takma ad ve diğer bilgiler ters arama,
+  izleme, ilişkilendirme, madencilik ya da başka biçimde kullanılıyor mu?
+ruleText: >
+  Apple servislerini — Game Center, Push Notifications, Live Activities vb.
+  dâhil — müşterilere spam göndermek, oltalama yapmak ya da istenmeyen mesaj
+  iletmek için kullanma. Game Center üzerinden elde edilen Player ID'leri, takma
+  adları ya da diğer bilgileri ters arama, izleme, ilişkilendirme, madencilik,
+  hasat ya da başka biçimde istismar etmeye çalışma.
+outcome: manual
+defaultSeverity: medium
+version: 1

@@ -1,0 +1,26 @@
+id: apple-5.2.4-apple-endorsement
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.2.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.2.4
+  retrievedAt: "2026-08-21"
+tags: [ip, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: ["apple", "editor's choice", "editors choice", "featured by", "approved by apple", "apple onaylı"]
+question: >
+  Metin, Apple'ın uygulamanın kaynağı/sağlayıcısı olduğunu ya da uygulamanın
+  kalitesini onayladığını ima ediyor mu ("Apple onaylı", "Apple tarafından
+  seçildi", "Editor's Choice", "Apple'ın önerdiği")? Editor's Choice rozetini
+  Apple kendisi ekler; metinde iddia edilemez. Apple'ın teknolojilerinden söz
+  etmek (ör. "HealthKit ile çalışır") ihlal değildir.
+ruleText: >
+  Apple'ın uygulamanın kaynağı ya da sağlayıcısı olduğunu, veya kalite ya da
+  işlevsellikle ilgili herhangi bir beyanı onayladığını öne sürme ya da ima etme.
+  Uygulaman "Editor's Choice" seçilirse rozeti Apple otomatik olarak uygular.
+positiveExample: "Apple-approved and featured as Editors Choice on the App Store."
+negativeExample: "Works with Apple Health and Siri Shortcuts."
+outcome: violation
+defaultSeverity: medium
+version: 1

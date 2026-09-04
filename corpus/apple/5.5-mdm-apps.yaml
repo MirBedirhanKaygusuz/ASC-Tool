@@ -1,0 +1,35 @@
+id: apple-5.5-mdm-apps
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.5
+  retrievedAt: "2026-08-21"
+tags: [mdm, privacy, legal, checklist]
+scope: cross
+needs: []
+prefilter: ["mdm", "device management", "parental control", "kiosk", "supervision", "configuration profile", "screen time"]
+question: >
+  MDM (mobil cihaz yönetimi) ya da yapılandırma profili sunuyorsan:
+  (1) Apple'dan bu yetkiyi talep ettin mi, (2) sunan taraf ticari işletme,
+  eğitim kurumu, kamu kurumu ya da sınırlı durumlarda ebeveyn kontrolü/cihaz
+  güvenliği için MDM kullanan bir şirket mi, (3) toplanacak veri ve kullanımı,
+  kullanıcı satın alma/kullanma eylemine geçmeden önce bir uygulama ekranında
+  beyan ediliyor mu, (4) veri üçüncü taraflara satılmıyor/açıklanmıyor ve bu
+  gizlilik politikasında yazılı mı, (5) üçüncü taraf analitik varsa yalnızca
+  kendi MDM uygulamanın performansına dair veri mi topluyor?
+ruleText: >
+  MDM hizmeti sunan uygulamalar bu yeteneği Apple'dan talep etmelidir. Bu
+  uygulamalar yalnızca ticari işletmeler, eğitim kurumları ya da kamu kurumları
+  tarafından ve sınırlı durumlarda ebeveyn kontrolü veya cihaz güvenliği için MDM
+  kullanan şirketler tarafından sunulabilir. Hangi kullanıcı verisinin
+  toplanacağı ve nasıl kullanılacağı, kullanıcı satın alma ya da kullanma
+  eylemine geçmeden önce bir uygulama ekranında açıkça beyan edilmelidir. MDM
+  uygulamaları hiçbir veriyi üçüncü taraflara satamaz, kullanamaz veya
+  açıklayamaz ve buna gizlilik politikalarında taahhüt etmelidir. Sınırlı
+  durumlarda, yalnızca geliştiricinin MDM uygulamasının performansına dair veri
+  toplayan üçüncü taraf analitiklere izin verilebilir. Yapılandırma profili sunan
+  uygulamalar da bu şartlara uymalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,24 @@
+id: apple-5.1.1iv-permission-respect
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama kullanıcının izin ayarlarına saygı gösteriyor mu? Gereksiz veri
+  erişimine rıza vermeye yönlendirme, kandırma ya da zorlama var mı (Apple'ın
+  örneği: sosyal ağa fotoğraf yüklemek için mikrofon izni şart koşmak)? İzin
+  vermeyen kullanıcı için alternatif sunuluyor mu (konum vermeyene adresi elle
+  yazma imkânı gibi)?
+ruleText: >
+  Uygulamalar kullanıcının izin ayarlarına saygı göstermeli ve insanları
+  gereksiz veri erişimine rıza vermeye yönlendirmeye, kandırmaya ya da zorlamaya
+  çalışmamalıdır. Mümkün olduğunda rıza vermeyen kullanıcılar için alternatif
+  çözümler sun.
+outcome: manual
+defaultSeverity: medium
+version: 1

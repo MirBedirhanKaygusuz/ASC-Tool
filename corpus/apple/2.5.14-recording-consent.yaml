@@ -1,0 +1,24 @@
+id: apple-2.5.14-recording-consent
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.14"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.14
+  retrievedAt: "2026-08-21"
+tags: [privacy, recording, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  usesCameraOrMicrophone: true
+question: >
+  Kayıt yapan uygulamada: kullanıcıdan AÇIK rıza alınıyor mu ve kayıt
+  sırasında görünür ve/veya duyulur bir gösterge var mı? Bu kural kamera,
+  mikrofon, ekran kaydı ve diğer kullanıcı girdilerinin tamamını kapsıyor.
+ruleText: >
+  Uygulamalar kullanıcı etkinliğini kaydederken, günlüklerken ya da başka
+  biçimde kayda geçirirken açık kullanıcı rızası istemeli ve net bir görsel
+  ve/veya işitsel gösterge sunmalıdır. Buna cihaz kamerası, mikrofon, ekran
+  kayıtları ve diğer kullanıcı girdileri dâhildir.
+outcome: manual
+defaultSeverity: high
+version: 1

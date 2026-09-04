@@ -1,0 +1,35 @@
+id: apple-5.1.4-kids-privacy
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.4
+  retrievedAt: "2026-08-21"
+tags: [privacy, kids, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  targetsKids: true
+question: >
+  Çocuklara yönelik uygulamada: (1) doğum tarihi ve ebeveyn iletişim bilgisi
+  yalnızca COPPA/GDPR gibi yasalara uymak için mi isteniyor ve uygulama yaştan
+  bağımsız olarak yararlı bir işlev ya da eğlence sunuyor mu, (2) üçüncü taraf
+  analitik ve reklam kaldırıldı mı (sınırlı istisnalar 1.3'teki şartlara tabi),
+  (3) çocuktan kişisel bilgi (ad, adres, e-posta, konum, fotoğraf, video, çizim,
+  sohbet imkânı, kalıcı tanımlayıcılar) toplayan ya da paylaşabilen uygulamada
+  gizlilik politikası var ve çocuk gizliliği yasalarına uyuluyor mu? Ebeveyn
+  kapısı, veri toplama için ebeveyn rızası ALMAK anlamına GELMEZ; ikisi ayrı
+  şeydir.
+ruleText: >
+  Çocuklardan kişisel veri toplarken COPPA, GDPR ve diğer geçerli yasalara
+  uyulmalıdır. Uygulamalar doğum tarihi ve ebeveyn iletişim bilgisini yalnızca bu
+  yasalara uymak için isteyebilir ve kişinin yaşından bağımsız olarak yararlı bir
+  işlev veya eğlence değeri içermelidir. Öncelikli olarak çocuklara yönelik
+  uygulamalar üçüncü taraf analitik ve üçüncü taraf reklam içermemelidir. Kids
+  Category'deki ya da bir küçükten kişisel bilgi toplayan, ileten veya paylaşma
+  kapasitesi olan uygulamalar gizlilik politikası içermeli ve geçerli çocuk
+  gizliliği yasalarına uymalıdır. Kids Category için ebeveyn kapısı şartı,
+  kişisel veri toplamak için ebeveyn rızası almakla genellikle aynı şey değildir.
+outcome: manual
+defaultSeverity: high
+version: 1

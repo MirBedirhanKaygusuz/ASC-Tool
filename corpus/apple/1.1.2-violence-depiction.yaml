@@ -1,0 +1,27 @@
+id: apple-1.1.2-violence-depiction
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.2
+  retrievedAt: "2026-08-21"
+tags: [safety, content, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: [kill, killing, murder, torture, abuse, gore, blood, brutal, execution, shoot, shooting, violence, violent]
+question: >
+  Metin, insanların ya da hayvanların öldürülmesini, sakat bırakılmasını,
+  işkence görmesini gerçekçi biçimde anlatıyor ya da şiddeti özendiriyor mu?
+  Oyunlarda "düşman" yalnızca belirli bir ırk, kültür, gerçek bir devlet ya da
+  gerçek bir kurum olarak tarif ediliyorsa bunu da bildir. Soyut oyun şiddeti
+  (ör. "uzaylılarla savaş") tek başına ihlal değildir.
+ruleText: >
+  İnsanların veya hayvanların öldürülmesinin, sakat bırakılmasının, işkence
+  görmesinin gerçekçi tasvirleri ve şiddeti özendiren içerik yasaktır. Oyun
+  içindeki "düşmanlar" yalnızca belirli bir ırkı, kültürü, gerçek bir hükümeti
+  ya da gerçek bir kurumu hedef alamaz.
+positiveExample: "Torture your enemies in realistic detail and watch them bleed out."
+negativeExample: "Fast-paced arcade shooter with cartoon aliens and power-ups."
+outcome: risk
+defaultSeverity: high
+version: 1

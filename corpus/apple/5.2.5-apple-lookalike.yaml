@@ -1,0 +1,27 @@
+id: apple-5.2.5-apple-lookalike
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.2.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.2.5
+  retrievedAt: "2026-08-21"
+tags: [ip, design, vision]
+scope: cross
+needs: [icon, screenshots, name]
+requiresVision: true
+question: >
+  Simge, ekran görüntüleri ya da ad, mevcut bir Apple ürününe, arayüzüne
+  (Finder gibi), uygulamasına (App Store, iTunes Store, Mesajlar gibi) ya da
+  reklam temasına kafa karıştıracak kadar benziyor mu? Ayrıca Activity
+  halkalarına benzeyen bir görselleştirme varsa bildir.
+ruleText: >
+  Mevcut bir Apple ürününe, arayüzüne (ör. Finder), uygulamasına (App Store,
+  iTunes Store ya da Mesajlar gibi) veya reklam temasına kafa karıştıracak kadar
+  benzeyen bir uygulama oluşturma. Uygulaman Activity halkalarını gösteriyorsa,
+  Move, Exercise veya Stand verisini Activity kontrolüne benzeyen biçimde
+  görselleştirmemelidir.
+positiveExample: "Simge, App Store logosunun renkleri ve şekliyle neredeyse aynı."
+negativeExample: "Simge, uygulamanın kendi markasına ait özgün bir sembol."
+outcome: risk
+defaultSeverity: medium
+version: 1

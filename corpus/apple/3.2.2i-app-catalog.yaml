@@ -1,0 +1,26 @@
+id: apple-3.2.2i-app-catalog
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, checklist]
+scope: cross
+needs: []
+prefilter: ["app store", "best apps", "app collection", "app directory", "top apps", "app catalog"]
+question: >
+  Uygulama, üçüncü taraf uygulamaları, uzantıları ya da eklentileri App Store
+  benzeri bir arayüzde veya genel amaçlı bir koleksiyon olarak gösteriyor mu?
+  Bu yasak. Belirli ve onaylı bir ihtiyaca yönelik (sağlık yönetimi, havacılık,
+  erişilebilirlik) ve güçlü editoryal içerik sunan derlemeler 3.2.1(ii)
+  kapsamında kabul edilebilir — uygulama hangisi?
+ruleText: >
+  Üçüncü taraf uygulamaları, uzantıları ya da eklentileri App Store'a benzer
+  biçimde veya genel amaçlı bir koleksiyon olarak gösteren bir arayüz oluşturmak
+  kabul edilemez. Belirli ve onaylı bir ihtiyaca yönelik üçüncü taraf uygulama
+  derlemeleri, uygulaman sırf bir vitrin gibi görünmeyecek kadar güçlü editoryal
+  içerik sunuyorsa kabul edilebilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

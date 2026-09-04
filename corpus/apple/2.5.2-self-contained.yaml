@@ -1,0 +1,27 @@
+id: apple-2.5.2-self-contained
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.2
+  retrievedAt: "2026-08-21"
+tags: [software, checklist]
+scope: cross
+needs: []
+question: >
+  Uygulama kendi paketinde kendine yeten bir bütün mü? Ayrılmış konteyner
+  alanının dışına veri yazıyor ya da oradan okuyor mu? Uygulamanın (ya da
+  başka uygulamaların) özelliklerini değiştiren veya ekleyen kod indiriyor,
+  kuruyor veya çalıştırıyor mu? Eğitim amaçlı kod çalıştıran uygulamalarda
+  kaynak kod kullanıcı tarafından görülebilir ve düzenlenebilir mi?
+ruleText: >
+  Uygulamalar kendi paketlerinde kendine yeten olmalı, ayrılmış konteyner
+  alanının dışına veri okuyup yazmamalı ve uygulamanın (ya da diğer
+  uygulamaların) özelliklerini ve işlevlerini değiştiren kod indirmemeli,
+  kurmamalı veya çalıştırmamalıdır. Öğrencilerin kod yazıp denemesini sağlayan
+  eğitim uygulamaları sınırlı durumlarda kod indirebilir; bu kod başka amaçla
+  kullanılmamalı ve kaynak kod kullanıcıya tamamen görünür ve düzenlenebilir
+  olmalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

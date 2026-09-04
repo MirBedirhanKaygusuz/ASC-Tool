@@ -1,0 +1,24 @@
+id: apple-1.1.7-current-events
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.7
+  retrievedAt: "2026-08-21"
+tags: [safety, content, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, whatsNew]
+prefilter: [war, earthquake, pandemic, covid, outbreak, epidemic, terror, attack, crisis, disaster, refugee, hurricane]
+question: >
+  Metin, güncel ya da yakın geçmişteki bir felaketten, çatışmadan, terör
+  saldırısından veya salgından kazanç sağlamayı öneriyor mu? Yardım toplamak
+  ya da doğru bilgi vermek ihlal değildir; ihlal, olayın kendisini pazarlama
+  ya da gelir kancası olarak kullanmaktır.
+ruleText: >
+  Yakın geçmişteki veya güncel olaylardan — şiddetli çatışmalar, terör
+  saldırıları, salgınlar — kazanç sağlamayı amaçlayan zararlı içerik yasaktır.
+positiveExample: "Cash in on the outbreak — premium panic maps, only this week!"
+negativeExample: "Official public health updates and vaccination site finder."
+outcome: risk
+defaultSeverity: medium
+version: 1

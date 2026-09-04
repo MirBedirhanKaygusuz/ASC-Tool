@@ -1,0 +1,22 @@
+id: apple-4.5.5-game-center-ids
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.5
+  retrievedAt: "2026-08-21"
+tags: [apple-services, checklist]
+scope: cross
+needs: []
+prefilter: ["game center", "player id", "leaderboard", "achievements", "multiplayer"]
+question: >
+  Game Center Player ID'leri yalnızca Game Center şartlarının onayladığı
+  biçimde mi kullanılıyor? Uygulamada ya da üçüncü taraflara gösteriliyor mu
+  (gösterilmemeli)?
+ruleText: >
+  Game Center Player ID'lerini yalnızca Game Center şartlarının onayladığı
+  biçimde kullan ve bunları uygulamada ya da herhangi bir üçüncü tarafa
+  gösterme.
+outcome: manual
+defaultSeverity: low
+version: 1

@@ -1,0 +1,26 @@
+id: apple-3.1.3d-person-to-person
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.3(d)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.3(d)
+  retrievedAt: "2026-08-21"
+tags: [payments, checklist]
+scope: cross
+needs: []
+prefilter: ["tutor", "tutoring", "consultation", "coaching", "lesson", "training", "session", "appointment", "booking", "therapist"]
+question: >
+  Uygulama iki kişi arasında GERÇEK ZAMANLI birebir hizmet satışı sağlıyorsa
+  (özel ders, tıbbi danışma, emlak turu, kişisel antrenman) uygulama içi satın
+  alma dışında ödeme alabilirsin. Ancak bire-birkaç ya da bire-çok gerçek zamanlı
+  hizmetler (grup dersi, webinar) uygulama içi satın alma kullanmak zorunda —
+  uygulamadaki hizmet hangisi?
+ruleText: >
+  Uygulaman iki birey arasında gerçek zamanlı, kişiden kişiye hizmet satın
+  alınmasını sağlıyorsa (öğrenciye özel ders, tıbbi danışma, emlak turu, kişisel
+  antrenman) bu ödemeleri toplamak için uygulama içi satın alma dışındaki ödeme
+  yöntemlerini kullanabilirsin. Bire-birkaç ve bire-çok gerçek zamanlı hizmetler
+  uygulama içi satın alma kullanmalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

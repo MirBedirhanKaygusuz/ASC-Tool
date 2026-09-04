@@ -1,0 +1,22 @@
+id: apple-3.1.2b-upgrade-downgrade
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.2(b)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.2(b)
+  retrievedAt: "2026-08-21"
+tags: [subscriptions, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasSubscription: true
+question: >
+  Kullanıcı abonelik yükseltme ve düşürme işlemini sorunsuz yapabiliyor mu?
+  Aynı şeyin farklı varyasyonlarına yanlışlıkla aynı anda abone olmak mümkün mü
+  (ör. hem aylık hem yıllık plana birden)?
+ruleText: >
+  Kullanıcılar sorunsuz bir yükseltme/düşürme deneyimi yaşamalı ve aynı şeyin
+  birden fazla varyasyonuna yanlışlıkla abone olamamalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

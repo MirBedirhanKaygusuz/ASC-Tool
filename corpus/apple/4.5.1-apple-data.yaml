@@ -1,0 +1,23 @@
+id: apple-4.5.1-apple-data
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.5.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.5.1
+  retrievedAt: "2026-08-21"
+tags: [apple-services, checklist]
+scope: cross
+needs: []
+prefilter: ["app store", "itunes", "ranking", "rankings", "chart", "charts", "top apps", "aso", "app analytics"]
+question: >
+  Uygulama Apple sitelerinden (apple.com, iTunes Store, App Store, App Store
+  Connect, developer portalı) veri kazıyor ya da bu bilgilerle sıralama
+  üretiyor mu? Onaylı Apple RSS akışlarını kullanmak serbest.
+ruleText: >
+  Uygulamalar iTunes Store RSS akışı gibi onaylı Apple RSS akışlarını
+  kullanabilir ancak Apple sitelerinden (apple.com, iTunes Store, App Store,
+  App Store Connect, developer portalı vb.) bilgi kazıyamaz ve bu bilgilerle
+  sıralama oluşturamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

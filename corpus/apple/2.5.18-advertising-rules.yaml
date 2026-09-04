@@ -1,0 +1,37 @@
+id: apple-2.5.18-advertising-rules
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.18"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.18
+  retrievedAt: "2026-08-21"
+tags: [ads, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  showsAds: true
+question: >
+  Reklam gösteren uygulamada: (1) reklamlar yalnızca ana binary'de mi (uzantı,
+  App Clip, widget, bildirim, klavye, watchOS uygulamasında reklam yok),
+  (2) reklamlar uygulamanın yaş sınırına uygun mu, (3) kullanıcı, kendisini
+  hedeflemek için kullanılan bilgilerin tamamını uygulamadan ÇIKMADAN
+  görebiliyor mu, (4) sağlık/HealthKit, okul/ClassKit ya da çocuk verisi gibi
+  hassas veriyle hedefleme yapılmıyor, değil mi, (5) geçiş reklamları reklam
+  olduğunu açıkça belli ediyor, kolayca kapatılabiliyor ve kullanıcıyı
+  tıklamaya kandırmıyor mu, (6) uygunsuz veya yaşa uygun olmayan reklamı
+  şikayet etme yolu var mı?
+ruleText: >
+  Reklam gösterimi ana uygulama binary'siyle sınırlı olmalıdır; uzantı,
+  App Clip, widget, bildirim, klavye ve watchOS uygulamalarında reklam
+  gösterilemez. Reklamlar uygulamanın yaş sınırına uygun olmalı, kullanıcının
+  hedefleme için kullanılan tüm bilgileri uygulamadan çıkmadan görmesine izin
+  vermeli ve sağlık/tıbbi veri, okul verisi ya da çocuklardan elde edilen veri
+  gibi hassas verilere dayalı hedefli veya davranışsal reklamcılık
+  yapmamalıdır. Kullanıcı deneyimini kesen ya da engelleyen reklamlar reklam
+  olduklarını açıkça belirtmeli, kullanıcıyı kandırmamalı ve kolayca
+  görülebilen, yeterince büyük bir kapatma düğmesi sunmalıdır. Reklam içeren
+  uygulamalar, kullanıcıların uygunsuz ya da yaşa uygun olmayan reklamları
+  bildirebilmesini de sağlamalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

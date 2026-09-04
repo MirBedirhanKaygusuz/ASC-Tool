@@ -1,0 +1,22 @@
+id: apple-2.4.3-tv-and-controllers
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.4.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.4.3
+  retrievedAt: "2026-08-21"
+tags: [hardware, checklist]
+scope: cross
+needs: []
+prefilter: ["apple tv", "tvos", "game controller", "gamepad", "controller"]
+question: >
+  Apple TV uygulaması Siri Remote ya da üçüncü taraf oyun kumandası dışında
+  bir donanım gerektirmeden kullanılabiliyor mu? Oyun kumandası ZORUNLU ise
+  bu, kullanıcı satın almadan önce metadata'da açıkça yazıyor mu?
+ruleText: >
+  İnsanlar Apple TV uygulamanı Siri Remote ya da üçüncü taraf oyun
+  kumandaları dışında bir donanım girişine ihtiyaç duymadan kullanabilmelidir.
+  Oyun kumandası şart koşuyorsan bunu metadata'da açıkça anlat.
+outcome: manual
+defaultSeverity: medium
+version: 1

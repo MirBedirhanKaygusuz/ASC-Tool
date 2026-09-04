@@ -1,0 +1,25 @@
+id: apple-3.2.2viii-binary-options
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, finance]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: ["binary option", "binary options", "cfd", "forex", "derivative", "leverage", "expiry", "trading signals"]
+question: >
+  Uygulama ikili opsiyon (binary options) işlemi sunuyor mu? Bu App Store'da
+  tamamen yasak. CFD ya da FOREX gibi türev işlemleri sunuyorsa, hizmetin
+  verildiği tüm yargı alanlarında lisanslı olduğunu gösteren bir ifade var mı?
+ruleText: >
+  İkili opsiyon işlemlerini kolaylaştıran uygulamalara App Store'da izin
+  verilmez. Fark sözleşmeleri (CFD) ya da FOREX gibi diğer türevlerde işlem
+  yapılmasını sağlayan uygulamalar, hizmetin sunulduğu tüm yargı alanlarında
+  uygun lisansa sahip olmalıdır.
+positiveExample: "Trade binary options with 60-second expiry and earn up to 90% profit."
+negativeExample: "Track your stock portfolio and set price alerts. No trading in the app."
+outcome: violation
+defaultSeverity: high
+version: 1

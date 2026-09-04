@@ -1,0 +1,23 @@
+id: apple-4.7.5-hosted-age-restriction
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7.5
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, age-rating, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Kullanıcı, uygulamanın yaş sınırını AŞAN yazılımı ayırt edebiliyor mu?
+  Doğrulanmış ya da beyan edilmiş yaşa dayalı bir yaş kısıtlama mekanizmasıyla
+  küçüklerin erişimi sınırlanıyor mu?
+ruleText: >
+  Uygulaman, kullanıcıların uygulamanın yaş sınırını aşan yazılımı ayırt
+  etmesini sağlamalı ve doğrulanmış ya da beyan edilmiş yaşa dayalı bir yaş
+  kısıtlama mekanizmasıyla küçüklerin erişimini sınırlamalıdır.
+outcome: manual
+defaultSeverity: high
+version: 1

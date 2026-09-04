@@ -1,0 +1,26 @@
+id: apple-3.1.3g-advertising-management
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.3(g)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.3(g)
+  retrievedAt: "2026-08-21"
+tags: [payments, ads, checklist]
+scope: cross
+needs: []
+prefilter: ["advertiser", "advertisers", "campaign", "ad manager", "boost", "promote your post"]
+question: >
+  Uygulama yalnızca reklam verenlerin kampanya satın alıp yönetmesi için mi?
+  Öyleyse uygulama içi satın alma gerekmez — ama uygulama reklamların KENDİSİNİ
+  göstermemeli. Aynı uygulama içinde tüketilecek dijital satın almalar (ör.
+  sosyal uygulamada gönderi "boost"u) uygulama içi satın alma kullanmak zorunda.
+ruleText: >
+  Yalnızca reklam verenlerin çeşitli mecralarda reklam kampanyası satın alıp
+  yönetmesini sağlayan uygulamalar uygulama içi satın alma kullanmak zorunda
+  değildir. Bu uygulamalar kampanya yönetimi içindir ve reklamların kendisini
+  göstermez. Bir uygulamada deneyimlenen ya da tüketilen içerik için yapılan
+  dijital satın almalar — aynı uygulamada gösterilecek reklam satın almak, ör.
+  gönderi "boost"ları dâhil — uygulama içi satın alma kullanmalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

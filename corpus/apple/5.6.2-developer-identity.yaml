@@ -1,0 +1,23 @@
+id: apple-5.6.2-developer-identity
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.6.2
+  retrievedAt: "2026-08-21"
+tags: [conduct, identity, checklist]
+scope: cross
+needs: []
+question: >
+  App Store'da görünen kimlik bilgileri doğru mu: satıcı adı, geliştirici adı,
+  iletişim bilgisi ve uygulamanın sunduğu şeye dair beyanlar? Bilgiler güncel mi
+  ve Apple ile müşteriler kiminle muhatap olduklarını anlayabiliyor mu?
+ruleText: >
+  Apple'a ve müşterilere doğrulanabilir bilgi sunmak müşteri güveni için
+  kritiktir. Kendini, işletmeni ve sunduklarını App Store'da ya da alternatif
+  dağıtımda doğru temsil etmelisin. Verdiğin bilgi doğru, ilgili ve güncel
+  olmalıdır; böylece Apple ve müşteriler kiminle muhatap olduklarını anlar ve
+  sorun hâlinde sana ulaşabilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

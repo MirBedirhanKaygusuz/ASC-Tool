@@ -1,0 +1,25 @@
+id: apple-3.1.1-loot-box-odds
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, disclosure]
+scope: single
+needs: [description, iap, promotionalText]
+prefilter: ["loot box", "lootbox", "gacha", "mystery box", "random item", "chest", "crate", "summon", "draw"]
+question: >
+  Uygulama, satın alınabilen rastgele sanal öğeler sunuyor mu (loot box,
+  gacha, sürpriz kutu, sandık)? Sunuyorsa her öğe türünün çıkma OLASILIĞI
+  satın almadan önce açıklanıyor mu? Rastgele ödül vaadi var ama olasılık
+  bilgisi yoksa bildir. Ücretsiz günlük ödül çarkı bu maddenin konusu değildir.
+ruleText: >
+  "Loot box" ya da satın alma karşılığında rastgele sanal öğe veren diğer
+  mekanizmaları sunan uygulamalar, her öğe türünün elde edilme olasılığını
+  satın alma öncesinde müşterilere açıklamak zorundadır.
+positiveExample: "Buy a Mystery Chest and get a random legendary skin!"
+negativeExample: "Mystery Chest odds: legendary 2%, epic 8%, rare 30%, common 60%."
+outcome: violation
+defaultSeverity: high
+version: 1

@@ -1,0 +1,27 @@
+id: apple-3.1.1-digital-gift-cards
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments]
+scope: single
+needs: [description, iap, promotionalText]
+prefilter: ["gift card", "giftcard", "voucher", "coupon", "certificate", "hediye kart"]
+question: >
+  Uygulama dijital hediye kartı, sertifika, kupon ya da bilet satıyor mu?
+  Dijital mal veya hizmete çevrilebilen bunlar YALNIZCA uygulama içi satın alma
+  ile satılabilir. Fiziksel olarak postalanan hediye kartları başka ödeme
+  yöntemleri kullanabilir — metinden hangisi olduğu anlaşılıyor mu?
+ruleText: >
+  Dijital mal veya hizmetlere çevrilebilen dijital hediye kartları,
+  sertifikalar, kuponlar ve indirim kuponları uygulamanda yalnızca uygulama içi
+  satın alma ile satılabilir. Uygulama içinde satılıp müşterilere posta ile
+  gönderilen fiziksel hediye kartları uygulama içi satın alma dışındaki ödeme
+  yöntemlerini kullanabilir.
+positiveExample: "Buy a digital gift card with your credit card and send it instantly."
+negativeExample: "Order a physical gift card; we mail it to any address."
+outcome: risk
+defaultSeverity: high
+version: 1

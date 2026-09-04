@@ -1,0 +1,30 @@
+id: apple-2.1-demo-access
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.1
+  retrievedAt: "2026-08-21"
+tags: [review-notes, login, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  requiresLogin: true
+facts:
+  - "Demo hesabın VAR olması yetmiyor: Apple “arka uç servisini açık tut” diyor — reviewer denediğinde giriş gerçekten çalışmalı."
+  - "Hesap veremiyorsan alternatif, Apple’ın ÖNCEDEN onayladığı gömülü bir demo modudur ve uygulamanın tüm özelliklerini göstermek zorundadır."
+question: >
+  Giriş gerektiren uygulamada: (1) verilen demo hesapla ŞU AN giriş yapılabiliyor
+  mu (kendin dene), (2) arka uç servisleri inceleme boyunca açık ve erişilebilir
+  mi, (3) hesap veremiyorsan Apple'ın önceden onayladığı, tüm özellikleri
+  gösteren bir demo modu var mı, (4) inceleme için gereken diğer kaynaklar
+  (donanım, örnek QR kod, davet kodu) notlara eklendi mi?
+ruleText: >
+  Uygulaman giriş içeriyorsa demo hesap bilgisi ver ve arka uç servisini açık
+  tut. Yasal ya da güvenlik yükümlülükleri nedeniyle demo hesap veremiyorsan,
+  Apple'ın önceden onayıyla demo hesap yerine gömülü bir demo modu
+  sunabilirsin; bu modun uygulamanın tüm özelliklerini ve işlevselliğini
+  göstermesi gerekir.
+outcome: manual
+defaultSeverity: high
+version: 1

@@ -1,0 +1,20 @@
+id: apple-5.3.1-sweepstakes-sponsor
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.3.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.3.1
+  retrievedAt: "2026-08-21"
+tags: [gambling, contests, checklist]
+scope: cross
+needs: []
+prefilter: ["sweepstake", "sweepstakes", "contest", "raffle", "giveaway", "prize", "çekiliş", "yarışma"]
+question: >
+  Uygulamada çekiliş ya da yarışma varsa, sponsoru uygulamanın GELİŞTİRİCİSİ
+  mi? Üçüncü bir tarafın sponsor olduğu çekilişler bu maddeye takılır.
+ruleText: >
+  Çekilişler ve yarışmalar uygulamanın geliştiricisi tarafından sponsor
+  edilmelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

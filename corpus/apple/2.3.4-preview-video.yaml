@@ -1,0 +1,28 @@
+id: apple-2.3.4-preview-video
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.4
+  retrievedAt: "2026-08-21"
+tags: [metadata, media, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasPreviewVideo: true
+facts:
+  - "Önizleme videosu bu boru hattında İZLENEMİYOR: elimizde yalnızca dosya adresi var. Bu yüzden kart modele değil insana gidiyor."
+question: >
+  Önizleme videosu yalnızca uygulamanın KENDİ ekran kaydından mı oluşuyor?
+  Dışarıdan çekilmiş sahneler, animasyon, render, stok görüntü ya da kamerayla
+  çekilmiş kullanım videosu varsa bu ihlaldir. Anlatım (voice-over), altyazı ve
+  metin/görsel bindirmeleri serbesttir. Sticker ve iMessage uzantıları
+  deneyimi Mesajlar uygulamasında gösterebilir.
+ruleText: >
+  Önizlemeler yalnızca uygulamanın kendi ekran kayıtlarını kullanabilir.
+  Sticker ve iMessage uzantıları kullanıcı deneyimini Mesajlar uygulamasında
+  gösterebilir. Videodan anlaşılmayan noktaları açıklamak için anlatım, video
+  ya da metin bindirmesi eklenebilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

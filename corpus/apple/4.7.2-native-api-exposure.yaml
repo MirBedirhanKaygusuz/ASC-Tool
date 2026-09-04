@@ -1,0 +1,22 @@
+id: apple-4.7.2-native-api-exposure
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7.2
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Uygulama, barındırdığı yazılımlara yerel platform API'lerini ya da
+  teknolojilerini açıyor veya genişletiyor mu? Bu, Apple'ın önceden izni olmadan
+  yasak.
+ruleText: >
+  Uygulaman, Apple'ın önceden izni olmadan yerel platform API'lerini ya da
+  teknolojilerini barındırdığı yazılımlara açamaz veya genişletemez.
+outcome: manual
+defaultSeverity: medium
+version: 1

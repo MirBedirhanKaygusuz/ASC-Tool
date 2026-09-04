@@ -1,0 +1,26 @@
+id: apple-3.1.1-unlock-outside-iap
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  unlocksContentWithoutIap: true
+question: >
+  İçerik ya da işlev, uygulama içi satın alma DIŞINDA bir mekanizmayla
+  açılıyor mu: lisans anahtarı, promosyon kodu, QR kod, AR işareti, kripto para
+  ya da kripto cüzdan? Böyle bir yol varsa Apple bunu doğrudan yasaklıyor.
+  (Donanıma bağlı açılan işlevler 3.1.4'ün ayrı istisnası; kurumsal ve reader
+  istisnaları 3.1.3'te.)
+ruleText: >
+  Uygulama içindeki özellikleri ya da işlevleri açmak istiyorsan uygulama içi
+  satın alma kullanmak zorundasın. Uygulamalar içerik ya da işlev açmak için
+  lisans anahtarı, artırılmış gerçeklik işareti, QR kod, kripto paralar ve
+  kripto cüzdanları gibi kendi mekanizmalarını kullanamaz.
+outcome: manual
+defaultSeverity: high
+version: 1

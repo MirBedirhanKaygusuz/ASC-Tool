@@ -1,0 +1,26 @@
+id: apple-1.4.2-drug-dosage
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.2
+  retrievedAt: "2026-08-21"
+tags: [health, safety, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: [dosage, dose, dosing, mg/kg, posology, drug calculator, medication calculator, insulin]
+question: >
+  Metin, ilaç dozu hesaplayan bir işlev sunduğunu söylüyor mu? Söylüyorsa,
+  uygulamanın ilaç üreticisi, hastane, üniversite, sigorta şirketi, eczane ya
+  da onaylı bir kurum tarafından sunulduğu veya düzenleyici onay aldığı metinde
+  belli oluyor mu? Yalnızca ilaç hatırlatıcısı olmak ihlal değildir; ihlal, doz
+  HESAPLAYAN bir işlevin dayanağının belirsiz olmasıdır.
+ruleText: >
+  İlaç dozu hesaplayıcıları; ilaç üreticisinden, bir hastaneden,
+  üniversiteden, sağlık sigortası şirketinden, eczaneden veya onaylı başka bir
+  kurumdan gelmeli, ya da FDA veya muadili bir kurumun onayını almalıdır.
+positiveExample: "Instantly calculate pediatric drug dosages for any medication."
+negativeExample: "Set reminders for the medications your doctor prescribed."
+outcome: risk
+defaultSeverity: high
+version: 1

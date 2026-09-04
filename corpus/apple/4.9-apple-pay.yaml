@@ -1,0 +1,27 @@
+id: apple-4.9-apple-pay
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.9"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.9
+  retrievedAt: "2026-08-21"
+tags: [payments, checklist]
+scope: cross
+needs: []
+prefilter: ["apple pay", "recurring", "subscription", "auto-renew", "membership"]
+question: >
+  Apple Pay kullanılıyorsa: (1) satıştan önce tüm önemli satın alma bilgisi
+  kullanıcıya veriliyor mu, (2) Apple Pay markası ve arayüz öğeleri kurallara
+  uygun kullanılıyor mu, (3) yinelenen ödeme varsa şunlar açıklanıyor mu:
+  yenileme dönemi ve iptal edilene kadar süreceği, her dönemde ne verileceği,
+  müşteriden tahsil edilecek gerçek tutar ve nasıl iptal edileceği?
+ruleText: >
+  Apple Pay kullanan uygulamalar, herhangi bir mal veya hizmetin satışından
+  önce tüm önemli satın alma bilgilerini kullanıcıya sunmalı ve Apple Pay
+  markasıyla arayüz öğelerini doğru kullanmalıdır. Apple Pay ile yinelenen ödeme
+  sunan uygulamalar en azından şunları açıklamalıdır: yenileme döneminin uzunluğu
+  ve iptal edilene kadar devam edeceği, her dönemde ne sağlanacağı, müşteriden
+  tahsil edilecek gerçek ücretler ve nasıl iptal edileceği.
+outcome: manual
+defaultSeverity: medium
+version: 1

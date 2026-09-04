@@ -22,8 +22,15 @@ question: >
   (2) o dönemin fiyatı,
   (3) otomatik yenileneceği,
   (4) kullanım şartları ve gizlilik politikası erişimi.
-  Eksik olan her maddeyi ayrı ayrı belirt. Ayrıca metinde/görselde geçen
-  fiyat ile verilen abonelik paketlerinin fiyatı çelişiyorsa onu da bildir.
+
+  TEK BULGU ÜRET. Eksik olan maddeleri o tek bulgunun gerekçesinde
+  say ("dönem ve fiyat yazılmamış, otomatik yenileme belirtilmemiş").
+  ÜRÜN BAŞINA AYRI BULGU ÜRETME: eksiklik listing metnindedir, ürünlerde
+  değil. Sekiz abonelik için sekiz bulgu yazmak tek sorunu sekiz kez
+  saydırır, raporu okunmaz yapar ve düzeltilecek şey yine tek bir metindir.
+
+  Ayrı bir bulgu YALNIZCA şunun için üretilir: metinde/görselde geçen bir
+  fiyat, verilen abonelik paketlerinin fiyatıyla ÇELİŞİYORSA.
 
 ruleText: >
   Otomatik yenilenen abonelik satan uygulamalar; abonelik süresini, dönem
@@ -36,4 +43,4 @@ negativeExample: "Glamio Pro — $9.99/week, auto-renews weekly. Cancel anytime 
 
 outcome: violation
 defaultSeverity: high
-version: 1
+version: 2

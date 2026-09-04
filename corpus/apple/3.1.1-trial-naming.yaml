@@ -1,0 +1,30 @@
+id: apple-3.1.1-trial-naming
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, trial]
+scope: single
+needs: [iap]
+appliesWhen:
+  hasIap: true
+question: >
+  Abonelik olmayan bir deneme süresi sunuluyorsa, bunun için kullanılan
+  tüketilemez (non-consumable) ürünün adı Apple'ın istediği kalıba uyuyor mu:
+  "XX-day Trial" (ör. "14-day Trial") ve fiyatı 0 mı? Ürün adı deneme olduğunu
+  söylüyor ama kalıba uymuyorsa ya da fiyatı sıfır değilse bildir. Abonelik
+  ürünlerindeki ücretsiz deneme bu maddenin konusu değildir.
+ruleText: >
+  Abonelik olmayan uygulamalar, tam sürüm kilidini açmadan önce zamana dayalı
+  ücretsiz deneme sunabilir; bunun için Fiyat Katmanı 0 olan ve "XX-day Trial"
+  adlandırma kuralına uyan bir tüketilemez uygulama içi satın alma öğesi
+  tanımlanmalıdır. Deneme başlamadan önce uygulaman süresini, deneme bittiğinde
+  erişilemeyecek içerik veya hizmetleri ve tam işlevsellik için ödenecek
+  ücretleri açıkça belirtmelidir.
+positiveExample: "IAP: id=trial_pack [non_consumable] “Free Trial Unlock” — 4.99 USD"
+negativeExample: "IAP: id=trial_14 [non_consumable] “14-day Trial” — 0 USD"
+outcome: risk
+defaultSeverity: medium
+version: 1

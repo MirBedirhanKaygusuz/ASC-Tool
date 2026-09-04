@@ -1,0 +1,24 @@
+id: apple-1.5-developer-contact
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.5
+  retrievedAt: "2026-08-21"
+tags: [support, contact, checklist]
+scope: cross
+needs: []
+question: >
+  Kullanıcı sana nasıl ulaşacak? (1) Uygulamanın İÇİNDE kolay bir iletişim yolu
+  var mı, (2) Support URL gerçekten iletişim imkânı sunan bir sayfaya mı
+  gidiyor (yalnızca pazarlama ana sayfası yeterli değil), (3) bilgiler güncel
+  mi? Wallet pass üretiyorsan geçerli iletişim bilgisi ve markaya atanmış
+  sertifika ile imza şartı da geçerli.
+ruleText: >
+  Uygulamanın kendisi ve Support URL'i sana ulaşmanın kolay bir yolunu
+  içermelidir; bu özellikle sınıfta kullanılabilecek uygulamalar için
+  önemlidir. Güncel ve doğru iletişim bilgisi vermemek kullanıcıyı mağdur eder
+  ve bazı ülkelerde yasaya aykırı olabilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

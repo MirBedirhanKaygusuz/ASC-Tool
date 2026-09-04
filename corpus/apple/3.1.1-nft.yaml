@@ -1,0 +1,28 @@
+id: apple-3.1.1-nft
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.1
+  retrievedAt: "2026-08-21"
+tags: [iap, payments, crypto, checklist]
+scope: cross
+needs: []
+prefilter: ["nft", "mint", "opensea", "web3", "blockchain", "token"]
+question: >
+  NFT ile ilgili işlev varsa: (1) NFT satışı, listeleme, transfer gibi
+  hizmetler uygulama içi satın alma ile mi yapılıyor, (2) NFT SAHİPLİĞİ
+  uygulamada bir özellik ya da işlev açıyor mu (açmamalı), (3) başkalarının
+  koleksiyonlarına göz attıran ekranlarda — ABD vitrini dışında — IAP dışı
+  satın almaya yönlendiren düğme, bağlantı ya da çağrı var mı?
+ruleText: >
+  Uygulamalar NFT'lerle ilgili hizmetleri (basma, listeleme, transfer) satmak
+  için uygulama içi satın alma kullanabilir. Kullanıcıların kendi NFT'lerini
+  görüntülemesine izin verilebilir, ancak NFT sahipliği uygulamada özellik ya da
+  işlev açamaz. Başkalarının NFT koleksiyonlarına göz atılmasına izin verilebilir;
+  ancak ABD vitrini dışındaki uygulamalarda, müşterileri uygulama içi satın alma
+  dışındaki satın alma mekanizmalarına yönlendiren düğme, dış bağlantı ya da
+  çağrı bulunamaz.
+outcome: manual
+defaultSeverity: high
+version: 1

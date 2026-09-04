@@ -1,0 +1,25 @@
+id: apple-1.1.1-offensive-content
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.1
+  retrievedAt: "2026-08-21"
+tags: [safety, content, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, whatsNew, keywords]
+question: >
+  Metinde bir gruba ya da kişiye yönelik aşağılayıcı, ayrımcı ya da kötü niyetli
+  bir ifade var mı? Din, ırk, cinsel yönelim, cinsiyet, etnik köken ya da başka
+  hedef grup üzerinden aşağılama, korkutma veya zarar verme ihtimali taşıyan
+  ifadeleri bildir. Sert mizah tek başına ihlal değildir; ihlal, hedef alınan
+  grubu küçük düşüren ifadedir.
+ruleText: >
+  Uygulamalar; iftira niteliğinde, ayrımcı ya da kötü niyetli içerik
+  barındıramaz. Özellikle hedef alınan bir kişiyi veya grubu küçük düşürme,
+  korkutma ya da ona zarar verme ihtimali olan içerik reddedilir.
+positiveExample: "The only app that keeps those people out of your neighborhood."
+negativeExample: "A community app for neighbors to share local news and events."
+outcome: risk
+defaultSeverity: high
+version: 1

@@ -1,0 +1,25 @@
+id: apple-3.2.1vii-personal-gifts
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.1
+  retrievedAt: "2026-08-21"
+tags: [business, payments, checklist]
+scope: cross
+needs: []
+prefilter: ["tip", "tips", "tipping", "gift", "send money", "support the creator", "bahşiş"]
+question: >
+  Kullanıcıların birbirine para hediye etmesi ya da bahşiş göndermesi varsa:
+  (1) hediye tamamen gönderenin isteğine mi bağlı, (2) paranın %100'ü alıcıya mı
+  gidiyor? Hediye herhangi bir anda dijital içerik veya hizmet almaya
+  bağlanıyorsa uygulama içi satın alma kullanmak ZORUNLU.
+ruleText: >
+  Uygulamalar, bireysel kullanıcıların başka bir bireye uygulama içi satın alma
+  kullanmadan parasal hediye vermesini sağlayabilir; yeter ki (a) hediye tamamen
+  verenin isteğine bağlı bir seçim olsun ve (b) fonların %100'ü hediyenin alıcısına
+  gitsin. Ancak herhangi bir anda dijital içerik veya hizmet almaya bağlanan bir
+  hediye uygulama içi satın alma kullanmalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

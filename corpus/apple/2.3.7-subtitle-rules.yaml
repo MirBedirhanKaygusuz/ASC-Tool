@@ -1,0 +1,44 @@
+id: apple-2.3.7-subtitle-rules
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.7
+  retrievedAt: "2026-08-21"
+tags: [metadata, subtitle]
+scope: single
+needs: [subtitle, name]
+facts:
+  - "Apple metadata’nın TÜRÜNE özgü olmayan bilgiyi yasaklıyor: fiyat, kampanya koşulu ve şart ifadeleri ada, altyazıya, ekran görüntülerine ve önizlemelere giremez."
+  - "Altyazı ayrıca: uygunsuz içerik barındıramaz, BAŞKA uygulamalara atıf yapamaz ve doğrulanamaz ürün iddiası içeremez."
+question: >
+  Uygulama adı ve altyazısını YALNIZCA şu dört şey için tara. Başka hiçbir şey
+  için bulgu üretme:
+  (1) fiyat ya da kampanya bilgisi — rakam, para birimi, "% indirim", "free",
+  "ücretsiz", "sale";
+  (2) şart/koşul ifadesi — "abonelik gerekir", "3 gün deneme", "iptal et";
+  (3) BAŞKA bir uygulamanın adı (kendi uygulamanın adı değil);
+  (4) doğrulanamaz üstünlük iddiası — "#1", "best", "en iyi", "no.1", "world's".
+  Bu dördünden hiçbiri yoksa {"findings": []} döndür. Uygulamanın ne yaptığını
+  sayan ifadeler — özellik listeleri dâhil — bu maddenin konusu değildir.
+ruleText: >
+  Uygulama adı, altyazı, ekran görüntüleri ve önizlemeler gibi metadata,
+  metadata türüne özgü olmayan fiyat, şart ya da açıklama içermemelidir.
+  Altyazılar standart metadata kurallarına uymalı; uygunsuz içerik, başka
+  uygulamalara atıf veya doğrulanamaz ürün iddiası içermemelidir.
+positiveExample: "50% OFF — better than the #1 photo app"
+negativeExample: "Blur faces and objects in photos"
+
+# ÖLÇÜMDEN GELDİ (2026-09-02, 5 listing, gpt-4o-mini): 5 ham bulgu, sıfır
+# survivor. İkisi "AI Photo & Video Face Swap" ve "Virtual Makeup & Nail Looks"
+# üzerineydi — ikisi de kartın kendi muafiyetinin birebir tarifi. Muafiyet
+# `question` içinde bir yan cümleydi; artık hem kapalı bir liste hem ayrı bir
+# "bulgu üretme" bloğu.
+notViolation:
+  - "Uygulamanın özelliklerini sayan altyazılar: 'AI Photo & Video Face Swap', 'Virtual Makeup & Nail Looks' gibi işlev listeleri."
+  - "Kategori ve teknoloji adları: 'AI', 'photo', 'video', 'editor', 'camera', 'filter'."
+  - "'&' ya da virgülle birleştirilmiş özellik dizileri — uzunluk tek başına ihlal değildir."
+  - "Uygulamanın KENDİ adının altyazıda geçmesi."
+outcome: violation
+defaultSeverity: medium
+version: 2

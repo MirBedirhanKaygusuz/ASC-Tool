@@ -1,0 +1,31 @@
+id: apple-1.2-prohibited-ugc-patterns
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.2
+  retrievedAt: "2026-08-21"
+tags: [ugc, safety, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [random chat, anonymous chat, chatroulette, stranger, strangers, hot or not, rate people, rate photos, meet new people randomly, video roulette]
+facts:
+  - "Apple bu türleri metinde tek tek sayıyor: pornografi ağırlıklı kullanım, Chatroulette tarzı deneyim, rastgele veya anonim sohbet, gerçek kişilerin nesneleştirilmesi (“hot-or-not” oylaması), fiziksel tehdit ve zorbalık."
+  - "Bu türler App Store’a “ait değil” sayılıyor ve haber verilmeden kaldırılabiliyor — yani düzeltilebilir bir eksiklik değil, iş modelinin kendisi sorun."
+question: >
+  Metin, Apple'ın 1.2'de açıkça saydığı yasak kullanım kalıplarından birini
+  vaat ediyor mu: rastgele/anonim yabancılarla eşleşme (Chatroulette tarzı),
+  gerçek kişileri puanlatma ("hot-or-not"), ağırlıklı olarak pornografik
+  içerik, tehdit ya da zorbalık. Moderasyonlu bir sosyal ağ olmak ihlal
+  değildir; ihlal, bu kalıplardan birinin ana özellik olarak sunulmasıdır.
+ruleText: >
+  Kullanıcı içeriği barındıran ya da sosyal ağ hizmeti veren uygulamalardan
+  ağırlıklı olarak pornografik içerik, Chatroulette tarzı deneyim, rastgele
+  veya anonim sohbet, gerçek kişilerin nesneleştirilmesi, fiziksel tehdit ya da
+  zorbalık için kullanılanlar App Store'a ait değildir ve haber verilmeden
+  kaldırılabilir.
+positiveExample: "Get matched with random strangers on video in one tap — no sign-up, no rules."
+negativeExample: "Join moderated interest groups and chat with people you follow."
+outcome: violation
+defaultSeverity: high
+version: 1

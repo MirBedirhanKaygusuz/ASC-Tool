@@ -1,0 +1,23 @@
+id: apple-2.5.16-extensions-relevance
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.16"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.16
+  retrievedAt: "2026-08-21"
+tags: [extensions, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasAppExtensions: true
+question: >
+  Widget'lar, uzantılar ve bildirimler uygulamanın içeriği ve işleviyle
+  ilgili mi? App Clip kullanıyorsan: tüm App Clip özellikleri ana uygulama
+  binary'sinde de var mı ve App Clip reklam içermiyor mu?
+ruleText: >
+  Widget'lar, uzantılar ve bildirimler uygulamanın içeriği ve işleviyle
+  ilgili olmalıdır. Ayrıca tüm App Clip özellikleri ve işlevleri ana uygulama
+  binary'sinde yer almalıdır; App Clip'ler reklam içeremez.
+outcome: manual
+defaultSeverity: medium
+version: 1

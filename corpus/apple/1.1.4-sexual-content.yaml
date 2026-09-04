@@ -1,0 +1,27 @@
+id: apple-1.1.4-sexual-content
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.1.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.1.4
+  retrievedAt: "2026-08-21"
+tags: [safety, adult, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: [porn, porno, nude, nudes, nudity, nsfw, erotic, sexy, sexual, hookup, "18+", escort, adult content, undress, strip]
+question: >
+  Metin, cinsel organların ya da cinsel eylemlerin açık tasvirini vaat ediyor,
+  pornografik içerik ya da "hookup" tarzı bir deneyim sunuyor mu? Yetişkin
+  içeriğine erişim, çıplaklaştırma/soyma özelliği, fuhuşu kolaylaştırma
+  ihtimali taşıyan ifadeleri bildir. Flört uygulaması olmak tek başına ihlal
+  değildir; ihlal, açık cinsel içerik vaadidir.
+ruleText: >
+  Cinsel organların veya cinsel eylemlerin, estetik değil erotik duygu
+  uyandırmayı amaçlayan açık tasvirleri yasaktır. Buna pornografi içerebilecek
+  uygulamalar, "hookup" uygulamaları ve fuhuşu ya da insan ticaretini
+  kolaylaştırabilecek uygulamalar dâhildir.
+positiveExample: "Undress any photo with AI and unlock uncensored nudes."
+negativeExample: "A dating app for finding people with shared hobbies nearby."
+outcome: violation
+defaultSeverity: high
+version: 1

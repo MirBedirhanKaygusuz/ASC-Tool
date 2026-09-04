@@ -1,0 +1,27 @@
+id: apple-5.1.2v-contact-messaging
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.2
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+prefilter: ["invite friends", "invite your contacts", "share with friends", "sms invite", "refer a friend"]
+question: >
+  Kullanıcının Kişiler ya da Fotoğraflar bilgisiyle üçüncü kişilere mesaj
+  gönderiliyorsa: (1) yalnızca kullanıcının açık ve kişi bazında girişimiyle mi
+  gönderiliyor, (2) "Tümünü Seç" seçeneği ya da varsayılan olarak seçili tüm
+  kişiler var mı (olmamalı), (3) mesajın alıcıya nasıl görüneceği — metni ve
+  gönderen kim görünecek — kullanıcıya önceden açıkça anlatılıyor mu?
+ruleText: >
+  Bir kullanıcının Kişiler ya da Fotoğraflar bilgisi üzerinden toplanan
+  bilgiyle insanlara ulaşma; buna yalnızca o kullanıcının açık girişimiyle ve
+  kişi bazında izin verilir. "Tümünü Seç" seçeneği koyma ve tüm kişileri
+  varsayılan olarak seçili hâle getirme. Mesajın alıcıya nasıl görüneceğine dair
+  kullanıcıya net bir açıklama sunmalısın: mesajda ne yazacak, gönderen kim
+  görünecek?
+outcome: manual
+defaultSeverity: medium
+version: 1

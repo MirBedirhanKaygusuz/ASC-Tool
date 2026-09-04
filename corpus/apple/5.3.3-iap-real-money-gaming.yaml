@@ -1,0 +1,24 @@
+id: apple-5.3.3-iap-real-money-gaming
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.3.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.3.3
+  retrievedAt: "2026-08-21"
+tags: [gambling, iap]
+scope: single
+needs: [description, iap, promotionalText]
+prefilter: ["casino", "betting", "bet", "poker", "real money", "wager", "sportsbook", "bahis", "slots"]
+question: >
+  Uygulama gerçek para ile oynanan bir oyun (spor bahsi, poker, casino, at
+  yarışı) sunuyorsa, uygulama içi satın alma ile bu oyunlarda kullanılacak kredi
+  ya da para birimi satın alınıyor mu? Bu doğrudan yasak. Gerçek para
+  kazandırmayan sosyal casino oyunlarında IAP serbesttir.
+ruleText: >
+  Uygulamalar, her türden gerçek para oyunuyla birlikte kullanılacak kredi ya
+  da para birimi satın almak için uygulama içi satın alma kullanamaz.
+positiveExample: "Buy chips with in-app purchase and use them at our real money poker tables."
+negativeExample: "Buy coins to play our free-to-play social slots. Coins have no cash value and cannot be withdrawn."
+outcome: violation
+defaultSeverity: high
+version: 1

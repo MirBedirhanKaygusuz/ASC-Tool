@@ -1,0 +1,20 @@
+id: apple-2.4.1-ipad-support
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.4.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.4.1
+  retrievedAt: "2026-08-21"
+tags: [hardware, checklist]
+scope: cross
+needs: []
+question: >
+  iPhone uygulaması iPad'de de çalışıyor mu? Apple bunu "mümkün olduğunda"
+  bekliyor. Çalışmıyorsa sebebi (ör. yalnızca iPhone'da olan bir donanım)
+  savunulabilir mi ve ekran görüntüsü/cihaz aileleri buna uygun mu?
+ruleText: >
+  İnsanların uygulamandan en iyi şekilde yararlanabilmesi için iPhone
+  uygulamaları mümkün olduğunda iPad'de de çalışmalıdır.
+outcome: manual
+defaultSeverity: low
+version: 1

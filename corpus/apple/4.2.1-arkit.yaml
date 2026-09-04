@@ -1,0 +1,21 @@
+id: apple-4.2.1-arkit
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.2.1
+  retrievedAt: "2026-08-21"
+tags: [design, checklist]
+scope: cross
+needs: []
+prefilter: ["ar ", "augmented reality", "arkit", "3d model", "ar view"]
+question: >
+  ARKit kullanılıyorsa deneyim zengin ve bütünleşik mi? Bir modeli AR
+  görünümüne bırakmak ya da bir animasyonu oynatmak tek başına yeterli değil.
+ruleText: >
+  ARKit kullanan uygulamalar zengin ve bütünleşik artırılmış gerçeklik
+  deneyimleri sunmalıdır; bir modeli AR görünümüne bırakmak veya animasyon
+  oynatmak yeterli değildir.
+outcome: manual
+defaultSeverity: low
+version: 1

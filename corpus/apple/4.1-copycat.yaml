@@ -1,0 +1,27 @@
+id: apple-4.1-copycat
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.1
+  retrievedAt: "2026-08-21"
+tags: [design, ip, metadata]
+scope: cross
+needs: [name, subtitle, description, keywords]
+question: >
+  Metin, başka bir uygulamayı ya da servisi taklit ettiğini gösteriyor mu:
+  popüler bir uygulamanın adının küçük bir varyasyonu, "X uygulamasının
+  alternatifi/klonu" ifadesi, ya da başka bir geliştiricinin marka/ürün adının
+  uygulama adında kullanılması? Karşılaştırma yapmak ("X'ten daha hızlı") tek
+  başına ihlal değildir; ihlal, kimliği ödünç almaktır.
+ruleText: >
+  Başka bir uygulamanın adında ya da arayüzünde küçük değişiklikler yapıp onu
+  kendi uygulamanmış gibi sunma. Başka uygulamaları veya servisleri taklit eden
+  uygulamalar Developer Code of Conduct ihlali sayılır. Başka bir geliştiricinin
+  simgesini, markasını ya da ürün adını, o geliştiricinin onayı olmadan kendi
+  uygulamanın simgesinde veya adında kullanamazsın.
+positiveExample: "WhatsApp Pro — the better WhatsApp, same look and feel."
+negativeExample: "A private messenger with end-to-end encryption and disappearing messages."
+outcome: risk
+defaultSeverity: high
+version: 1

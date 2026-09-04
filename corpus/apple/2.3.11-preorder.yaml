@@ -1,0 +1,24 @@
+id: apple-2.3.11-preorder
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.11"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.11
+  retrievedAt: "2026-08-21"
+tags: [metadata, preorder, checklist]
+scope: cross
+needs: []
+prefilter: [pre-order, preorder, coming soon, launching soon, ön sipariş]
+question: >
+  Ön siparişe açtığın uygulama, gönderdiğin hâliyle eksiksiz ve teslim
+  edilebilir mi? Yayınlanan sürüm, ön sipariş sırasında tanıtılandan esaslı
+  biçimde farklı olacak mı (özellikle iş modeli değişikliği)? Esaslı değişiklik
+  varsa ön sipariş satışını yeniden başlatman gerekir.
+ruleText: >
+  Ön sipariş için gönderilen uygulamalar gönderildiği hâliyle eksiksiz ve
+  teslim edilebilir olmalıdır. Yayımladığın uygulama, ön sipariş sırasında
+  tanıttığından esaslı biçimde farklı olmamalıdır; esaslı değişiklik (ör. iş
+  modeli değişikliği) yaparsan ön sipariş satışını yeniden başlatmalısın.
+outcome: manual
+defaultSeverity: medium
+version: 1

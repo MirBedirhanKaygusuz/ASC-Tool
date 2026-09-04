@@ -1,0 +1,34 @@
+id: apple-3.2.2ix-loan-terms
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, finance, disclosure]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+# CANLILIK TARAMASINDAN GELDİ (2026-09-02): kartın KENDİ ihlal örneği
+# ("Get cash in minutes. Repay within 30 days.") bu listeden geçmiyordu —
+# yani kredi uygulamalarının gerçekte kullandığı dille yazılmış bir listing
+# kartı hiç açmıyordu. Yanlış dahil etmenin bedeli bir çağrı, yanlış
+# dışlamanın bedeli kaçırılmış ihlal; liste o yüzden geniş tutuldu.
+prefilter: ["loan", "loans", "lending", "credit", "apr", "borrow", "borrowing", "installment",
+            "cash advance", "payday", "cash in minutes", "repay", "repayment", "interest rate",
+            "instant cash", "get cash", "finance", "financing"]
+question: >
+  Uygulama kişisel kredi sunuyorsa metin, kredi koşullarını açık ve göze
+  çarpar biçimde veriyor mu: eşdeğer azami yıllık maliyet oranı (APR) ve ödeme
+  tarihi? Ayrıca azami APR %36'yı aşıyor mu ya da geri ödeme 60 gün veya daha
+  kısa sürede tam olarak isteniyor mu? Bunlardan biri varsa bildir.
+ruleText: >
+  Kişisel kredi sunan uygulamalar, eşdeğer azami yıllık maliyet oranı (APR) ve
+  ödeme tarihi dâhil tüm kredi koşullarını açık ve göze çarpar biçimde
+  açıklamalıdır. Kredi uygulamaları, maliyet ve ücretler dâhil %36'dan yüksek bir
+  azami APR uygulayamaz ve 60 gün ya da daha kısa sürede tam geri ödeme talep
+  edemez.
+positiveExample: "Get cash in minutes. Repay within 30 days. Fees apply."
+negativeExample: "Personal loans from 12 to 60 months. Max APR 29.9% including fees; see the schedule before you sign."
+outcome: violation
+defaultSeverity: high
+version: 2

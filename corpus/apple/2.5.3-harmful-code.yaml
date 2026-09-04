@@ -1,0 +1,25 @@
+id: apple-2.5.3-harmful-code
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.3
+  retrievedAt: "2026-08-21"
+tags: [software, security, checklist]
+scope: cross
+needs: []
+prefilter: ["virus", "malware", "antivirus", "scanner", "security scan", "clean your"]
+question: >
+  Uygulama, işletim sisteminin ya da donanım özelliklerinin normal
+  çalışmasını bozabilecek dosya, kod veya program iletiyor mu? Push
+  Notifications ve Game Center üzerinden yapılan kötüye kullanımlar da bu
+  maddeye giriyor. Kendini "virüs/malware tarayıcı" olarak tanıtan iOS
+  uygulamaları ayrıca 2.3.1 (yanıltıcı pazarlama) kapsamında reddediliyor.
+ruleText: >
+  İşletim sisteminin ve/veya donanım özelliklerinin normal çalışmasına zarar
+  verebilecek ya da bunu bozabilecek virüs, dosya, kod veya program ileten
+  uygulamalar reddedilir. Ağır ihlaller ve tekrar eden davranış Apple
+  Developer Program'dan çıkarılmayla sonuçlanır.
+outcome: manual
+defaultSeverity: high
+version: 1

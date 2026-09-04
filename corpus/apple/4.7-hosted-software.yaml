@@ -1,0 +1,27 @@
+id: apple-4.7-hosted-software
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.7"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.7
+  retrievedAt: "2026-08-21"
+tags: [hosted-software, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hostsThirdPartySoftware: true
+question: >
+  Uygulama binary'ye gömülü olmayan yazılım sunuyorsa (mini uygulama, mini
+  oyun, akış oyunu, chatbot, eklenti, emülatör oyunu): bu yazılımların
+  kurallara ve yasalara uymasından SEN sorumlusun. Sunulan yazılımların tamamını
+  gözden geçirdin mi ve 4.7.1-4.7.5 şartlarını karşıladıklarından emin misin?
+ruleText: >
+  Uygulamalar binary'ye gömülü olmayan belirli yazılımları sunabilir: HTML5 ve
+  JavaScript mini uygulamalar ve mini oyunlar, akış oyunları, chatbotlar ve
+  eklentiler; ayrıca retro oyun konsolu ve PC emülatörü uygulamaları oyun
+  indirmeyi sunabilir. Uygulamanda sunulan tüm bu yazılımlardan — bu kurallara ve
+  tüm geçerli yasalara uymaları dâhil — sen sorumlusun. Bir kurala uymayan
+  yazılım uygulamanın reddedilmesine yol açar.
+outcome: manual
+defaultSeverity: high
+version: 1

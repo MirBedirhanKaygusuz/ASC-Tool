@@ -1,0 +1,27 @@
+id: apple-3.1.3c-enterprise-services
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.1.3(c)"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.1.3(c)
+  retrievedAt: "2026-08-21"
+tags: [payments, enterprise, checklist]
+scope: cross
+needs: []
+prefilter: ["enterprise", "organization", "organizations", "school", "classroom", "employees", "students", "b2b", "teams"]
+question: >
+  Uygulama yalnızca kurumlara/gruplara (çalışanları ya da öğrencileri için)
+  doğrudan senin tarafından mı satılıyor? Öyleyse kurumsal kullanıcıların daha
+  önce satın alınmış içeriğe erişmesine izin verilebilir. Bireysel, tek
+  kullanıcılı ya da aile satışları uygulama içi satın alma kullanmak zorunda —
+  uygulamada böyle bir satış var mı?
+ruleText: >
+  Uygulaman yalnızca kurumlara ya da gruplara, çalışanları veya öğrencileri
+  için doğrudan senin tarafından satılıyorsa (ör. profesyonel veritabanları,
+  sınıf yönetim araçları), kurumsal kullanıcıların daha önce satın alınmış
+  içeriğe veya aboneliklere erişmesine izin verebilirsin. Tüketiciye, tek
+  kullanıcıya ya da aileye yapılan satışlar uygulama içi satın alma
+  kullanmalıdır.
+outcome: manual
+defaultSeverity: medium
+version: 1

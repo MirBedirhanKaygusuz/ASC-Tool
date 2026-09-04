@@ -1,0 +1,23 @@
+id: apple-2.3.5-category-fit
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.5
+  retrievedAt: "2026-08-21"
+tags: [metadata, category]
+scope: cross
+needs: [category, description, name, subtitle]
+question: >
+  Uygulamanın seçili kategorisi, açıklamadaki işlevle uyuşuyor mu? Belirgin bir
+  uyuşmazlık varsa bildir (ör. kategori "Eğitim" ama uygulama bir fotoğraf
+  düzenleyici). Kategori makul seçeneklerden biriyse — birden çok kategoriye
+  girebilecek uygulamalarda sık olur — bulgu üretme.
+ruleText: >
+  Uygulaman için en uygun kategoriyi seç. Kategori tamamen alakasızsa Apple
+  kategoriyi değiştirebilir.
+positiveExample: "Kategori Education, açıklama ise “Blur faces in your photos and add stickers before sharing.” diyor."
+negativeExample: "Kategori Photo & Video, açıklama ise “Blur faces in your photos and add stickers before sharing.” diyor."
+outcome: risk
+defaultSeverity: low
+version: 1

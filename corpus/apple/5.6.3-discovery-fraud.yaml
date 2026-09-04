@@ -1,0 +1,24 @@
+id: apple-5.6.3-discovery-fraud
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.6.3"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.6.3
+  retrievedAt: "2026-08-21"
+tags: [conduct, fraud, checklist]
+scope: cross
+needs: []
+question: >
+  App Store müşteri deneyiminin herhangi bir öğesi manipüle ediliyor mu:
+  listeler/sıralamalar, arama sonuçları, yorumlar ya da uygulamaya gelen
+  yönlendirmeler? Ücretli, teşvikli, filtrelenmiş veya sahte geri bildirim ile
+  sıralama şişirme, üçüncü taraf hizmetler aracılığıyla yapılsa bile Developer
+  Program'dan çıkarılma sebebi.
+ruleText: >
+  App Store'da yer almak dürüstlük ve müşteri güvenini koruma taahhüdü
+  gerektirir. App Store müşteri deneyiminin herhangi bir öğesinin — listeler,
+  arama, yorumlar ya da uygulamana gelen yönlendirmeler gibi — manipüle edilmesi
+  müşteri güvenini zedeler ve buna izin verilmez.
+outcome: manual
+defaultSeverity: high
+version: 1

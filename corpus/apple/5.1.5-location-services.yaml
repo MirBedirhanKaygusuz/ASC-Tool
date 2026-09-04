@@ -1,0 +1,31 @@
+id: apple-5.1.5-location-services
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.5
+  retrievedAt: "2026-08-21"
+tags: [privacy, location, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  usesLocation: true
+question: >
+  Konum kullanan uygulamada: (1) konum, uygulamanın sunduğu özellik ve
+  hizmetlerle DOĞRUDAN ilgili mi, (2) konum verisi toplanmadan, iletilmeden ya da
+  kullanılmadan önce kullanıcı bilgilendirilip rızası alınıyor mu, (3) konumun ne
+  için kullanıldığı uygulamanın içinde açıklanıyor mu, (4) konum API'leri acil
+  servis sağlamak ya da araç/hava aracı gibi cihazların otonom kontrolü için
+  kullanılıyor mu (hafif drone, oyuncak ve uzaktan araç alarmı gibi küçük cihazlar
+  istisna)?
+ruleText: >
+  Konum Servislerini uygulamanda yalnızca sunduğun özellik ve hizmetlerle
+  doğrudan ilgili olduğunda kullan. Konum tabanlı API'ler acil servis sağlamak ya
+  da araçların, hava araçlarının ve diğer cihazların otonom kontrolü için
+  kullanılmamalıdır; hafif drone ve oyuncaklar ya da uzaktan araç alarm sistemleri
+  gibi küçük cihazlar bunun dışındadır. Konum verisi toplamadan, iletmeden veya
+  kullanmadan önce bildirimde bulun ve rıza al. Konum Servisleri kullanıyorsan
+  amacını uygulamanda açıkla.
+outcome: manual
+defaultSeverity: medium
+version: 1

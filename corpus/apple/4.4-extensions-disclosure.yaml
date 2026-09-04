@@ -1,0 +1,26 @@
+id: apple-4.4-extensions-disclosure
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "4.4"
+  url: https://developer.apple.com/app-store/review/guidelines/#4.4
+  retrievedAt: "2026-08-21"
+tags: [extensions, metadata, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasAppExtensions: true
+question: >
+  Uygulama uzantı barındırıyorsa: (1) uzantılar pazarlama metninde açık ve
+  doğru biçimde anlatılıyor mu, (2) uzantıların içinde pazarlama, reklam ya da
+  uygulama içi satın alma var mı (olmamalı), (3) yardım ekranı/ayarlar gibi bir
+  işlevsellik sunuluyor mu?
+ruleText: >
+  Uzantı barındıran ya da içeren uygulamalar ilgili programlama kılavuzlarına
+  uymalı ve mümkün olduğunda yardım ekranları ve ayar arayüzleri gibi bir
+  işlevsellik içermelidir. Uygulamada hangi uzantıların sunulduğunu pazarlama
+  metninde açık ve doğru biçimde belirtmelisin; uzantılar pazarlama, reklam ya
+  da uygulama içi satın alma içeremez.
+outcome: manual
+defaultSeverity: medium
+version: 1

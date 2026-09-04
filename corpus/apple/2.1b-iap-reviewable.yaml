@@ -1,0 +1,24 @@
+id: apple-2.1b-iap-reviewable
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.1
+  retrievedAt: "2026-08-21"
+tags: [iap, review-notes, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  hasIap: true
+question: >
+  Uygulama içi satın almalar reviewer için: (1) uygulamada BULUNABİLİR mi
+  (hangi ekranda, kaç tıkla), (2) güncel ve çalışır durumda mı, (3) uygulamada
+  bulunamayan bir ürün varsa sebebi review notlarında yazıyor mu?
+ruleText: >
+  Uygulama içi satın alma sunuyorsan, ürünlerin eksiksiz, güncel, reviewer
+  tarafından görülebilir ve çalışır olduğundan emin ol. Yapılandırılmış bir
+  ürün uygulamada bulunamıyor ya da incelenemiyorsa sebebini review
+  notlarında açıkla.
+outcome: manual
+defaultSeverity: medium
+version: 1

@@ -1,0 +1,26 @@
+id: apple-2.3.9-screenshot-rights
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.9"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.9
+  retrievedAt: "2026-08-21"
+tags: [metadata, ip, privacy, vision]
+scope: cross
+needs: [screenshots, icon]
+requiresVision: true
+question: >
+  Ekran görüntülerinde ya da simgede GERÇEK bir kişiye ait görünen veri var mı
+  (gerçek isim, telefon, e-posta, adres, gerçek bir kişinin fotoğrafı, gerçek
+  sohbet içeriği)? Apple kurgusal hesap bilgisi kullanılmasını istiyor. Ayrıca
+  üçüncü tarafa ait olduğu belli materyal (marka logosu, film karesi, tanınmış
+  kişi görseli) izinsiz kullanılmış görünüyorsa bildir.
+ruleText: >
+  Uygulama simgelerinde, ekran görüntülerinde ve önizlemelerde kullanılan tüm
+  materyallerin haklarını almış olmalısın ve gerçek bir kişiye ait veri yerine
+  kurgusal hesap bilgisi göstermelisin.
+positiveExample: "Ekran görüntüsünde gerçek bir kullanıcının adı, e-postası ve profil fotoğrafı görünüyor."
+negativeExample: "Ekran görüntüsünde “Jane Appleseed” adlı örnek profil ve örnek veriler var."
+outcome: risk
+defaultSeverity: medium
+version: 1

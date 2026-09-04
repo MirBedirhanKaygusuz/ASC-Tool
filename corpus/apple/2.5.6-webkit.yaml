@@ -1,0 +1,23 @@
+id: apple-2.5.6-webkit
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.5.6"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.5.6
+  retrievedAt: "2026-08-21"
+tags: [software, webview, checklist]
+scope: cross
+needs: []
+appliesWhen:
+  isWebViewWrapper: true
+question: >
+  Web tarayan uygulama uygun WebKit çerçevesini ve WebKit JavaScript'ini mi
+  kullanıyor? Alternatif bir tarayıcı motoru kullanıyorsan (yalnız AB ve
+  Japonya) buna dair entitlement başvurun onaylandı mı?
+ruleText: >
+  Web tarayan uygulamalar uygun WebKit çerçevesini ve WebKit JavaScript'i
+  kullanmak zorundadır. Alternatif bir web tarayıcı motoru kullanmak için
+  entitlement başvurusu yapılabilir.
+outcome: manual
+defaultSeverity: medium
+version: 1

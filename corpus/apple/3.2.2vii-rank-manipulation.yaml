@@ -1,0 +1,26 @@
+id: apple-3.2.2vii-rank-manipulation
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "3.2.2"
+  url: https://developer.apple.com/app-store/review/guidelines/#3.2.2
+  retrievedAt: "2026-08-21"
+tags: [business, fraud]
+scope: single
+needs: [name, subtitle, description, promotionalText, keywords]
+prefilter: ["followers", "likes", "views", "subscribers", "boost your", "grow your account", "rank higher", "engagement"]
+question: >
+  Uygulama, başka bir serviste kullanıcının görünürlüğünü, statüsünü ya da
+  sıralamasını yapay olarak yükseltmeyi vaat ediyor mu (takipçi, beğeni,
+  izlenme, abone satın alma; sıralama yükseltme)? Bu, o servisin şartları
+  açıkça izin vermediği sürece yasak. Kendi içeriğini planlayıp yayınlamaya
+  yarayan araçlar ihlal değildir.
+ruleText: >
+  Bir kullanıcının başka servislerdeki görünürlüğünü, statüsünü ya da
+  sıralamasını yapay olarak manipüle etmek, o servisin şartları izin vermediği
+  sürece kabul edilemez.
+positiveExample: "Buy real Instagram followers and likes — boost your rank overnight."
+negativeExample: "Schedule and publish your own posts to Instagram and X from one place."
+outcome: violation
+defaultSeverity: high
+version: 1

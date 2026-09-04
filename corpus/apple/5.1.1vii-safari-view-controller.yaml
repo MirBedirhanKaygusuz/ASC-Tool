@@ -1,0 +1,23 @@
+id: apple-5.1.1vii-safari-view-controller
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "5.1.1"
+  url: https://developer.apple.com/app-store/review/guidelines/#5.1.1
+  retrievedAt: "2026-08-21"
+tags: [privacy, checklist]
+scope: cross
+needs: []
+prefilter: ["browser", "in-app browser", "safari", "web view", "open links"]
+question: >
+  SafariViewController kullanılıyorsa: kullanıcıya GÖRÜNÜR biçimde mi
+  sunuluyor (başka görünüm veya katmanlarla gizlenmiyor ya da örtülmüyor)?
+  Kullanıcının bilgisi ve rızası olmadan izleme için kullanılıyor mu?
+ruleText: >
+  SafariViewController, bilgiyi kullanıcılara görünür biçimde sunmak için
+  kullanılmalıdır; denetleyici başka görünümler ya da katmanlarla gizlenemez veya
+  örtülemez. Ayrıca uygulama, SafariViewController'ı kullanıcıların bilgisi ve
+  rızası olmadan onları izlemek için kullanamaz.
+outcome: manual
+defaultSeverity: medium
+version: 1

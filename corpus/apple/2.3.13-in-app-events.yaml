@@ -1,0 +1,26 @@
+id: apple-2.3.13-in-app-events
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "2.3.13"
+  url: https://developer.apple.com/app-store/review/guidelines/#2.3.13
+  retrievedAt: "2026-08-21"
+tags: [metadata, events, checklist]
+scope: cross
+needs: []
+prefilter: [in-app event, live event, tournament, premiere, season, competition, challenge, etkinlik]
+question: >
+  App Store'da öne çıkardığın bir uygulama içi etkinlik varsa: (1) App Store
+  Connect'teki etkinlik türlerinden birine giriyor mu, (2) etkinlik
+  metadata'sının tamamı doğru ve etkinliğin KENDİSİYLE mi ilgili (uygulamanın
+  geneliyle değil), (3) etkinlik seçtiğin tarih ve saatlerde tüm vitrinlerde
+  gerçekten oluyor mu, (4) derin bağlantı uygulamada doğru yere gidiyor mu?
+ruleText: >
+  Uygulama içi etkinlikler App Store Connect'teki etkinlik türlerinden birine
+  girmeli; tüm etkinlik metadata'sı doğru olmalı ve uygulamanın geneliyle değil
+  etkinliğin kendisiyle ilgili olmalıdır. Etkinlikler, birden çok vitrin dâhil,
+  seçtiğin tarih ve saatlerde gerçekleşmelidir. Etkinlik derin bağlantısı
+  kullanıcıyı uygulamadaki doğru hedefe götürmelidir.
+outcome: manual
+defaultSeverity: medium
+version: 1

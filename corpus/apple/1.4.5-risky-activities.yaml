@@ -1,0 +1,25 @@
+id: apple-1.4.5-risky-activities
+platform: apple
+source:
+  doc: Apple App Review Guidelines
+  section: "1.4.5"
+  url: https://developer.apple.com/app-store/review/guidelines/#1.4.5
+  retrievedAt: "2026-08-21"
+tags: [safety, metadata]
+scope: single
+needs: [name, subtitle, description, promotionalText]
+prefilter: [challenge, dare, stunt, bet, prank, extreme, risk your]
+question: >
+  Metin, kullanıcıyı kendisine ya da başkasına fiziksel zarar verebilecek bir
+  etkinliğe (bahis, meydan okuma, tehlikeli hareket) ya da cihazı riskli
+  biçimde kullanmaya çağırıyor mu? Spor/antrenman içeriği tek başına ihlal
+  değildir.
+ruleText: >
+  Uygulamalar kullanıcıları kendilerine ya da başkalarına fiziksel zarar
+  riski taşıyan etkinliklere (bahisler, meydan okumalar vb.) ya da cihazlarını
+  riskli biçimde kullanmaya teşvik etmemelidir.
+positiveExample: "Take the 24-hour no-water challenge and dare your friends to beat it."
+negativeExample: "Guided interval running plans with heart-rate zones."
+outcome: risk
+defaultSeverity: medium
+version: 1
