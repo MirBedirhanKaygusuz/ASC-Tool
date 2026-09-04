@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Greenlight — App Store Connect toplayıcı",
+  "version": "0.19.0",
+  "description": "App Store Connect verisini tarayıcı oturumuyla çeker ve denetler. Anahtar yok, snippet yok, terminal yok.",
+  "permissions": [
+    "scripting",
+    "tabs",
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://appstoreconnect.apple.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Greenlight",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoEfg/ssOnHlLE0+3YXxcAT7kzxpdSL2bIFS4Hg6mJygI3oE1Zy1DUlz/vzZUFUdGRyexFRjDh3vpdpYBXBQcU4IVUG1gGQ8C/FrJp3STh6gWY5oRYiX0bjbkRxgjFF9HKZ4m1ihaJgUe5brFy7RyWFoCgsNKgK8DL9ZbFmmJiTgV3uz5AeM/mxRg2EP6w+nzCp6t7CgTbgS3sP/VpFv4tWzYouBqPpcpPyeGdbd4LEWv1ZqbS01rtOJOrN8rzlcRHKyjjdq9WyH5r0lEa6HpugT7eoDjTqZ+1hPG7bCF/+K2Fmn+rzflrOQQrd7lZrZn6+dgL8BQEUWmeK1A8JVW4QIDAQAB"
+}

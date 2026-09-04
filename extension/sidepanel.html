@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="tr">
+<meta charset="utf-8">
+<title>Greenlight</title>
+<link rel="stylesheet" href="ui/app.css">
+<style>
+  /* Panel 320-500px. Üst çubuk sabit, içerik kayar.
+     Tam sayfa diye bir şey YOK: her iş burada bitiyor. */
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; overflow: hidden; }
+  #view { flex: 1; overflow-y: auto; padding: 12px 13px 32px; }
+  #view h2:first-child { margin-top: 0; }
+</style>
+
+<body>
+
+<div class="topbar">
+  <button class="btn ghost icon" id="back" hidden aria-label="Geri">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <span class="dot" id="dot"></span>
+  <div class="grow">
+    <h1 class="trunc" id="title">Greenlight</h1>
+    <div class="sub trunc" id="subtitle">App Store Connect denetçisi</div>
+  </div>
+  <button class="btn ghost icon" id="menu" aria-label="Menü" title="Arşiv, yedek, ayarlar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</div>
+
+<div class="bar idle" id="progress"><i></i></div>
+
+<main id="view"></main>
+
+<script src="src/normalize.bundle.js"></script>
+<script src="src/havuz.bundle.js"></script>
+<script src="src/audit.bundle.js"></script>
+<script src="src/store.js"></script>
+<script src="ui/audit-run.js"></script>
+<script src="ui/report.js"></script>
+<script src="sidepanel.js"></script>
+</body>
+</html>

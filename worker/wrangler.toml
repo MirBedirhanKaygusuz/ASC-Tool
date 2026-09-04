@@ -1,0 +1,25 @@
+name = "greenlight-llm"
+main = "index.js"
+compatibility_date = "2026-01-01"
+
+# Önizleme adresleri KAPALI. Açık kalsaydı her sürüm için ayrı bir hostname
+# daha yayınlanır ve aynı sırla aynı işi yapardı — gereksiz saldırı yüzeyi.
+preview_urls = false
+
+# Model burada duruyor: değiştirmek için eklentiyi yeniden dağıtmana gerek yok,
+# tek `wrangler deploy` yeter.
+[vars]
+MODEL = "gpt-4o-mini"
+OPENAI_BASE_URL = "https://api.openai.com/v1"
+
+# Kısıt YOK: origin listesi boş, günlük sayaç bağlı değil.
+# Tek fren OpenAI hesabındaki harcama sınırı.
+#
+# Sonradan kısmak istersen:
+#   ALLOWED_ORIGINS = "chrome-extension://..."   (ama Chrome eklenti
+#     sayfasından Origin göndermiyor — bu kapı eklentiyi de keser)
+#   wrangler kv namespace create LIMITS + aşağıdaki bloğu aç + DAILY_LIMIT
+#
+# [[kv_namespaces]]
+# binding = "LIMITS"
+# id = "..."
