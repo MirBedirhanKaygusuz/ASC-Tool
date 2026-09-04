@@ -61,7 +61,7 @@ oturumuyla, kendi sekmesinin içinden çağırıyoruz.**
 
 Kazımanın avantajı (anahtar yok, kullanıcı bir şey kurmuyor) burada da var;
 kırılganlığı da: `iris/v1` belgelenmiş bir sözleşme değil, Apple alan adını
-haber vermeden değiştirebilir. Bu yüzden [belkiPatlarız.md](../belkiPatlarız.md)
+haber vermeden değiştirebilir. Bu yüzden iç risk kaydı
 R2 maddesi ve kanarya turu var: her çekimden önce uçların hâlâ beklediğimiz
 alanları döndürüp döndürmediği yoklanıyor.
 

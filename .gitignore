@@ -21,3 +21,23 @@ src/ext/corpus.generated.ts
 # Uretilmis: npm run build:ext (kaynak data/apple-guidelines.json)
 src/ext/guidelines.generated.ts
 dist/
+
+# --- Public depo icin cikarilanlar ---------------------------------------
+# Depo github.com/melih-joygame/greenlight altinda ACIK. Asagidakiler sir
+# degil ama acik bir depoda durmamalari gerekiyor.
+
+# Apple'in yonerge metninin TAMAMI, kazinmis hali. Telifli metni yeniden
+# yayinlamiyoruz. Yeniden uretmek: npm run guidelines
+data/apple-guidelines.json
+
+# Uretilmis paketler (npm run build:ext). Yalniz "derleme ciktisi depoya
+# girmez" ilkesi degil: audit.bundle.js yonerge metninin TAMAMINI iceride
+# tasiyor, yani onu commit'lemek yukaridaki karari bosa cikariyordu.
+extension/src/*.bundle.js
+
+# Gercek uygulama portfoyu: id, ad ve beyanlar. Sirket verisi, aracin
+# calismasi icin gerekli degil.
+apps/
+
+# Ic risk kaydi.
+belkiPatlarız.md

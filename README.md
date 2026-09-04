@@ -25,16 +25,24 @@ Yalnız o zip gönderilir. İçinde kurulum notu (`KURULUM.md`) var; `src/`,
 yeniden derliyor (eski paketle dağıtmak, karşının düzeltilmiş bir hatayı
 yeniden yaşaması demek) ve sır/Node sızıntısı bulursa zip üretmiyor.
 
-Bilinen kırılma noktaları ve neden öyle yapıldığı: **[belkiPatlarız.md](belkiPatlarız.md)**.
-Yeni bir şey eklemeden önce oradaki R2 ve R3'ü oku — bu projenin bütün
-mimarisi o iki maddeden çıktı.
+Bilinen kırılma noktalarının kaydı (`belkiPatlarız.md`, 32 madde) depo dışında
+tutuluyor. Mimariyi anlamak için en kısa yol: bu araç veriyi Apple'ın alan
+adlarına güvenerek okuyor ve o adlar habersiz değişebiliyor — kodun her yerinde
+"eksik veriyi sessizce geçme, SÖYLE" ilkesi bu yüzden var.
 
 ## CLI kurulumu
 
 ```bash
 npm install
+npm run guidelines     # Apple'ın kural metnini çeker → data/apple-guidelines.json
+npm run build:ext      # eklenti paketlerini üretir → extension/src/*.bundle.js
 cp .env.example .env
 ```
+
+**İlk iki adım zorunlu.** `data/apple-guidelines.json` ve `extension/src/*.bundle.js`
+bu depoda **yok**: ilki Apple'ın kendi metninin tamamı, ikincisi onu içine gömüyor
+ve depo açık. İkisi de üretilebilir dosya; bu komutlar onları geri getiriyor.
+Onlarsız `npm test` ve eklenti paketi çalışmaz.
 
 Model seçimi `.env` ile: yerel Ollama (varsayılan, bedava) ya da
 OpenAI-uyumlu bir uç. Eklenti tarafında model **senin Cloudflare

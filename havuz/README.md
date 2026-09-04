@@ -3,7 +3,7 @@
 Ofisin **paylaşılan red arşivi**. Bugüne kadar her makinede ayrı bir
 `lessons/index.json` vardı: Ahmet'in işlediği red'i Ayşe göremiyor, ikisi aynı
 red'den iki ayrı ders çıkarıyor ve proje öğrenmiyordu
-([belkiPatlarız R10](../belkiPatlarız.md)). Bu servis o dosyanın ortak hâli.
+(iç risk kaydında R10). Bu servis o dosyanın ortak hâli.
 
 İki kap: **Postgres** (veri) ve **API** (`LessonStore` arayüzünü ağ üzerinden
 konuşan ~400 satırlık tek dosya). Üçüncüsü isteğe bağlı: **Caddy** (HTTPS).

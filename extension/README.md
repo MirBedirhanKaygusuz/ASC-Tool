@@ -118,7 +118,7 @@ olur, uzun değerler kırpılır. Yine de göndermeden önce bir göz at.
 
 ## Sınırlar ve riskler
 
-Hepsi proje kökündeki [belkiPatlarız.md](../belkiPatlarız.md) dosyasında.
+Hepsi projenin iç risk kaydında (32 madde, depo dışında).
 Özellikle:
 
 - İstekler sıralı ve aralarında 800 ms var. **Bunu hızlandırma** (R1).

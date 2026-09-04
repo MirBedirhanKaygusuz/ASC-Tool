@@ -130,7 +130,7 @@ deposuna taşınırsa değişen tek şey API'nin blob katmanı olur.
 
 Yerel depoda her makinenin kendi kopyası var: Ahmet'in işlediği red'i Ayşe
 göremiyor, ikisi aynı red'den iki ayrı ders çıkarıyor ve proje öğrenmiyor
-([belkiPatlarız R10](../belkiPatlarız.md)). Havuz bağlıyken:
+(iç risk kaydında R10). Havuz bağlıyken:
 
 - `learn` yeni bir red'i işlerken **aday havuzu ofisin tamamını görüyor** —
   ekip arkadaşının açtığı derse örnek olarak eklenir, kopya ders açılmaz.
