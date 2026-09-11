@@ -1,0 +1,10 @@
+{
+  "appId": "6756182726",
+  "appName": "Glamio: Hairstyle Changer",
+  "meta": {
+    "generatesAiContent": true,
+    "requiresLogin": true,
+    "hasUserGeneratedContent": true
+  },
+  "updatedAt": "2026-08-19T14:30:04.339Z"
+}

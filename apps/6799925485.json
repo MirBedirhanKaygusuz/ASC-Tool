@@ -1,0 +1,10 @@
+{
+  "appId": "6799925485",
+  "appName": "Dance AI: Video Generator",
+  "meta": {
+    "generatesAiContent": true,
+    "hasUserGeneratedContent": true,
+    "requiresLogin": true
+  },
+  "updatedAt": "2026-08-19T15:10:05.541Z"
+}
